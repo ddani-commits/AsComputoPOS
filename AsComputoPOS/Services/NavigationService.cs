@@ -6,10 +6,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using AsComputoPOS.ViewModels;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
 
 namespace AsComputoPOS.Services
 {
-    internal class NavigationService : INavigationService
+    internal class NavigationService : INavigationService, INotifyPropertyChanged
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -25,8 +26,18 @@ namespace AsComputoPOS.Services
             get => _currentViewModel;
             private set
             {
+                if(_currentViewModel != value)
+                {
                 _currentViewModel = value;
+                    OnPropertyChanged(nameof(CurrentViewModel));
+                }
             }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void NavigateTo<T>() where T : ViewModelBase
