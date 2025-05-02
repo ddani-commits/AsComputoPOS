@@ -15,6 +15,8 @@ namespace AsComputoPOS.Services
             collection.AddSingleton<INavigationService, NavigationService>();
             collection.AddTransient<FirstPageViewModel>();
             collection.AddTransient<SecondPageViewModel>();
+            collection.AddTransient<LoginViewModel>();
+            collection.AddTransient<RegisterViewModel>();
             collection.AddTransient<MainWindowViewModel>();
         }
 
