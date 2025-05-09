@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:local="clr-namespace:AsComputoPOS.Views"
+			 xmlns:vm="using:AsComputoPOS.ViewModels"
+             x:Class="AsComputoPOS.Views.AddEmployeesView"
+			 x:DataType="vm:AddEmployeesViewModel"
+			 >
+
+	<StackPanel>
+		<local:NavigationBarView DataContext="{Binding Navbar}" />
+		<TextBlock>Anadir empleado</TextBlock>
+		<StackPanel>
+			<StackPanel>
+				<Label Content="Nombre" />
+				<TextBox Watermark="Nombre" />
+			</StackPanel>
+			<StackPanel>
+				<Label Content="Rol" />
+				<ComboBox Width="200">
+					<ComboBoxItem Content="Administrador" />
+					<ComboBoxItem Content="Vendedor" />
+					<ComboBoxItem Content="Contador" />
+				</ComboBox>
+			</StackPanel>
+			<StackPanel>
+				<Label Content="Activo" />
+				<ToggleSwitch Content="Activo" />
+			</StackPanel>
+			<StackPanel>
+				<Button Content="Guardar" Width="200" />
+				<Button Content="Cancelar" Width="200"/>
+			</StackPanel>
+		</StackPanel>
+	</StackPanel>
+
+</UserControl>

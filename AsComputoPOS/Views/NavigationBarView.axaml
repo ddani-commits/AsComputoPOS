@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="using:AsComputoPOS.ViewModels"
+			 x:DataType="vm:NavigationBarViewModel"
+             x:Class="AsComputoPOS.Views.NavigationBarView">
+
+	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
+		<Button>
+			Vender
+		</Button>
+		<Button>
+			Historial de ventas
+		</Button>
+		<Button>
+			Productos
+		</Button>
+		<Button Command="{Binding NavigateToSuppliersCommand}" >
+			Proveedores
+		</Button>
+		<Button>
+			Empleados
+		</Button>
+		<Button>
+			Inventario
+		</Button>
+	</StackPanel>
+</UserControl>
