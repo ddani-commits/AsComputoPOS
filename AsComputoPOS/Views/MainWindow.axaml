@@ -16,22 +16,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<!--
-	<ContentControl.Resources>
-		<ResourceDictionary>
-			
-		<DataTemplate DataType="{x:Type vm:FirstPageViewModel}" x:Key="FirstPageTemplate">
-			<views:FirstPageView/>	
-		</DataTemplate>
-		</ResourceDictionary>
-	</ContentControl.Resources>
-	-->
-
 	<StackPanel>
-		
-	<ContentControl Content="{Binding Navigation.CurrentViewModel}" />
-	<Button Command="{Binding NavigateToFirstPageCommand}">Hola</Button>
-		<Button Command="{Binding CheckCurrentViewCommand}" >Check Current View</Button>
+	    <ContentControl Content="{Binding Navigation.CurrentViewModel}" />
 	</StackPanel>
 	
 </Window>
+
