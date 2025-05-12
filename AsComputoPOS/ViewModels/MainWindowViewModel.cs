@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using AsComputoPOS.Services;
+using AsComputoPOS.ViewModels.PointOfSale;
 using CommunityToolkit.Mvvm.Input;
 
 namespace AsComputoPOS.ViewModels
@@ -7,16 +8,39 @@ namespace AsComputoPOS.ViewModels
     public partial class MainWindowViewModel : ViewModelBase
     {
         public INavigationService Navigation { get; }
-        public string Greeting { get; } = "Welcome to Avalonia!";
         public MainWindowViewModel(INavigationService navigationService)
         {
             Navigation = navigationService;
+            // Skip auth if debugging
+            if (IsDebugMode())
+            {
+                Debug.WriteLine("Debug mode is enabled");
+                Navigation.NavigateTo<PointOfSaleViewModel>();
+            }
+            else
+            {
+                if (!CheckIfDbExists())
+                {
+                    Navigation.NavigateTo<RegisterViewModel>();
+                }
+                else
+                {
+                    Navigation.NavigateTo<LoginViewModel>();
+                }
+            }
         }
-        [RelayCommand]
-        public void NavigateToFirstPage()
+
+        public bool IsDebugMode()
         {
-            Navigation.NavigateTo<FirstPageViewModel>();
+            return Debugger.IsAttached;
         }
+
+
+        public bool CheckIfDbExists()
+        {
+            return false;
+        }
+        
         [RelayCommand]
         public void CheckCurrentView()
         {
