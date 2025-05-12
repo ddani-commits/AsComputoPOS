@@ -5,10 +5,12 @@
              mc:Ignorable="d" 
 			 d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:vm="using:AsComputoPOS.ViewModels.Suppliers"
+			 xmlns:local="using:AsComputoPOS.Views"
 			 x:DataType="vm:SuppliersViewModel"
              x:Class="AsComputoPOS.Views.Suppliers.SuppliersView">
 
 	<StackPanel>
+		<local:NavigationBarView/>
 		<TextBlock>Suppliers</TextBlock>
 	</StackPanel>
 

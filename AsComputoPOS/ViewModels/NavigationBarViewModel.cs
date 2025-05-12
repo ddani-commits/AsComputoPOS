@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace AsComputoPOS.ViewModels
 {
-    public partial class NavigationBarViewModel
+    public partial class NavigationBarViewModel : ViewModelBase
     {
         private readonly INavigationService _navigation;
         public NavigationBarViewModel(INavigationService navigation) {
