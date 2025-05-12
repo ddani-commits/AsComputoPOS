@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AsComputoPOS.Services;
 using AsComputoPOS.ViewModels.PointOfSale;
+using AsComputoPOS.ViewModels.SalesHistory;
 using AsComputoPOS.ViewModels.Suppliers;
 using CommunityToolkit.Mvvm.Input;
 
@@ -23,6 +24,12 @@ namespace AsComputoPOS.ViewModels
         public void NavigateToPointOfSale()
         {
             _navigation.NavigateTo<PointOfSaleViewModel>();
+        }
+
+        [RelayCommand]
+        public void NavigateToSalesHistory()
+        {
+            _navigation.NavigateTo<SalesHistoryViewModel>();
         }
 
         [RelayCommand]
