@@ -14,7 +14,7 @@
 		<Button Command="{Binding NavigateToSalesHistoryCommand}">
 			Historial de ventas
 		</Button>
-		<Button>
+		<Button Command="{Binding NavigateToProductsCommand}">
 			Productos
 		</Button>
 		<Button Command="{Binding NavigateToSuppliersCommand}" >
