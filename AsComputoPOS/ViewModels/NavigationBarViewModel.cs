@@ -8,6 +8,7 @@ using AsComputoPOS.ViewModels.PointOfSale;
 using AsComputoPOS.ViewModels.Products;
 using AsComputoPOS.ViewModels.SalesHistory;
 using AsComputoPOS.ViewModels.Suppliers;
+using AsComputoPOS.ViewModels.Inventory;
 using CommunityToolkit.Mvvm.Input;
 
 namespace AsComputoPOS.ViewModels
@@ -49,6 +50,12 @@ namespace AsComputoPOS.ViewModels
         public void NavigateToEmployees()
         {
             _navigation.NavigateTo<EmployeesViewModel>();
+        }
+
+        [RelayCommand]
+        public void NavigateToInventory()
+        {
+            _navigation.NavigateTo<InventoryViewModel>();
         }
     }
 }

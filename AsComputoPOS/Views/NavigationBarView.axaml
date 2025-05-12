@@ -7,8 +7,8 @@
 			 x:DataType="vm:NavigationBarViewModel"
              x:Class="AsComputoPOS.Views.NavigationBarView">
 
-	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
-		<Button Command="{Binding NavigateToPointOfSaleCommand}" >
+	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+		<Button Command="{Binding NavigateToPointOfSaleCommand}">
 			Vender
 		</Button>
 		<Button Command="{Binding NavigateToSalesHistoryCommand}">
@@ -17,13 +17,13 @@
 		<Button Command="{Binding NavigateToProductsCommand}">
 			Productos
 		</Button>
-		<Button Command="{Binding NavigateToSuppliersCommand}" >
+		<Button Command="{Binding NavigateToSuppliersCommand}">
 			Proveedores
 		</Button>
 		<Button Command="{Binding NavigateToEmployeesCommand}">
 			Empleados
 		</Button>
-		<Button>
+		<Button Command="{Binding NavigateToInventoryCommand}">
 			Inventario
 		</Button>
 	</StackPanel>
