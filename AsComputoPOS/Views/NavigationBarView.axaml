@@ -8,7 +8,7 @@
              x:Class="AsComputoPOS.Views.NavigationBarView">
 
 	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
-		<Button>
+		<Button Command="{Binding NavigateToPointOfSaleCommand}" >
 			Vender
 		</Button>
 		<Button>
@@ -20,7 +20,7 @@
 		<Button Command="{Binding NavigateToSuppliersCommand}" >
 			Proveedores
 		</Button>
-		<Button>
+		<Button Command="{Binding NavigateToEmployeesCommand}">
 			Empleados
 		</Button>
 		<Button>

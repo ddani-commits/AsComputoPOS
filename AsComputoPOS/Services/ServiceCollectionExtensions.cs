@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AsComputoPOS.ViewModels;
+using AsComputoPOS.ViewModels.PointOfSale;
 using AsComputoPOS.ViewModels.Suppliers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,7 @@ namespace AsComputoPOS.Services
             collection.AddTransient<AddEmployeesViewModel>();
             collection.AddTransient<EmployeesViewModel>();
             collection.AddTransient<SuppliersViewModel>();
+            collection.AddTransient<PointOfSaleViewModel>();
             collection.AddTransient<LoginViewModel>();
             collection.AddTransient<RegisterViewModel>();
 
