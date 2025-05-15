@@ -8,37 +8,33 @@ namespace AsComputoPOS.ViewModels
     public partial class MainWindowViewModel : ViewModelBase
     {
         public INavigationService Navigation { get; }
-        public MainWindowViewModel(INavigationService navigationService)
+        public MainWindowViewModel(INavigationService navigationService, IAuthenticationService authenticationService)
         {
             Navigation = navigationService;
-            // Skip auth if debugging
-            if (IsDebugMode())
+            authenticationService.HasUsers();
+
+            if (authenticationService.HasUsers()) 
             {
-                Debug.WriteLine("Debug mode is enabled");
-                Navigation.NavigateTo<PointOfSaleViewModel>();
-            }
+                Debug.WriteLine("There are users");
+                Navigation.NavigateTo<LoginViewModel>();
+            } 
             else
             {
-                if (!CheckIfDbExists())
-                {
-                    Navigation.NavigateTo<RegisterViewModel>();
-                }
-                else
-                {
-                    Navigation.NavigateTo<LoginViewModel>();
-                }
+                Debug.WriteLine("No users");
+                Navigation.NavigateTo<RegisterViewModel>();
             }
+
+            // Skip auth if debugging
+            //if (IsDebugMode())
+            //{
+            //    Debug.WriteLine("Debug mode is enabled");
+            //    Navigation.NavigateTo<PointOfSaleViewModel>();
+            //}
         }
 
         public bool IsDebugMode()
         {
             return Debugger.IsAttached;
-        }
-
-
-        public bool CheckIfDbExists()
-        {
-            return false;
         }
         
         [RelayCommand]
