@@ -64,19 +64,10 @@ namespace AsComputoPOS.ViewModels.Category
             }
         }
 
-        //Simulación de una base de datos
-        public CategoryViewModel(): 
-        {
-            // Initialize the list of categories with some sample data
-            Categories = new List<string>
-            {
-                "Electronics",
-                "Clothing",
-                "Books",
-                "Home & Kitchen"
-            };
-        }
        
+
+        //Simulación de una base de datos
+        //
         public void AddCategory()
         {
             // Logic to add a new category
@@ -102,7 +93,7 @@ namespace AsComputoPOS.ViewModels.Category
             {
                 Categories[index] = newCategoryName;
             }
-        }
+        } 
     }
 
 } 
