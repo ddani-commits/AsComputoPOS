@@ -12,7 +12,7 @@ namespace AsComputoPOS.Services
         //event EventHandler AuthenticationStateChanged;
         bool? IsAuthenticated { get; }
         Employee? CurrentEmployee { get; }
-        void Login();
+        bool Login(string email, string password);
         void Register(string firstName, string lastName, string email);
         bool HasUsers();
         void Logout();

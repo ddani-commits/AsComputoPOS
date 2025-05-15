@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,14 @@ namespace AsComputoPOS.Services
                 return context.Employees.Any();
             }
         }
-        public void Login()
+        public bool Login(string email, string password)
         {
             IsAuthenticated = true;
-            CurrentEmployee = new Employee("John", "Doe", "myemail@gmail.com");
+            using (var context = new ApplicationDbContext())
+            {
+                CurrentEmployee = context.Employees.FirstOrDefault(employee => employee.Email == email);
+                return CurrentEmployee != null;
+            }
         }
         public void Register(string firstName, string lastName, string email)
         {
