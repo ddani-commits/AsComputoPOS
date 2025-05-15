@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AsComputoPOS.Data;
 using AsComputoPOS.Models;
 
 namespace AsComputoPOS.Services
@@ -14,12 +15,17 @@ namespace AsComputoPOS.Services
         public void Login()
         {
             IsAuthenticated = true;
-            CurrentEmployee = new Employee(1, "John", "Doe", "myemail@gmail.com");
+            CurrentEmployee = new Employee("John", "Doe", "myemail@gmail.com");
         }
-        public void Register(int id, string firstName, string lastName, string email)
+        public void Register(string firstName, string lastName, string email)
         {
+            using (var context = new ApplicationDbContext())
+            {
+                CurrentEmployee = new Employee(firstName, lastName, email);
+                context.Employees.Add(CurrentEmployee);
+                context.SaveChanges();
+            }
             IsAuthenticated = true;
-            CurrentEmployee = new Employee(id, firstName, lastName, email);
         }
         public void Logout()
         {
