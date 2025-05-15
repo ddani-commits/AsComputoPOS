@@ -13,7 +13,7 @@ namespace AsComputoPOS.Services
         bool? IsAuthenticated { get; }
         Employee? CurrentEmployee { get; }
         void Login();
-        void Register(int id, string firstName, string lastName, string email);
+        void Register(string firstName, string lastName, string email);
         void Logout();
     }
 }

@@ -43,7 +43,7 @@ namespace AsComputoPOS.ViewModels
                 Debug.WriteLine(Password, "!=", ConfirmPassword);
                 return;
             }
-            _authenticationService.Register(6, FirstName, LastName, Email);
+            _authenticationService.Register(FirstName, LastName, Email);
             _navigationService.NavigateTo<AddEmployeesViewModel>();
         }
     }
