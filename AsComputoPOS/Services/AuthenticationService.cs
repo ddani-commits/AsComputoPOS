@@ -12,6 +12,13 @@ namespace AsComputoPOS.Services
     {
         public bool? IsAuthenticated { get; set; }
         public Employee? CurrentEmployee { get; set; }
+        public bool HasUsers()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return context.Employees.Any();
+            }
+        }
         public void Login()
         {
             IsAuthenticated = true;
