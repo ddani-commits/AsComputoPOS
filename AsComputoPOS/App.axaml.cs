@@ -1,4 +1,5 @@
 using System.Linq;
+using AsComputoPOS.Data;
 using AsComputoPOS.Services;
 using AsComputoPOS.ViewModels;
 using AsComputoPOS.Views;
@@ -20,23 +21,27 @@ namespace AsComputoPOS
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            using (var db = new ApplicationDbContext())
             {
-                // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-                // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
-                DisableAvaloniaDataAnnotationValidation();
-
-                var collection = new ServiceCollection();
-                collection.AddCommonServices();
-                var services = collection.BuildServiceProvider();
-
-                var vm = services.GetRequiredService<MainWindowViewModel>();
-                desktop.MainWindow = new MainWindow
-                {
-                    //DataContext = new MainWindowViewModel(),
-                    DataContext = vm,
-                };
+                db.Database.EnsureCreated();
             }
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                {
+                    // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
+                    // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
+                    DisableAvaloniaDataAnnotationValidation();
+
+                    var collection = new ServiceCollection();
+                    collection.AddCommonServices();
+                    var services = collection.BuildServiceProvider();
+
+                    var vm = services.GetRequiredService<MainWindowViewModel>();
+                    desktop.MainWindow = new MainWindow
+                    {
+                        //DataContext = new MainWindowViewModel(),
+                        DataContext = vm,
+                    };
+                }
 
             base.OnFrameworkInitializationCompleted();
         }
