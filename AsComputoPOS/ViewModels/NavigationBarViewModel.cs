@@ -10,6 +10,7 @@ using AsComputoPOS.ViewModels.SalesHistory;
 using AsComputoPOS.ViewModels.Suppliers;
 using AsComputoPOS.ViewModels.Inventory;
 using CommunityToolkit.Mvvm.Input;
+using AsComputoPOS.ViewModels.Category;
 
 namespace AsComputoPOS.ViewModels
 {
@@ -49,7 +50,7 @@ namespace AsComputoPOS.ViewModels
         [RelayCommand]
         public void NavigateToEmployees()
         {
-            _navigation.NavigateTo<EmployeesViewModel>();
+        //    _navigation.NavigateTo<EmployeesViewModel>();
         }
 
         [RelayCommand]
@@ -57,5 +58,12 @@ namespace AsComputoPOS.ViewModels
         {
             _navigation.NavigateTo<InventoryViewModel>();
         }
+        [RelayCommand]
+        public void NavigateToCategory()
+        {
+            _navigation.NavigateTo<CategoryViewModel>();
+        }
+
+
     }
 }

@@ -7,7 +7,7 @@
 			 x:DataType="vm:NavigationBarViewModel"
              x:Class="AsComputoPOS.Views.NavigationBarView">
 
-	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+	<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 		<Button Command="{Binding NavigateToPointOfSaleCommand}">
 			Vender
 		</Button>
@@ -26,5 +26,9 @@
 		<Button Command="{Binding NavigateToInventoryCommand}">
 			Inventario
 		</Button>
+		<Button Command="{Binding NavigateToCategoryCommand}">
+			Categorias
+		</Button>
+		
 	</StackPanel>
 </UserControl>

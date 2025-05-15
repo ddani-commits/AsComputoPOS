@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AsComputoPOS.ViewModels;
+using AsComputoPOS.ViewModels.Category;
 using AsComputoPOS.ViewModels.Inventory;
 using AsComputoPOS.ViewModels.PointOfSale;
 using AsComputoPOS.ViewModels.Products;
@@ -24,7 +25,7 @@ namespace AsComputoPOS.Services
             collection.AddTransient<FirstPageViewModel>();
             collection.AddTransient<SecondPageViewModel>();
             collection.AddTransient<AddEmployeesViewModel>();
-            collection.AddTransient<EmployeesViewModel>();
+           // collection.AddTransient<EmployeesViewModel>();
             collection.AddTransient<SuppliersViewModel>();
             collection.AddTransient<SalesHistoryViewModel>();
             collection.AddTransient<ProductsViewModel>();
@@ -32,7 +33,7 @@ namespace AsComputoPOS.Services
             collection.AddTransient<PointOfSaleViewModel>();
             collection.AddTransient<LoginViewModel>();
             collection.AddTransient<RegisterViewModel>();
-
+            collection.AddTransient<CategoryViewModel>();
             collection.AddTransient<MainWindowViewModel>();
         }
 
