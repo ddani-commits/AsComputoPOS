@@ -14,6 +14,7 @@ namespace AsComputoPOS.Services
         Employee? CurrentEmployee { get; }
         void Login();
         void Register(string firstName, string lastName, string email);
+        bool HasUsers();
         void Logout();
     }
 }
