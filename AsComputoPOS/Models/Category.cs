@@ -12,9 +12,8 @@ namespace AsComputoPOS.Models
         public string Name { get; set; }
         public string ParentCategory { get; set; }
 
-        public Category(int categoryId, string name, string parentCategory)
-        {
-            CategoryId = categoryId;
+        public Category( string name, string parentCategory)
+        {          
             Name = name;
             ParentCategory = parentCategory;
         }

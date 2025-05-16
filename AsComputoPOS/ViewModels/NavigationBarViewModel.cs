@@ -50,7 +50,7 @@ namespace AsComputoPOS.ViewModels
         [RelayCommand]
         public void NavigateToEmployees()
         {
-        //    _navigation.NavigateTo<EmployeesViewModel>();
+         _navigation.NavigateTo<EmployeesViewModel>();
         }
 
         [RelayCommand]

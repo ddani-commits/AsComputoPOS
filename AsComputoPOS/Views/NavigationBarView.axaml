@@ -6,8 +6,17 @@
 			 xmlns:vm="using:AsComputoPOS.ViewModels"
 			 x:DataType="vm:NavigationBarViewModel"
              x:Class="AsComputoPOS.Views.NavigationBarView">
+	
 
-	<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+		
+		<Menu>
+
+			<MenuItem HorizontalAlignment="Left" Header="Miguel Rosado">
+				<MenuItem Header="Cerrar sesión"></MenuItem>
+			</MenuItem>
+		</Menu>
+		
 		<Button Command="{Binding NavigateToPointOfSaleCommand}">
 			Vender
 		</Button>

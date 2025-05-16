@@ -1,101 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AsComputoPOS.Services;
+using AsComputoPOS.Models;
+using AsComputoPOS.Data;
 
 namespace AsComputoPOS.ViewModels.Category
 {
-    public partial class CategoryViewModel(INavigationService navigation) : NavigationBarViewModel(navigation)
+    public partial class CategoryViewModel : NavigationBarViewModel
     {
-
-        // Add properties and methods specific to CategoryViewModel here
-        private string _categoryName;
-        public string CategoryName
+        public ObservableCollection<AsComputoPOS.Models.Category> CategoriesList { get; } = new();
+        public CategoryViewModel(INavigationService navigation) : base(navigation)
         {
-            get => _categoryName;
-            set
+            LoadCategories();
+        }
+        private void LoadCategories()
+        {
+            using var db = new ApplicationDbContext();
+            foreach (var category in db.Categories)
             {
-                if (_categoryName != value)
-                {
-                    _categoryName = value;
-                    OnPropertyChanged(nameof(CategoryName));
-                }
+                CategoriesList.Add(category);
             }
         }
-        private string _parentCategory;
-        public string ParentCategory
-        {
-            get => _parentCategory;
-            set
-            {
-                if (_parentCategory != value)
-                {
-                    _parentCategory = value;
-                    OnPropertyChanged(nameof(ParentCategory));
-                }
-            }
-        }
-        private int _categoryId;
-        public int CategoryId
-        {
-            get => _categoryId;
-            set
-            {
-                if (_categoryId != value)
-                {
-                    _categoryId = value;
-                    OnPropertyChanged(nameof(CategoryId));
-                }
-            }
-        }
-        private List<string> _categories;
-        public List<string> Categories
-        {
-            get => _categories;
-            set
-            {
-                if (_categories != value)
-                {
-                    _categories = value;
-                    OnPropertyChanged(nameof(Categories));
-                }
-            }
-        }
-
-       
-
-        //Simulación de una base de datos
-        //
-        public void AddCategory()
-        {
-            // Logic to add a new category
-            // This could involve calling a service or updating a database
-            // For now, we'll just simulate adding a category
-            Categories.Add(CategoryName);
-            CategoryName = string.Empty; // Clear the input after adding
-        }
-        public void DeleteCategory(string categoryName)
-        {
-            // Logic to delete a category
-            // This could involve calling a service or updating a database
-            // For now, we'll just simulate deleting a category
-            Categories.Remove(categoryName);
-        }
-        public void EditCategory(string oldCategoryName, string newCategoryName)
-        {
-            // Logic to edit a category
-            // This could involve calling a service or updating a database
-            // For now, we'll just simulate editing a category
-            int index = Categories.IndexOf(oldCategoryName);
-            if (index != -1)
-            {
-                Categories[index] = newCategoryName;
-            }
-        } 
     }
-
-} 
-
+}
    

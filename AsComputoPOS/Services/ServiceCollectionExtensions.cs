@@ -25,7 +25,7 @@ namespace AsComputoPOS.Services
             collection.AddTransient<FirstPageViewModel>();
             collection.AddTransient<SecondPageViewModel>();
             collection.AddTransient<AddEmployeesViewModel>();
-           // collection.AddTransient<EmployeesViewModel>();
+            collection.AddTransient<EmployeesViewModel>();
             collection.AddTransient<SuppliersViewModel>();
             collection.AddTransient<SalesHistoryViewModel>();
             collection.AddTransient<ProductsViewModel>();

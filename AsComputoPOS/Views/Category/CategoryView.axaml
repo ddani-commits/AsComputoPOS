@@ -10,11 +10,17 @@
 
 	<StackPanel>
 		<local:NavigationBarView/> 
-		<TextBlock Text="Categor�as" HorizontalAlignment="Left" FontSize="20"  />
+		
+		<TextBlock Text="Categorías" HorizontalAlignment="Left" FontSize="20"  />
+		<Label>Nombre de categoría</Label>
+		<TextBox >Añadir categoría</TextBox>
+		
+		<Label>Categoría padre</Label>
+		<TextBox >Añadir categoría</TextBox>
 		<StackPanel>
-			<Button>A�adir categor�a</Button>
+			<Button>Añadir categoría</Button>
 			<Label></Label>
-			<ComboBox HorizontalAlignment="Right" PlaceholderText="Categor�a">
+			<ComboBox HorizontalAlignment="Right" PlaceholderText="Categoría">
 				<ComboBoxItem>Inline Items</ComboBoxItem>
 				<ComboBoxItem>Inline Item 2</ComboBoxItem>
 				<ComboBoxItem>Inline Item 3</ComboBoxItem>
