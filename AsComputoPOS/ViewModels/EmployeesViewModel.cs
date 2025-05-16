@@ -8,12 +8,30 @@ using System.Threading.Tasks;
 using AsComputoPOS.Services;
 using AsComputoPOS.Models;
 using AsComputoPOS.Data;
+using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AsComputoPOS.ViewModels
 {
     public partial class EmployeesViewModel: NavigationBarViewModel
     {   
-        public ObservableCollection<Employee> EmployeesList { get;  } = new();
+        public ObservableCollection<Employee> EmployeesList { get; } = new();
+
+        [ObservableProperty]
+        private string firstName = "";
+
+        [ObservableProperty]
+        private string lastName = "";
+
+        [ObservableProperty]
+        private string email = "";
+
+        [ObservableProperty]
+        private string password = "";
+
+        [ObservableProperty]
+        private string confirmPassword = "";
         public EmployeesViewModel(INavigationService navigation) : base(navigation)
         {
             LoadEmployees();
@@ -26,6 +44,40 @@ namespace AsComputoPOS.ViewModels
             {
                 EmployeesList.Add(employee);
             }
+        }
+
+        [RelayCommand]
+        private void SaveEmployees()
+        {
+            using var db = new ApplicationDbContext();
+            foreach(var employee in EmployeesList)
+            {
+                db.Employees.Update(employee);
+            }
+            db.SaveChanges();
+            Debug.WriteLine("Saved");
+        }
+
+        [RelayCommand]
+        public void AddEmployee()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var CurrentEmployee = new Employee(FirstName, LastName, Email);
+                context.Employees.Add(CurrentEmployee);
+                context.SaveChanges();
+                EmployeesList.Add(CurrentEmployee);
+                ClearFields();
+            }
+        }
+
+        public void ClearFields()
+        {
+            FirstName = "";
+            LastName = "";
+            Email = "";
+            Password = "";
+            ConfirmPassword = "";
         }
     }
 }
