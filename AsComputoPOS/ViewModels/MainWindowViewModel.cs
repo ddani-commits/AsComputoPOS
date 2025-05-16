@@ -42,5 +42,5 @@ namespace AsComputoPOS.ViewModels
         {
             Debug.WriteLine(Navigation.CurrentViewModel.ToString());
         }
-    }
+    }                                                                                                                                                                                                                                                                                                                       
 }

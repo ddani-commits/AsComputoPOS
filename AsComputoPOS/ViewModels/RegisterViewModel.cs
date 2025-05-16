@@ -47,4 +47,4 @@ namespace AsComputoPOS.ViewModels
             _navigationService.NavigateTo<AddEmployeesViewModel>();
         }
     }
-    }
+}
