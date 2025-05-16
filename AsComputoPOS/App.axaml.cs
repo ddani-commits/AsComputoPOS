@@ -23,6 +23,8 @@ namespace AsComputoPOS
         {
             using (var db = new ApplicationDbContext())
             {
+                // db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación.
+
                 db.Database.EnsureCreated();
             }
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

@@ -12,22 +12,7 @@
 		<local:NavigationBarView/> 
 		
 		<TextBlock Text="Categorías" HorizontalAlignment="Left" FontSize="20"  />
-		<Label>Nombre de categoría</Label>
-		<TextBox >Añadir categoría</TextBox>
-		
-		<Label>Categoría padre</Label>
-		<TextBox >Añadir categoría</TextBox>
-		<StackPanel>
-			<Button>Añadir categoría</Button>
-			<Label></Label>
-			<ComboBox HorizontalAlignment="Right" PlaceholderText="Categoría">
-				<ComboBoxItem>Inline Items</ComboBoxItem>
-				<ComboBoxItem>Inline Item 2</ComboBoxItem>
-				<ComboBoxItem>Inline Item 3</ComboBoxItem>
-				<ComboBoxItem>Inline Item 4</ComboBoxItem>
-			</ComboBox>
-		</StackPanel>
-		
+
 
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -41,10 +26,40 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-		
+
+					<Button Grid.Column="3" Grid.Row="0" Content="Popup" Command="{Binding ShowPopupCommand}"  />
+		<Popup IsOpen="{Binding IsPopupOpen}" Placement="Bottom">
+			<Border Background="White" Padding="10" BorderBrush="Gray" BorderThickness="2">
+				<StackPanel>
+					<TextBlock Text="Nueva categoría" />
+					<TextBox Text="{Binding Name}" Watermark="Nombre de la categoría" />
+					<TextBlock Text="Categoría padre" />
+					<TextBox Text="{Binding ParentCategory}" Watermark="Nombre de la categoría" />
+					<Button Content="Guardar" Command="{Binding SaveCategoryCommand}" />
+					<Button Content="Cerrar" Command="{Binding ClosePopupCommand}"/>
+				</StackPanel>
+			</Border>
+		</Popup>
+	
 			<TextBlock Text="Nombre" Margin="10" Grid.Column="0" Grid.Row="0" FontSize="14" > </TextBlock>
 			<TextBlock Text="Pertenece a" Margin="10" Grid.Column="1" Grid.Row="0" FontSize="14" > </TextBlock>
 			<TextBlock Text="Ver productos" Grid.Column="2" Grid.Row="0" FontSize="14" Margin="10"> </TextBlock>
+
+			<ListBox ItemsSource="{Binding CategoriesList}" Grid.Row="1"   >
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								
+								<TextBlock Text="{Binding Name}" Margin="10" />
+								<TextBlock  Text="{Binding ParentCategory}" Margin="10" />
+
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+		
 		</Grid>
+		
+
 	</StackPanel>
 </UserControl>
