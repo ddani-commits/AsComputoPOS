@@ -30,23 +30,6 @@ namespace AsComputoPOS.ViewModels.Category
             }
         }
 
-        // Popup
-
-        [ObservableProperty]
-        private bool isPopupOpen = false;
-
-        [RelayCommand]
-        private void ShowPopup()
-        {
-            IsPopupOpen = true;
-        }
-
-        [RelayCommand]
-        private void ClosePopup()
-        {
-            IsPopupOpen = false;
-        }
-
         // Método para agregar una categoría
         public void AddCategory(string name, string parentCategory)
         {

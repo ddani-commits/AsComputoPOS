@@ -33,18 +33,20 @@
 			</StackPanel>
 			<StackPanel>
 				<Button Content="Guardar" Command="{Binding SaveEmployeesCommand}" Margin="0,10,0,0"/>
-				<DataGrid 
+				<ScrollViewer>
+					<DataGrid
 					ItemsSource="{Binding EmployeesList}"
-					AutoGenerateColumns="False" 
+					AutoGenerateColumns="False"
 					IsReadOnly="False">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="Auto"/>
-						<DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}"/>
-						<DataGridTextColumn Header="Apellido" Binding="{Binding LastName}"/>
-						<DataGridTextColumn Header="Correo" Binding="{Binding Email}"/>
-						<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
-					</DataGrid.Columns>
-				</DataGrid>
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="Auto"/>
+							<DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}"/>
+							<DataGridTextColumn Header="Apellido" Binding="{Binding LastName}"/>
+							<DataGridTextColumn Header="Correo" Binding="{Binding Email}"/>
+							<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</ScrollViewer>
 			</StackPanel>
 		</StackPanel>
 	</StackPanel>
