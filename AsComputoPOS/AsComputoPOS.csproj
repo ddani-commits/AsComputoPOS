@@ -39,9 +39,6 @@
     <Compile Update="Views\RegisterView.axaml.cs">
       <DependentUpon>RegisterView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\SecondPageView.axaml.cs">
-      <DependentUpon>SecondPageView.axaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
