@@ -67,7 +67,7 @@ namespace AsComputoPOS.ViewModels.Category
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-               Debug.WriteLine("Please enter a category name.");
+                Debug.WriteLine("Please enter a category name.");
                 return;
             }
             AddCategory(Name, ParentCategory);
@@ -75,8 +75,18 @@ namespace AsComputoPOS.ViewModels.Category
             ParentCategory = string.Empty;
         }
 
+        // Comando para eliminar una categoría
+        [RelayCommand]
+        public void DeleteCategory(Models.Category category)
+        {
+            using var db = new ApplicationDbContext();
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            CategoriesList.Remove(category);
 
 
+
+        }
     }
 }
    

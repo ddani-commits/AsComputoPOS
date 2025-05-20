@@ -52,7 +52,7 @@
 								
 								<TextBlock Text="{Binding Name}" Margin="10" />
 								<TextBlock  Text="{Binding ParentCategory}" Margin="10" />
-
+								<Button Content="Eliminar Categoría"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
