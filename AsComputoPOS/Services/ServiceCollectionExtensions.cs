@@ -21,7 +21,6 @@ namespace AsComputoPOS.Services
             collection.AddTransient<IAuthenticationService, AuthenticationService>();
 
             collection.AddSingleton<NavigationBarViewModel>();
-            collection.AddTransient<AddEmployeesViewModel>();
             collection.AddTransient<EmployeesViewModel>();
             collection.AddTransient<SuppliersViewModel>();
             collection.AddTransient<SalesHistoryViewModel>();
