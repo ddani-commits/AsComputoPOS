@@ -13,30 +13,34 @@ namespace AsComputoPOS.ViewModels
             Navigation = navigationService;
             authenticationService.HasUsers();
 
-            if (authenticationService.HasUsers()) 
+            // Skip auth if debugging
+            if (IsDebugMode())
             {
-                Debug.WriteLine("There are users");
-                Navigation.NavigateTo<LoginViewModel>();
-            } 
+                Debug.WriteLine("Debug mode is enabled");
+                Navigation.NavigateTo<EmployeesViewModel>();
+            }
             else
             {
-                Debug.WriteLine("No users");
-                Navigation.NavigateTo<RegisterViewModel>();
+
+                if (authenticationService.HasUsers())
+                {
+                    Debug.WriteLine("There are users");
+                    Navigation.NavigateTo<LoginViewModel>();
+                }
+                else
+                {
+                    Debug.WriteLine("No users");
+                    Navigation.NavigateTo<RegisterViewModel>();
+                }
             }
 
-            // Skip auth if debugging
-            //if (IsDebugMode())
-            //{
-            //    Debug.WriteLine("Debug mode is enabled");
-            //    Navigation.NavigateTo<PointOfSaleViewModel>();
-            //}
         }
 
         public bool IsDebugMode()
         {
             return Debugger.IsAttached;
         }
-        
+
         [RelayCommand]
         public void CheckCurrentView()
         {
