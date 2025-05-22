@@ -5,50 +5,56 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:local="using:AsComputoPOS.Views"
 			 xmlns:vm="using:AsComputoPOS.ViewModels.Category"
+			 xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              x:Class="AsComputoPOS.Views.Category.CategoryView"
 			 x:DataType="vm:CategoryViewModel">
 
-	<StackPanel>
-		<local:NavigationBarView/> 
-		
-		<TextBlock Text="Categorías" HorizontalAlignment="Left" FontSize="20"  />
-		<StackPanel Orientation="Horizontal" >
-			<StackPanel Margin="0,10,0,0">
-				<TextBlock Text="Nueva categoría" />
-				<TextBox Text="{Binding CategoryName}" Watermark="Nombre de la categoría" />
-				<TextBlock Text="Categoría padre" />
-				<TextBox Text="{Binding ParentCategoryName}" Watermark="Nombre de la categoría" />
-				<Button Content="Guardar" Command="{Binding SaveCategoryCommand}" />
-			</StackPanel>
-			
+	<UserControl.Resources>
+		<StackPanel x:Key="Sample2View">
+			<TextBlock Text="Añadir Categoría" FontSize="24" HorizontalAlignment="Center" Margin="0,20,0,0" />
+			<TextBlock Text="Nueva categoría"/>
+			<TextBox Text="{Binding CategoryName}" Watermark="Nombre de la categoría" />
+			<TextBlock Text="¿Categoría padre?"/>
+			<TextBox Text="{Binding ParentCategoryName}" Watermark="Nombre de la categoría" />
+			<Button Content="Guardar" Command="{Binding AddCategoryCommand}"/>
 		</StackPanel>
-		<StackPanel>
-			<ScrollViewer>
-				<DataGrid ItemsSource="{Binding CategoriesList}"
-				  AutoGenerateColumns="False"
-				  IsReadOnly="False"
-						  SelectedItem="{Binding SelectedCategory}">
+	</UserControl.Resources>
+	<dialogHostAvalonia:DialogHost
+		CloseOnClickAway="True"
+		Identifier="MainDialogHost"
+		DialogClosing="OnDialogClosing"
+		dialogHostAvalonia:DialogHostStyle.CornerRadius="12">
+
+		<Grid
+			RowDefinitions="Auto, auto, auto, 1*">
+			<local:NavigationBarView Grid.Row="0"/>	
+			<TextBlock Text="Categorías" Grid.Row="1"/>
+			<StackPanel Grid.Row="2" Orientation="Horizontal">
+				<Button Click="Open" Margin="10,10,0,0" HorizontalAlignment="Left" Content="Nueva categoría"/>
+				<Button Content="Guardar" Command="{Binding SaveCategoryCommand}" Margin="10,10,0,0"/>
+			</StackPanel>
+
+			<ScrollViewer Margin="0,10,0,0" Grid.Row="3">
+				<DataGrid
+					ItemsSource="{Binding CategoriesList}"
+					AutoGenerateColumns="False"
+					IsReadOnly="False">
 					<DataGrid.Columns>
-						<DataGridTextColumn  Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>
-						<DataGridTextColumn Header="Nombre" Binding="{Binding Name}" Width="200"/>
-						<DataGridTextColumn Header="Categoría padre" Width="200" Binding="{Binding ParentCategory}"/>
-						<DataGridTemplateColumn Header="Acción">
+						<DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>
+						<DataGridTextColumn Header="Nombre" Binding="{Binding Name}" Width="*"/>
+						<DataGridTextColumn Header="Categoría padre" Binding="{Binding ParentCategory}" Width="*"/>
+						<DataGridTemplateColumn
+							Header="Acción">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-
-									<Button Content="Elliminar" 
-											Command="{Binding ViewModel.DeleteCategoryCommand}"
-											CommandParameter="{Binding}"></Button>
+									<Button Content="Eliminar" Command="{Binding ViewModel.DeleteCategoryCommand}" CommandParameter="{Binding}"/>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-
 					</DataGrid.Columns>
-
 				</DataGrid>
 			</ScrollViewer>
-		
-			
-		</StackPanel>
-	</StackPanel>
+		</Grid>
+	
+	</dialogHostAvalonia:DialogHost>
 </UserControl>

@@ -36,30 +36,29 @@ namespace AsComputoPOS.ViewModels.Category
             }
         }
 
-        public void AddCategory(string name, string parentCategory)
+        [RelayCommand]
+        public void AddCategory()
         {
-            using var db = new ApplicationDbContext();
-            var category = new Models.Category(name, parentCategory)
+            using (var context = new ApplicationDbContext())
             {
-                ViewModel = this
-            };
-            db.Categories.Add(category);
-            db.SaveChanges();
-            CategoriesList.Add(category);
+                var currentCategory = new Models.Category(CategoryName, ParentCategoryName);
+                context.Categories.Add(currentCategory);
+                context.SaveChanges();
+                CategoriesList.Add(currentCategory);
+                ClearFields();
+            }
         }
 
         [RelayCommand]
         public void SaveCategory()
         {
-            if (string.IsNullOrWhiteSpace(CategoryName))
+            using var db = new ApplicationDbContext();
+            foreach (var category in CategoriesList)
             {
-                Debug.WriteLine("Please enter a category name.");
-                return;
+                db.Categories.Update(category);
             }
-
-            AddCategory(CategoryName, ParentCategoryName);
-            CategoryName = string.Empty;
-            ParentCategoryName = string.Empty;
+            db.SaveChanges();
+            Debug.WriteLine("Saved from ViewModel");
         }
 
         [RelayCommand]
@@ -84,5 +83,11 @@ namespace AsComputoPOS.ViewModels.Category
                 Debug.WriteLine("Category not found.");
             }
         }
+        public void ClearFields()
+        {
+            CategoryName = string.Empty;
+            ParentCategoryName = string.Empty;
+        }
     }
+
 }
