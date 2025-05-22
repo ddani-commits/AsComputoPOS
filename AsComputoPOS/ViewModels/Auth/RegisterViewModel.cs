@@ -44,7 +44,7 @@ namespace AsComputoPOS.ViewModels
                 return;
             }
             _authenticationService.Register(FirstName, LastName, Email);
-            _navigationService.NavigateTo<AddEmployeesViewModel>();
+            _navigationService.NavigateTo<EmployeesViewModel>();
         }
     }
 }

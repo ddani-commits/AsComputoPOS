@@ -16,14 +16,14 @@ namespace AsComputoPOS.Services
 
         public NavigationService(IServiceProvider serviceProvider)
         {
+            // No longer declare initial view here, instead do it in the MainWindowViewModel constructor
             _serviceProvider = serviceProvider;
-            _currentViewModel = _serviceProvider.GetRequiredService<SecondPageViewModel>();
         }
 
-        private ViewModelBase _currentViewModel;
+        private ViewModelBase? _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
-            get => _currentViewModel;
+            get => _currentViewModel!;
             private set
             {
                 if(_currentViewModel != value)
