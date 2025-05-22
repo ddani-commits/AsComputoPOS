@@ -10,9 +10,9 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AsComputoPOS">
 
-	<StackPanel>
+	<Grid>
 	    <ContentControl Content="{Binding Navigation.CurrentViewModel}" />
-	</StackPanel>
+	</Grid>
 	
 </Window>
 
