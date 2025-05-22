@@ -47,7 +47,7 @@ namespace AsComputoPOS.ViewModels
         }
 
         [RelayCommand]
-        private void SaveEmployees()
+        public void SaveEmployees()
         {
             using var db = new ApplicationDbContext();
             foreach(var employee in EmployeesList)
@@ -55,7 +55,7 @@ namespace AsComputoPOS.ViewModels
                 db.Employees.Update(employee);
             }
             db.SaveChanges();
-            Debug.WriteLine("Saved");
+            Debug.WriteLine("Saved from ViewModel");
         }
 
         [RelayCommand]

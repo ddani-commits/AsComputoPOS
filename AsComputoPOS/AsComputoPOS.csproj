@@ -24,6 +24,7 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="DialogHost.Avalonia" Version="0.9.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
@@ -35,11 +36,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\RegisterView.axaml.cs">
+    <Compile Update="Views\Auth\RegisterView.axaml.cs">
       <DependentUpon>RegisterView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\SecondPageView.axaml.cs">
-      <DependentUpon>SecondPageView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
