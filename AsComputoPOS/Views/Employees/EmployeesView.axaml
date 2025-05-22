@@ -38,20 +38,16 @@
 		DialogClosing="OnDialogClosing"
 		dialogHostAvalonia:DialogHostStyle.CornerRadius="12"
 	>
-		<StackPanel Orientation="Vertical" >
-			<local:NavigationBarView/>
-			<TextBlock Text="Empleados"/>
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="*"/>
-				</Grid.RowDefinitions>
-				<StackPanel Orientation="Horizontal" Grid.Row="0">
-					<Button Click="Open" Margin="16 0" HorizontalAlignment="Right" Grid.Row="1" Content="Nuevo Empleado" />
-					<Button Content="Guardar" Command="{Binding SaveEmployeesCommand}" Margin="16 0	"/>
-				</StackPanel>
+		<Grid RowDefinitions="Auto,Auto,Auto,1*">
+			<local:NavigationBarView Grid.Row="0"/>
+			<TextBlock Text="Empleados" Grid.Row="1"/>
+			<StackPanel Grid.Row="2" Orientation="Horizontal">
+				<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo Empleado" />
+				<Button Content="Guardar" Command="{Binding SaveEmployeesCommand}" />
+			</StackPanel>
+
+			<ScrollViewer Grid.Row="3" >
 				<DataGrid
-					Grid.Row="1"
 					ItemsSource="{Binding EmployeesList}"
 					AutoGenerateColumns="False"
 					IsReadOnly="False">
@@ -63,7 +59,7 @@
 						<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
 					</DataGrid.Columns>
 				</DataGrid>
-			</Grid>
-		</StackPanel>
+			</ScrollViewer>
+		</Grid>
 	</dialogHostAvalonia:DialogHost>
 </UserControl>
