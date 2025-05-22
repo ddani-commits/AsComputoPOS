@@ -1,75 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsComputoPOS.Services;
-using AsComputoPOS.Models;
-using AsComputoPOS.Data;
-using CommunityToolkit.Mvvm.Input;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using AsComputoPOS.Models;
+using AsComputoPOS.Data;
+using AsComputoPOS.Services;
 
 namespace AsComputoPOS.ViewModels.Category
 {
     public partial class CategoryViewModel : NavigationBarViewModel
     {
-        // Base de datos
+        [ObservableProperty]
+        private Models.Category? selectedCategory;
+
+        [ObservableProperty]
+        private string categoryName = string.Empty;
+
+        [ObservableProperty]
+        private string parentCategoryName = string.Empty;
+
         public ObservableCollection<Models.Category> CategoriesList { get; } = new();
+
         public CategoryViewModel(INavigationService navigation) : base(navigation)
         {
             LoadCategories();
         }
+
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();
             foreach (var category in db.Categories)
             {
+                category.ViewModel = this; // Esto permite acceder al comando desde XAML
                 CategoriesList.Add(category);
             }
         }
 
-        // Método para agregar una categoría
         public void AddCategory(string name, string parentCategory)
         {
             using var db = new ApplicationDbContext();
-            var category = new Models.Category(name, parentCategory);
+            var category = new Models.Category(name, parentCategory)
+            {
+                ViewModel = this
+            };
             db.Categories.Add(category);
             db.SaveChanges();
             CategoriesList.Add(category);
         }
 
-        public string Name { get; set; } = "";
-        public string ParentCategory { get; set; } = "";
-
-
-        // Comando para añadar una categoría
         [RelayCommand]
         public void SaveCategory()
         {
-            if (string.IsNullOrWhiteSpace(Name))
+            if (string.IsNullOrWhiteSpace(CategoryName))
             {
                 Debug.WriteLine("Please enter a category name.");
                 return;
             }
-            AddCategory(Name, ParentCategory);
-            Name = string.Empty;
-            ParentCategory = string.Empty;
+
+            AddCategory(CategoryName, ParentCategoryName);
+            CategoryName = string.Empty;
+            ParentCategoryName = string.Empty;
         }
 
-        // Comando para eliminar una categoría
         [RelayCommand]
         public void DeleteCategory(Models.Category category)
         {
+            if (category is null) return;
+
             using var db = new ApplicationDbContext();
-            db.Categories.Remove(category);
-            db.SaveChanges();
-            CategoriesList.Remove(category);
+            var categoryToDelete = db.Categories.Find(category.CategoryId);
 
+            if (categoryToDelete != null)
+            {
+                db.Categories.Remove(categoryToDelete);
+                db.SaveChanges();
+                CategoriesList.Remove(category);
 
-
+                if (SelectedCategory?.CategoryId == category.CategoryId)
+                    SelectedCategory = null;
+            }
+            else
+            {
+                Debug.WriteLine("Category not found.");
+            }
         }
     }
 }
-   
