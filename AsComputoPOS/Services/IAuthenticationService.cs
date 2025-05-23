@@ -16,5 +16,6 @@ namespace AsComputoPOS.Services
         void Register(string firstName, string lastName, string email);
         bool HasUsers();
         void Logout();
+        event EventHandler? AuthenticationStateChanged;
     }
 }

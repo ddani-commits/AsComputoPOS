@@ -6,17 +6,30 @@
 			 xmlns:vm="using:AsComputoPOS.ViewModels"
 			 x:DataType="vm:NavigationBarViewModel"
              x:Class="AsComputoPOS.Views.NavigationBarView">
-	
 
-	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-		
-		<Menu>
+	<UserControl.Styles>
+		<!-- Elimina el borde del popup de los MenuItem -->
+		<Style Selector="MenuItem:open /template/ Popup#PART_Popup > Border">
+			<Setter Property="BorderBrush" Value="red" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="CornerRadius" Value="0" />
+		</Style>
+	</UserControl.Styles>
 
-			<MenuItem HorizontalAlignment="Left" Header="Miguel Rosado">
-				<MenuItem Header="Cerrar sesión"></MenuItem>
+	<StackPanel 
+		HorizontalAlignment="Center" 
+		Orientation="Horizontal">
+		<Menu BorderThickness="0">
+			<MenuItem 
+				BorderThickness="0" 
+				BorderBrush="DarkOrange" 
+				HorizontalAlignment="Left" 
+				Header="{Binding CurrentUser}">
+				<MenuItem BorderThickness="0" BorderBrush="DarkOrange" Header="Cerrar sesiÃ³n"></MenuItem>
 			</MenuItem>
 		</Menu>
-		
 		<Button Command="{Binding NavigateToPointOfSaleCommand}">
 			Vender
 		</Button>
