@@ -36,6 +36,7 @@ namespace AsComputoPOS.ViewModels.Category
             }
         }
 
+        // Añadir
         [RelayCommand]
         public void AddCategory()
         {
@@ -48,6 +49,7 @@ namespace AsComputoPOS.ViewModels.Category
                 ClearFields();
             }
         }
+        // Guardar
 
         [RelayCommand]
         public void SaveCategory()
@@ -61,6 +63,7 @@ namespace AsComputoPOS.ViewModels.Category
             Debug.WriteLine("Saved from ViewModel");
         }
 
+        // Elliminar
         [RelayCommand]
         public void DeleteCategory(Models.Category category)
         {

@@ -23,6 +23,7 @@ public partial class CategoryView : UserControl
     {
        if(DataContext is CategoryViewModel vm)
         {
+            vm.AddCategory();
             vm.SaveCategory();
            
         }

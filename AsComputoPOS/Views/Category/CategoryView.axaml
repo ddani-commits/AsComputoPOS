@@ -16,7 +16,7 @@
 			<TextBox Text="{Binding CategoryName}" Watermark="Nombre de la categoría" />
 			<TextBlock Text="¿Categoría padre?"/>
 			<TextBox Text="{Binding ParentCategoryName}" Watermark="Nombre de la categoría" />
-			<Button Content="Guardar" Command="{Binding AddCategoryCommand}"/>
+			<Button Content="Guardar" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHostAvalonia:DialogHost}, Path=CloseDialogCommand}"/>
 		</StackPanel>
 	</UserControl.Resources>
 	<dialogHostAvalonia:DialogHost
