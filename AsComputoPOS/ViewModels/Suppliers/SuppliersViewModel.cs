@@ -33,7 +33,7 @@ namespace AsComputoPOS.ViewModels.Suppliers
         [ObservableProperty]
         private string phone = string.Empty;
 
-        public SuppliersViewModel(INavigationService navigation) : base(navigation) 
+        public SuppliersViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService)
         {
             LoadSuppliers();
         }
