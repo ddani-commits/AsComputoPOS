@@ -2,60 +2,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
 			 d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:vm="using:AsComputoPOS.ViewModels.Suppliers"
+			 xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 			 xmlns:local="using:AsComputoPOS.Views"
 			 x:DataType="vm:SuppliersViewModel"
-             x:Class="AsComputoPOS.Views.Suppliers.SuppliersView"
-			
->
-	
-	<StackPanel>
-		<local:NavigationBarView/>
-		<TextBlock>Suppliers</TextBlock>
+             x:Class="AsComputoPOS.Views.Suppliers.SuppliersView">
 
-		<StackPanel>
-			<TextBlock Text="Nombre de la compañía" Margin="10" FontSize="14" />
-			<TextBox Text="{Binding Name}" Watermark="Nombre de la compañía" Margin="10" Width="200" HorizontalAlignment="Left" />
-			
-			<TextBlock Text="Nombre de contrato" Margin="10" FontSize="14"/>
-			<TextBox Text="{Binding ContactName}" Watermark="Nombre del contacto" Margin="10"  Width="200" HorizontalAlignment="Left" />
-			
-			<TextBlock Text="Teléfono" Margin="10" FontSize="14" />
-			<TextBox Text="{Binding Phone}" Watermark="Teléfono del proveedor" Margin="10"  Width="200" HorizontalAlignment="Left" />
-			
-			<TextBlock Text="Dirección" Margin="10" FontSize="14" />
-			<TextBox Text="{Binding Address}" Watermark="Dirección del proveedor" Margin="10"  Width="200" HorizontalAlignment="Left"  />
-			
-			<TextBlock Text="Email" Margin="10" FontSize="14" />
-			<TextBox Text="{Binding Email}" Watermark="Email del proveedor" Margin="10"  Width="200" HorizontalAlignment="Left"  />
-			
-			<ToggleSwitch Content="Activo" IsChecked="{Binding IsActive}" Margin="10"  Width="200" HorizontalAlignment="Left"  />
-
-			<Button Content="Guardar" Command="{Binding SaveSupplierCommand}" Margin="10"  Width="200" HorizontalAlignment="Left"  />
-
-
-			<ListBox ItemsSource="{Binding SuppliersList}" >
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Name}" Margin="10" />
-							<TextBlock Text="{Binding Phone}" Margin="10" />
-							<TextBlock Text="{Binding Address}" Margin="10" />
-							<TextBlock Text="{Binding Email}" Margin="10" />
-							<Button Content="Eliminar" Margin="10">
-								
-							</Button>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-				
-		
-	
-			
+	<UserControl.Resources>
+		<StackPanel x:Key="Sample2View">
+			<TextBlock Text="Añadir Proveedor" FontSize="24" HorizontalAlignment="Center" Margin="0,20,0,0" />
+			<TextBlock Text="Nuevo proveedor"/>
+			<TextBox Text="{Binding Name}" Watermark="Nombre de la empresa" />
+			<TextBlock Text="Nombre de contacto"/>
+			<TextBox Text="{Binding ContactName}" Watermark="Nombre de contacto"/>
+			<TextBlock Text="Dirección" />
+			<TextBox Text="{Binding Address}" Watermark="Dirección" />
+			<TextBlock Text="Teléfono" />
+			<TextBox Text="{Binding Phone}" Watermark="Teléfono" />
+			<TextBlock Text="Correo electrónico" />
+			<TextBox Text="{Binding Email}" Watermark="Correo electrónico" />
+			<!--
+			<Button Content="Guardar" Command="{Binding AddSupplierCommand}"/>
+			-->
+			<Button
+				Content="Guardar"
+				Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHostAvalonia:DialogHost}, Path=CloseDialogCommand}"
+				HorizontalAlignment="Center"
+				Width="200"
+				HorizontalContentAlignment="Center"
+				Margin="0,20,0,0" />
 		</StackPanel>
-	</StackPanel>
-	
+	</UserControl.Resources>
+
+	<dialogHostAvalonia:DialogHost
+		CloseOnClickAway="True"
+		Identifier="MainDialogHost"
+		DialogClosing="OnDialogClosing"
+		dialogHostAvalonia:DialogHostStyle.CornerRadius="12">
+
+		<Grid RowDefinitions="Auto,Auto,Auto,1*">
+			<local:NavigationBarView Grid.Row="0"/>
+			<TextBlock Text="Proveedores" Grid.Row="1" />
+			<StackPanel Grid.Row="2" Orientation="Horizontal">
+				<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo Proveedor" />
+				<Button Content="Guardar" Command="{Binding SaveSupplierCommand}" />
+			</StackPanel>
+			<ScrollViewer Grid.Row="3">
+				<DataGrid
+					ItemsSource="{Binding SuppliersList}"
+					AutoGenerateColumns="False"
+					IsReadOnly="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="ID" Binding="{Binding SupplierId}" Width="Auto"/>
+						<DataGridTextColumn Header="Nombre de la empresa" Binding="{Binding Name}" Width="*"/>
+						<DataGridTextColumn Header="Nombre de contacto" Binding="{Binding ContactName}" Width="*"/>
+						<DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="*"/>
+						<DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="*"/>
+						<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+						<DataGridTemplateColumn Header="Acción">
+							<DataTemplate>
+								<Button Content="Eliminar" Command="{Binding ViewModel.DeleteSupplierCommand}" CommandParameter="{Binding}" />
+							</DataTemplate>
+						</DataGridTemplateColumn>
+
+					</DataGrid.Columns>
+				</DataGrid>
+			</ScrollViewer>
+		</Grid>
+	</dialogHostAvalonia:DialogHost>
 </UserControl>
