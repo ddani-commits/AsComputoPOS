@@ -11,8 +11,13 @@ namespace AsComputoPOS.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        public event EventHandler? AuthenticationStateChanged;
         public bool? IsAuthenticated { get; set; }
         public Employee? CurrentEmployee { get; set; }
+        private void OnAuthenticationStateChanged()
+        {
+            AuthenticationStateChanged?.Invoke(this, EventArgs.Empty);
+        }
         public bool HasUsers()
         {
             using (var context = new ApplicationDbContext())
@@ -26,6 +31,7 @@ namespace AsComputoPOS.Services
             using (var context = new ApplicationDbContext())
             {
                 CurrentEmployee = context.Employees.FirstOrDefault(employee => employee.Email == email);
+                OnAuthenticationStateChanged();
                 return CurrentEmployee != null;
             }
         }
@@ -38,11 +44,13 @@ namespace AsComputoPOS.Services
                 context.SaveChanges();
             }
             IsAuthenticated = true;
+            OnAuthenticationStateChanged();
         }
         public void Logout()
         {
             IsAuthenticated = false;
             CurrentEmployee = null;
+            OnAuthenticationStateChanged();
         }
     }
 }

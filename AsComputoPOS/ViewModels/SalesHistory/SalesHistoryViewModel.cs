@@ -9,6 +9,6 @@ namespace AsComputoPOS.ViewModels.SalesHistory
 {
     public partial class SalesHistoryViewModel: NavigationBarViewModel
     {
-        public SalesHistoryViewModel(INavigationService navigation) : base(navigation) { }
+        public SalesHistoryViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService) { }
     }
 }

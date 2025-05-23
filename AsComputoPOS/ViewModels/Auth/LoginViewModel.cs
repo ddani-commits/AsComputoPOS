@@ -15,14 +15,11 @@ namespace AsComputoPOS.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IAuthenticationService _authenticationService;
-
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
         public LoginViewModel(INavigationService navigationService, IAuthenticationService authenticationService) {
-        
             _navigationService = navigationService;
             _authenticationService = authenticationService;
-
         }
 
         [RelayCommand]

@@ -20,12 +20,10 @@ namespace AsComputoPOS.ViewModels.Category
         private string parentCategoryName = string.Empty;
 
         public ObservableCollection<Models.Category> CategoriesList { get; } = new();
-
-        public CategoryViewModel(INavigationService navigation) : base(navigation)
+        public CategoryViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService)
         {
             LoadCategories();
         }
-
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();

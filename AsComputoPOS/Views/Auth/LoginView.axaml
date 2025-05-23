@@ -30,7 +30,4 @@
 			Margin="0,20,0,0" 
 			Command="{Binding LoginCommand}" />
 	</StackPanel>
-	
-	
-	
 </UserControl>

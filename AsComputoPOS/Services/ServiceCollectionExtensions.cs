@@ -19,7 +19,7 @@ namespace AsComputoPOS.Services
         public static void AddCommonServices(this IServiceCollection collection)
         {
             collection.AddSingleton<INavigationService, NavigationService>();
-            collection.AddTransient<IAuthenticationService, AuthenticationService>();
+            collection.AddSingleton<IAuthenticationService, AuthenticationService>();
 
             collection.AddSingleton<NavigationBarViewModel>();
             collection.AddTransient<EmployeesViewModel>();
