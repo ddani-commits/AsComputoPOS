@@ -9,6 +9,6 @@ namespace AsComputoPOS.ViewModels.Products
 {
     public partial class ProductsViewModel: NavigationBarViewModel
     {
-        public ProductsViewModel(INavigationService navigation) : base(navigation) { }
+        public ProductsViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService) { }
     }
 }

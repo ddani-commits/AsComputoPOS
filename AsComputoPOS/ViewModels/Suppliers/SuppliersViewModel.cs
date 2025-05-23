@@ -14,7 +14,7 @@ namespace AsComputoPOS.ViewModels.Suppliers
     public partial class SuppliersViewModel : NavigationBarViewModel
     {
         public ObservableCollection<Models.Supplier> SuppliersList { get; } = new();
-        public SuppliersViewModel(INavigationService navigation) : base(navigation) // Pass the navigation parameter to the base class constructor
+        public SuppliersViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService) // Pass the navigation parameter to the base class constructor
         {
             LoadSuppliers();
         }

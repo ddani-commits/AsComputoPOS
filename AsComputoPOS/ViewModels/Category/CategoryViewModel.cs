@@ -17,7 +17,7 @@ namespace AsComputoPOS.ViewModels.Category
     {
         // Base de datos
         public ObservableCollection<Models.Category> CategoriesList { get; } = new();
-        public CategoryViewModel(INavigationService navigation) : base(navigation)
+        public CategoryViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService)
         {
             LoadCategories();
         }

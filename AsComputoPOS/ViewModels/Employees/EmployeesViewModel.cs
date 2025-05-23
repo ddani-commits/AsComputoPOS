@@ -32,7 +32,7 @@ namespace AsComputoPOS.ViewModels
 
         [ObservableProperty]
         private string confirmPassword = "";
-        public EmployeesViewModel(INavigationService navigation) : base(navigation)
+        public EmployeesViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService)
         {
             LoadEmployees();
         }

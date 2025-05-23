@@ -9,6 +9,6 @@ namespace AsComputoPOS.ViewModels.PointOfSale
 {
     public partial class PointOfSaleViewModel: NavigationBarViewModel
     {
-        public PointOfSaleViewModel(INavigationService navigation) : base(navigation){ }
+        public PointOfSaleViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService) { }
     }
 }

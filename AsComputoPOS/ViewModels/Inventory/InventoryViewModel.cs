@@ -9,6 +9,6 @@ namespace AsComputoPOS.ViewModels.Inventory
 {
     public partial class InventoryViewModel: NavigationBarViewModel
     {
-        public InventoryViewModel(INavigationService navigation) : base(navigation) { }
+        public InventoryViewModel(INavigationService navigation, IAuthenticationService authenticationService) : base(navigation, authenticationService) { }
     }
 }
