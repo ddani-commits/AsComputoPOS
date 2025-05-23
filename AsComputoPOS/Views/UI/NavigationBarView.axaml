@@ -27,7 +27,7 @@
 				BorderBrush="DarkOrange" 
 				HorizontalAlignment="Left" 
 				Header="{Binding CurrentUser}">
-				<MenuItem BorderThickness="0" BorderBrush="DarkOrange" Header="Cerrar sesión"></MenuItem>
+				<MenuItem Command="{Binding LogOutCommand}" BorderThickness="0" BorderBrush="DarkOrange" Header="Cerrar sesión"></MenuItem>
 			</MenuItem>
 		</Menu>
 		<Button Command="{Binding NavigateToPointOfSaleCommand}">

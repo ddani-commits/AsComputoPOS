@@ -34,6 +34,12 @@ namespace AsComputoPOS.ViewModels
             CurrentUser = _authenticationService.CurrentEmployee?.FirstName ?? "Debug User";
         }
         [RelayCommand]
+        public void LogOut()
+        {
+            _authenticationService.Logout();
+            _navigation.NavigateTo<LoginViewModel>();
+        }
+        [RelayCommand]
         public void NavigateToPointOfSale()
         {
             _navigation.NavigateTo<PointOfSaleViewModel>();
