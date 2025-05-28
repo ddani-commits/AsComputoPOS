@@ -22,7 +22,7 @@ namespace AsComputoPOS
         public override void OnFrameworkInitializationCompleted()
         {
             using (var db = new ApplicationDbContext())
-            {
+            {   
                 // db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación.
 
                 db.Database.EnsureCreated();
