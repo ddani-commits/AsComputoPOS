@@ -44,7 +44,7 @@
 			<TextBlock Text="Productos" Grid.Row="1"/>
 			<StackPanel Grid.Row="2" Orientation="Horizontal">
 				<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo producto" />
-				<Button Content="Guardar" Command="{Binding AddProductCommand}" />
+				<Button Content="Guardar" Command="{Binding SaveProductsCommand}" />
 			</StackPanel>
 
 			<ScrollViewer Grid.Row="3" >

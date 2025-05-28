@@ -51,6 +51,19 @@ namespace AsComputoPOS.ViewModels.Products
             ClearFields();
         }
 
+        [RelayCommand]
+        public void SaveProducts()
+        {
+            using ( var context = new ApplicationDbContext())
+            {
+                foreach(var product in ProductsList)
+                {
+                    context.Products.Update(product);
+                }
+                context.SaveChanges();
+            }
+        }
+
         private void ClearFields()
         {
             ProductName = string.Empty;
