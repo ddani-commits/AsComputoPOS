@@ -32,34 +32,34 @@
 		</StackPanel>
 	</UserControl.Resources>
 
-	<dialogHostAvalonia:DialogHost
-		CloseOnClickAway="True"
-		Identifier="MainDialogHost"
-		DialogClosing="OnDialogClosing"
-		dialogHostAvalonia:DialogHostStyle.CornerRadius="12"
-	>
-		<Grid RowDefinitions="Auto,Auto,Auto,1*">
-			<local:NavigationBarView Grid.Row="0"/>
-			<TextBlock Text="Empleados" Grid.Row="1"/>
-			<StackPanel Grid.Row="2" Orientation="Horizontal">
-				<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo Empleado" />
-				<Button Content="Guardar" Command="{Binding SaveEmployeesCommand}" />
-			</StackPanel>
+		<dialogHostAvalonia:DialogHost
+			CloseOnClickAway="True"
+			Identifier="MainDialogHost"
+			DialogClosing="OnDialogClosing"
+			dialogHostAvalonia:DialogHostStyle.CornerRadius="12"
+		>
+			<Grid RowDefinitions="Auto,Auto,Auto,1*">
+				<local:NavigationBarView Grid.Row="0"/>
+				<TextBlock Text="Empleados" Grid.Row="1"/>
+				<StackPanel Grid.Row="2" Orientation="Horizontal">
+					<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo Empleado" />
+					<Button Content="Guardar" Command="{Binding SaveEmployeesCommand}" />
+				</StackPanel>
 
-			<ScrollViewer Grid.Row="3" >
-				<DataGrid
-					ItemsSource="{Binding EmployeesList}"
-					AutoGenerateColumns="False"
-					IsReadOnly="False">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="Auto"/>
-						<DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}"/>
-						<DataGridTextColumn Header="Apellido" Binding="{Binding LastName}"/>
-						<DataGridTextColumn Header="Correo" Binding="{Binding Email}"/>
-						<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</ScrollViewer>
-		</Grid>
-	</dialogHostAvalonia:DialogHost>
+				<ScrollViewer Grid.Row="3" >
+					<DataGrid
+						ItemsSource="{Binding EmployeesList}"
+						AutoGenerateColumns="False"
+						IsReadOnly="False">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="Auto"/>
+							<DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}"/>
+							<DataGridTextColumn Header="Apellido" Binding="{Binding LastName}"/>
+							<DataGridTextColumn Header="Correo" Binding="{Binding Email}"/>
+							<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</ScrollViewer>
+			</Grid>
+		</dialogHostAvalonia:DialogHost>
 </UserControl>
