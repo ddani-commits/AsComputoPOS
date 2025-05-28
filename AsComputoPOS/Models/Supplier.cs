@@ -16,7 +16,7 @@ namespace AsComputoPOS.Models
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public bool isActive { get; set; } = true;
+        public bool IsActive { get; set; } = true;
 
         public Supplier(string name, string contactName, string address, string email, string phone )
         {

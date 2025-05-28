@@ -61,6 +61,7 @@
 						<DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="*"/>
 						<DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="*"/>
 						<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+						<DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
 						<DataGridTemplateColumn Header="Acción">
 							<DataTemplate>
 								<Button Content="Eliminar" Command="{Binding ViewModel.DeleteSupplierCommand}" CommandParameter="{Binding}" />
