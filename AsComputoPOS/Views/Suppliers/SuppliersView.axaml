@@ -48,6 +48,8 @@
 			<StackPanel Grid.Row="2" Orientation="Horizontal">
 				<Button Click="Open" HorizontalAlignment="Left" Content="Nuevo Proveedor" />
 				<Button Content="Guardar" Command="{Binding SaveSupplierCommand}" />
+				<Button Content="Exportar" Command="{Binding ExportToExcelCommand}" />
+
 			</StackPanel>
 			<ScrollViewer Grid.Row="3">
 				<DataGrid

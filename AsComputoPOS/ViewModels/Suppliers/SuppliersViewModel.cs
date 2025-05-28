@@ -1,15 +1,14 @@
 ﻿using AsComputoPOS.Data;
 using AsComputoPOS.Services;
+using ClosedXML.Excel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using System.IO;
+using System.Windows.Forms
 
 
 
@@ -17,7 +16,7 @@ namespace AsComputoPOS.ViewModels.Suppliers
 {
     public partial class SuppliersViewModel : NavigationBarViewModel
     {
-        public ObservableCollection<Models.Supplier> SuppliersList { get; } = new();
+        public ObservableCollection<Models.Supplier> SuppliersList { get; } = new ObservableCollection<Models.Supplier>();
 
         [ObservableProperty]
         private Models.Supplier? selectedSupplier;
@@ -106,6 +105,41 @@ namespace AsComputoPOS.ViewModels.Suppliers
             Email = string.Empty;
             Phone = string.Empty;
 
+        }
+
+        // Exportar a Excel
+        [RelayCommand]
+        private void ExportToExcel()
+        {
+
+            var dt = new DataTable("Suppliers");
+            dt.Columns.Add("SupplierId", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("ContactName", typeof(string));
+            dt.Columns.Add("Address", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("Phone", typeof(string));
+            dt.Columns.Add("IsActive", typeof(bool));
+
+            foreach (var supplier in SuppliersList)
+            {
+                dt.Rows.Add(supplier.SupplierId, supplier.Name, supplier.ContactName, supplier.Address, supplier.Email, supplier.Phone, supplier.IsActive);
+            }
+
+
+            string downloadsPath = Path.Combine(
+                                   Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                   "Downloads"
+             );
+            string filePath = Path.Combine(downloadsPath, "Suppliers.xlsx");
+
+
+            using (var wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add(dt, "Suppliers");
+                ws.Columns().AdjustToContents();
+                wb.SaveAs(filePath);
+            }
         }
     }
 }
