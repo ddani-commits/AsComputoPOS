@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AsComputoPOS.Models
+﻿namespace UiDesktopApp1.Models
 {
     // EF Base model for Employee
     public class Employee

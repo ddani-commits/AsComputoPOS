@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsComputoPOS.Models;
+﻿using UiDesktopApp1.Models;
 
-namespace AsComputoPOS.Services
+namespace UiDesktopApp1.Services
 {
     public interface IAuthenticationService
     {

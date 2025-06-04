@@ -1,0 +1,42 @@
+﻿<Page x:Class="UiDesktopApp1.Views.Pages.CategoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:local="clr-namespace:UiDesktopApp1.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CategoryPage">
+
+    <StackPanel>
+        <TextBlock Text="Añadir nueva categoría" />
+        <Label Content="Nombre de la categoria:" Margin="5"/>
+        <TextBox Text="{Binding CategoryName}" Margin="5" />
+        <Label Content="Categoria padre:" Margin="5" />
+        <TextBox Text="{Binding ParentCategoryName}" Margin="5"/>
+        <Button Content="Añadir" Command="{Binding AddCategoryCommand}" Margin="5"/>
+        <Button Content="Guardar" Command="{Binding SaveCategoryCommand}" Margin="5"/>
+
+        <Grid>
+            <DataGrid ItemsSource="{Binding CategoriesList}" AutoGenerateColumns="False" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding CategoryName}" Width="*"/>
+                    <DataGridTextColumn Header="Categoria Padre" Binding="{Binding ParentCategoryName}" Width="*"/>
+                    <DataGridTemplateColumn Header="Acción">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Eliminar"
+                                        Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+               
+
+            </DataGrid>
+        </Grid>
+    </StackPanel>
+</Page>

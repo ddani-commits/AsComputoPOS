@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsComputoPOS.Models;
+﻿using UiDesktopApp1.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AsComputoPOS.Data
+namespace UiDesktopApp1.Data
 {
     public class ApplicationDbContext: DbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace AsComputoPOS.Models
+﻿namespace UiDesktopApp1.Models
 {
     public class Product
     {

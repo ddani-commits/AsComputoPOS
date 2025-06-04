@@ -1,0 +1,17 @@
+﻿<Window x:Class="UiDesktopApp1.Views.Windows.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UiDesktopApp1.Views.Windows"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        xmlns:controls="clr-namespace:UiDesktopApp1.Controls"
+        Title="" Width="400" SizeToContent="Height" >
+    <Grid>
+        <controls:LoginControl x:Name="LoginControl" />
+        <controls:RegisterControl x:Name="RegisterControl" />
+    </Grid>
+</Window>
