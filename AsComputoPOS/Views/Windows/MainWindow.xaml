@@ -59,7 +59,7 @@
                 IsBackButtonVisible="Collapsed"
                 IsPaneToggleVisible="True"
                 MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
-                PaneDisplayMode="LeftFluent"
+                PaneDisplayMode="LeftMinimal"
             >
                     <ui:NavigationView.Header>
                         <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
@@ -72,12 +72,23 @@
                     </ui:NavigationView.ContentOverlay>
                 </ui:NavigationView>
 
-                <ContentPresenter
-                x:Name="RootContentDialog"
-                />
-                <!-- Ya no necesita Grid.Row ni Grid.RowSpan -->
             </Grid>
 
+            <!-- Elemento flotante encima -->
+            <Border Background="GhostWhite"
+            CornerRadius="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Margin="80, 20"
+                    Padding="4"
+            Panel.ZIndex="100">
+                <Border.Effect>
+                    <DropShadowEffect Opacity="0.5" ShadowDepth="2" />
+                </Border.Effect>
+                <TextBlock Text="Cerrar" Foreground="Black" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            
             <!-- Panel lateral -->
             <Border Grid.Column="1" Background="LightGray" x:Name="SidePanel">
                 <StackPanel>
@@ -86,7 +97,15 @@
                     <TextBlock Text="Panel lateral" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
+
+
         </Grid>
+        <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->
+        <ContentPresenter
+        x:Name="RootContentDialog"
+        Grid.Row="1"
+        Panel.ZIndex="99" />
+        <!-- Asegura que esté encima -->
     </Grid>
 
 </ui:FluentWindow>
