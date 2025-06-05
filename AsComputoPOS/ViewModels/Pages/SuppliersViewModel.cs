@@ -5,13 +5,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Xml.Linq;
+using TamoPOS.Controls;
 using UiDesktopApp1.Data;
+using UiDesktopApp1.Models;
 using UiDesktopApp1.Services;
 using Wpf.Ui;
 
+
 namespace UiDesktopApp1.ViewModels.Pages
 {
-    public partial class SuppliersViewModel: ObservableObject
+    public partial class SuppliersViewModel: ViewModel
     {
         [ObservableProperty]
         private Models.Supplier? selectedSupplier;
@@ -26,8 +29,10 @@ namespace UiDesktopApp1.ViewModels.Pages
         [ObservableProperty]
         private string phone = string.Empty;
         public ObservableCollection<Models.Supplier> SuppliersList { get; } = new();
-        public SuppliersViewModel()
+        private readonly IContentDialogService _contentDialogService;
+        public SuppliersViewModel(IContentDialogService contentDialogService)
         {
+            _contentDialogService = contentDialogService;
             LoadSuppliers();
         }
         public void LoadSuppliers()
@@ -41,17 +46,25 @@ namespace UiDesktopApp1.ViewModels.Pages
             }
         }
 
+        [RelayCommand]
+        private async Task ShowSignInContentDialog()
+        {
+            if(_contentDialogService.GetDialogHost() is not null)
+            {
+                var NewSupplierContentDialog = new NewSupplierContentDialog(_contentDialogService.GetDialogHost(), AddSupplier);
+                _ = await NewSupplierContentDialog.ShowAsync();
+            }
+        }
+
         //Añadir
         [RelayCommand]
-        public void AddSupplier()
+        public void AddSupplier(Supplier CurrentSupplier)
         {
             using (var context = new ApplicationDbContext())
             {
-                var currentSupplier = new Models.Supplier(Name, ContactName, Address, Email, Phone);
-                context.Suppliers.Add(currentSupplier);
+                context.Suppliers.Add(CurrentSupplier);
                 context.SaveChanges();
-                SuppliersList.Add(currentSupplier);
-                ClearFields();
+                SuppliersList.Add(CurrentSupplier);
             }
         }
 
@@ -127,14 +140,5 @@ namespace UiDesktopApp1.ViewModels.Pages
             }
         }
 
-        public void ClearFields()
-        {
-            Name = string.Empty;
-            ContactName = string.Empty;
-            Address = string.Empty;
-            Email = string.Empty;
-            Phone = string.Empty;
-
-        }
     }
 }

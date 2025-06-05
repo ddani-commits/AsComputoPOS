@@ -9,20 +9,8 @@
       Title="SuppliersPage">
 
     <StackPanel>
-        <StackPanel Margin="5">
-            <TextBlock Text="Añadir nuevo proveedor" FontSize="20" Margin="10"/>
-            <Label Content="Nombre de la compañía"/>
-            <TextBox Text="{Binding Name}" Margin="5"/>
-            <Label Content="Nombre del contacto" />
-            <TextBox Text="{Binding ContactName}" Margin="5"/>
-            <Label Content="Dirección" />
-            <TextBox Text="{Binding Address}"/>
-            <Label Content="Correo"/>
-            <TextBox Text="{Binding Email}" Margin="5"/>
-
-            <Label Content="Teléfono" Margin="5"/>
-            <TextBox Text="{Binding Phone}" />
-            <Button Content="Añadir" Command="{Binding AddSupplierCommand}" Margin="5"/>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Content="Añadir proveedor" Command="{Binding ShowSignInContentDialogCommand}"/>
             <Button Content="Exporar" Command="{Binding ExportToExcelCommand}"/>
         </StackPanel>
         <Grid>

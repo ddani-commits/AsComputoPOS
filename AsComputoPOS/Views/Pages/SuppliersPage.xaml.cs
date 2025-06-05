@@ -24,7 +24,7 @@ namespace UiDesktopApp1.Views.Pages
         public SuppliersPage(SuppliersViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = viewModel;
+            DataContext = ViewModel;
             InitializeComponent();
             
         }
