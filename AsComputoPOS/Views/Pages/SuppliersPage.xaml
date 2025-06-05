@@ -12,6 +12,7 @@
         <StackPanel Orientation="Horizontal" Margin="5">
             <Button Content="Añadir proveedor" Command="{Binding ShowSignInContentDialogCommand}"/>
             <Button Content="Exporar" Command="{Binding ExportToExcelCommand}"/>
+            <Button Content="Guardar" Command="{Binding SaveSupplierCommand}" />
         </StackPanel>
         <Grid>
             <DataGrid ItemsSource="{Binding SuppliersList}" AutoGenerateColumns="False" Margin="5">

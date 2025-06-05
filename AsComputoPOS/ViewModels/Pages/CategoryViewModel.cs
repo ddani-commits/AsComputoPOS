@@ -1,15 +1,19 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
+using System.IO;
+using TamoPOS.Controls;
 using UiDesktopApp1.Data;
+using UiDesktopApp1.Models;
 using UiDesktopApp1.Services;
 using Wpf.Ui;
 
 namespace UiDesktopApp1.ViewModels.Pages
 {
-    public partial class CategoryViewModel : ObservableObject
+    public partial class CategoryViewModel : ViewModel
     {
         [ObservableProperty]
-        private Models.Category? selectedCategory;
+        private Category? selectedCategory;
 
         [ObservableProperty]
         private string categoryName = string.Empty;
@@ -17,9 +21,11 @@ namespace UiDesktopApp1.ViewModels.Pages
         [ObservableProperty]
         private string parentCategoryName = string.Empty;
 
-        public ObservableCollection<Models.Category> CategoriesList { get; } = new();
-        public CategoryViewModel()
+        public ObservableCollection<Category> CategoriesList { get; } = new();
+        private readonly IContentDialogService _contentDialogService;
+        public CategoryViewModel(IContentDialogService contentDialogService)
         {
+            _contentDialogService = contentDialogService;
             LoadCategories();
         }
         private void LoadCategories()
@@ -31,18 +37,27 @@ namespace UiDesktopApp1.ViewModels.Pages
                 CategoriesList.Add(category);
             }
         }
-
+        [RelayCommand]
+        private async Task ShowSignInContentDialog()
+        {
+            if (_contentDialogService.GetDialogHost() is not null)
+            {
+                // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
+                var newCategoryContentDialog = new NewCategoryContentDialog(_contentDialogService.GetDialogHost(), AddCategory);
+                _ = await newCategoryContentDialog.ShowAsync();
+            }
+            Debug.WriteLine("Show SignIn Content Dialog Command Executed");
+        }
         // Añadir
         [RelayCommand]
-        public void AddCategory()
+        public void AddCategory(Category CurrentCategory)
         {
             using (var context = new ApplicationDbContext())
             {
-                var currentCategory = new Models.Category(CategoryName, ParentCategoryName);
-                context.Categories.Add(currentCategory);
+                context.Categories.Add(CurrentCategory);
                 context.SaveChanges();
-                CategoriesList.Add(currentCategory);
-                ClearFields();
+                CategoriesList.Add(CurrentCategory);
+
             }
         }
         // Guardar
@@ -61,7 +76,7 @@ namespace UiDesktopApp1.ViewModels.Pages
 
         // Elliminar
         [RelayCommand]
-        public void DeleteCategory(Models.Category category)
+        public void DeleteCategory(Category category)
         {
             if (category is null) return;
 
@@ -82,10 +97,26 @@ namespace UiDesktopApp1.ViewModels.Pages
                 Debug.WriteLine("Category not found.");
             }
         }
-        public void ClearFields()
+
+        [RelayCommand]
+        public void ExportToExcel()
         {
-            CategoryName = string.Empty;
-            ParentCategoryName = string.Empty;
+            var dt = new DataTable("Category");
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Nombre de Categoría", typeof(string));
+            dt.Columns.Add("Nombre de Categoría Padre", typeof(string));
+
+            foreach (var category in CategoriesList)
+            {
+                dt.Rows.Add(category.CategoryId, category.CategoryName, category.ParentCategoryName);
+            }
+            string dowloadpaths = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            string filePath = Path.Combine(dowloadpaths, "Categorias.xlsx");
+            using (var wb = new ClosedXML.Excel.XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                wb.SaveAs(filePath);
+            }
         }
     }
 }

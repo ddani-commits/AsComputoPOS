@@ -8,16 +8,16 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CategoryPage">
 
-    <StackPanel>
-        <TextBlock Text="Añadir nueva categoría" />
-        <Label Content="Nombre de la categoria:" Margin="5"/>
-        <TextBox Text="{Binding CategoryName}" Margin="5" />
-        <Label Content="Categoria padre:" Margin="5" />
-        <TextBox Text="{Binding ParentCategoryName}" Margin="5"/>
-        <Button Content="Añadir" Command="{Binding AddCategoryCommand}" Margin="5"/>
-        <Button Content="Guardar" Command="{Binding SaveCategoryCommand}" Margin="5"/>
+   
 
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Content="Añadir categoría" Command="{Binding ShowSignInContentDialogCommand}"/>
+            <Button Content="Guardar" Command="{Binding SaveCategoryCommand}"/>
+            <Button Content="Exportar" Command="{Binding ExportToExcelCommand}"/>
+        </StackPanel>
         <Grid>
+
             <DataGrid ItemsSource="{Binding CategoriesList}" AutoGenerateColumns="False" Margin="5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>
@@ -27,16 +27,18 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Eliminar"
-                                        Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}" />
+                                    Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
 
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-               
+
 
             </DataGrid>
         </Grid>
     </StackPanel>
+    
+    
 </Page>
