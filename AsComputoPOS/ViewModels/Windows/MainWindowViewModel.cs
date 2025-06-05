@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using TamoPOS.Helpers;
+using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
 namespace UiDesktopApp1.ViewModels.Windows
 {
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ObservableObject
     {
         [ObservableProperty]
         private string _applicationTitle = "As Computo PoS";
@@ -35,11 +37,10 @@ namespace UiDesktopApp1.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
                 TargetPageType = typeof(Views.Pages.InventoryPage)
             },
-            new NavigationViewItem()
+            new NavigationViewPointOfSale(panelService, serviceProvider)
             {
                 Content = "Point Of Sale",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.BarcodeScanner20 },
-                TargetPageType = typeof(Views.Pages.PointOfSalePage)
             },
             new NavigationViewItem()
             {
