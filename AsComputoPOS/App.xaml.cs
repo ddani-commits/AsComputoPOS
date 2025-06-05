@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Windows.Threading;
+using TamoPOS.Services;
 using UiDesktopApp1.Data;
 using UiDesktopApp1.Services;
 using UiDesktopApp1.ViewModels.Pages;
@@ -45,10 +46,16 @@ namespace UiDesktopApp1
                 services.AddSingleton<IContentDialogService, ContentDialogService>();
 
                 // Main window with navigation
-                services.AddSingleton<INavigationWindow, MainWindow>();
+                //services.AddSingleton<INavigationWindow, MainWindow>();
+
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<INavigationWindow>(sp => sp.GetRequiredService<MainWindow>());
+
+
                 services.AddSingleton<MainWindowViewModel>();
 
                 services.AddSingleton<IAuthenticationService, AuthenticationService>();
+                services.AddSingleton<IPoSPanelService, PoSPanelService>();
 
                 // App UI Pages
                 services.AddSingleton<AuthWindow>();

@@ -7,12 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-    Width="1100"
-    Height="650"
-    d:DataContext="{d:DesignInstance local:MainWindow,
-                                     IsDesignTimeCreatable=True}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance local:MainWindow, IsDesignTimeCreatable=True}"
+    Width="1100" Height="650"
+    d:DesignHeight="450" d:DesignWidth="800"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
@@ -21,8 +18,6 @@
     WindowStartupLocation="CenterScreen"
     WindowBackdropType="None"
     mc:Ignorable="d">
-    <!--
-    -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,10 +25,10 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar
-        x:Name="TitleBar"
-        Title="{Binding ViewModel.ApplicationTitle}"
-        Grid.Row="0"
-        CloseWindowByDoubleClickOnIcon="False">
+            x:Name="TitleBar"
+            Title="{Binding ViewModel.ApplicationTitle}"
+            Grid.Row="0"
+            CloseWindowByDoubleClickOnIcon="False">
             <ui:TitleBar.Icon>
                 <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
             </ui:TitleBar.Icon>
@@ -42,25 +37,23 @@
         <!-- CONTENIDO PRINCIPAL CON DOS COLUMNAS -->
         <Grid Grid.Row="1" x:Name="MainContainer">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <!-- 66% -->
-                <ColumnDefinition Width="1*" />
-                <!-- 33% -->
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="0*" x:Name="SidePanelColumn" />
             </Grid.ColumnDefinitions>
 
             <!-- Contenedor de navegación y contenido -->
             <Grid Grid.Column="0">
                 <ui:NavigationView
-                x:Name="RootNavigation"
-                Padding="42,0,42,0"
-                BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
-                FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
-                FrameMargin="0"
-                IsBackButtonVisible="Collapsed"
-                IsPaneToggleVisible="True"
-                MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
-                PaneDisplayMode="LeftMinimal"
-            >
+                    x:Name="RootNavigation"
+                    Padding="42,0,42,0"
+                    BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
+                    FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
+                    FrameMargin="0"
+                    IsBackButtonVisible="Collapsed"
+                    IsPaneToggleVisible="True"
+                    MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
+                    OpenPaneLength="175"
+                    PaneDisplayMode="LeftMinimal">
                     <ui:NavigationView.Header>
                         <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
                     </ui:NavigationView.Header>
@@ -71,41 +64,19 @@
                         </Grid>
                     </ui:NavigationView.ContentOverlay>
                 </ui:NavigationView>
-
             </Grid>
 
-            <!-- Elemento flotante encima -->
-            <Border Background="GhostWhite"
-            CornerRadius="2"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Margin="80, 20"
-                    Padding="4"
-            Panel.ZIndex="100">
-                <Border.Effect>
-                    <DropShadowEffect Opacity="0.5" ShadowDepth="2" />
-                </Border.Effect>
-                <TextBlock Text="Cerrar" Foreground="Black" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Border>
-            
             <!-- Panel lateral -->
             <Border Grid.Column="1" Background="LightGray" x:Name="SidePanel">
                 <StackPanel>
-                    <Button Content="Toggle Sidebar" Margin="10"/>
                     <TextBlock Text="Contenido del panel lateral" Margin="10"/>
                     <TextBlock Text="Panel lateral" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
-
-
         </Grid>
+
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->
-        <ContentPresenter
-        x:Name="RootContentDialog"
-        Grid.Row="1"
-        Panel.ZIndex="99" />
-        <!-- Asegura que esté encima -->
+        <ContentPresenter x:Name="RootContentDialog" Grid.Row="1" Panel.ZIndex="99" />
     </Grid>
 
 </ui:FluentWindow>
