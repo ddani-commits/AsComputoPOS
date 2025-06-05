@@ -1,8 +1,10 @@
 ﻿using ClosedXML.Excel;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Linq.Expressions;
 using System.Net;
 using System.Xml.Linq;
 using TamoPOS.Controls;
@@ -28,6 +30,8 @@ namespace UiDesktopApp1.ViewModels.Pages
         private string email = string.Empty;
         [ObservableProperty]
         private string phone = string.Empty;
+        [ObservableProperty]
+        private string? selectedFolderPath; 
         public ObservableCollection<Models.Supplier> SuppliersList { get; } = new();
         private readonly IContentDialogService _contentDialogService;
         public SuppliersViewModel(IContentDialogService contentDialogService)
@@ -104,11 +108,42 @@ namespace UiDesktopApp1.ViewModels.Pages
                 Debug.WriteLine("Supplier not found in database.");
             }
         }
-
+        //Seleccionar carpeta
         [RelayCommand]
-        private void ExportToExcel()
+        public void SelectFolder()
         {
+        #if NET8_0_OR_GREATER
+            OpenFolderDialog openFolderDialog = new()
+            {
+                Multiselect = false,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            };
 
+            if (openFolderDialog.ShowDialog() != true || openFolderDialog.FolderNames.Length == 0)
+            {
+                return;
+            }
+
+            string selectedFolder = openFolderDialog.FolderNames[0];
+            SelectedFolderPath = selectedFolder;
+
+            try
+            {
+                ExportToExcel(selectedFolder);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error al exportar: " + ex.Message);
+            }
+        #else
+            Debug.WriteLine("Esta función requiere .NET 8 o superior.");
+        #endif
+        }
+
+        //Exportar a Excel
+        [RelayCommand]
+        private void ExportToExcel(string folderpath)
+        {
             var dt = new DataTable("Suppliers");
             dt.Columns.Add("SupplierId", typeof(int));
             dt.Columns.Add("Name", typeof(string));
@@ -122,22 +157,17 @@ namespace UiDesktopApp1.ViewModels.Pages
             {
                 dt.Rows.Add(supplier.SupplierId, supplier.Name, supplier.ContactName, supplier.Address, supplier.Email, supplier.Phone, supplier.IsActive);
             }
-
-
-            string downloadsPath = Path.Combine(
-                                   Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                                   "Downloads"
-             );
-            string filePath = Path.Combine(downloadsPath, "Suppliers.xlsx");
-
+       
+            string filePath = Path.Combine(folderpath, "Suppliers.xlsx");
 
             using (var wb = new XLWorkbook())
             {
                 var ws = wb.Worksheets.Add(dt, "Suppliers");
                 ws.Columns().AdjustToContents();
                 wb.SaveAs(filePath);
-                Debug.WriteLine("Se descargó correctamente");
+                Debug.WriteLine($"Se descargó correctamente a: {filePath}");
             }
+         
         }
 
     }

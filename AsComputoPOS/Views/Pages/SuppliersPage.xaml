@@ -11,7 +11,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5">
             <Button Content="Añadir proveedor" Command="{Binding ShowSignInContentDialogCommand}"/>
-            <Button Content="Exporar" Command="{Binding ExportToExcelCommand}"/>
+            <Button Content="Exporar" Command="{Binding SelectFolderCommand}"/>
             <Button Content="Guardar" Command="{Binding SaveSupplierCommand}" />
         </StackPanel>
         <Grid>
