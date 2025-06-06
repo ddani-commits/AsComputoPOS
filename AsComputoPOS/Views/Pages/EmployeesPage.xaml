@@ -3,31 +3,52 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:UiDesktopApp1.Views.Pages"
+      xmlns:local="clr-namespace:UiDesktopApp1.Views.Pages" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EmployeesPage">
 
-    <Grid>
-        <StackPanel>
-            <Button 
-                Content="Nuevo empleado" 
-                Command="{Binding ShowSignInContentDialogCommand}" />
+   
+   <StackPanel>
+        <Grid Margin="5" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Button  Command="{Binding ShowSignInContentDialogCommand}" HorizontalAlignment="Left"  Margin="0,0,5,0">
+                    <ui:SymbolIcon Symbol="Add28"  />
+                </Button>
+                <Button>
+                    <ui:SymbolIcon Symbol="Save28" HorizontalAlignment="Left"  Margin="0,0,5,0" />
+                </Button>
+            </StackPanel>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" >
+                    <ui:SymbolIcon Symbol="ArrowDownload16"  Margin="0,0,5,0"  Height="20" />
+                    <TextBlock Text="Exportar" Margin="0,0,5,0" />
+                </StackPanel>
+            </Button>
+        </Grid>
+         
+                
+        <Grid>
             <ScrollViewer Grid.Row="3" >
-                <DataGrid
+                <ui:DataGrid
 						ItemsSource="{Binding EmployeesList}"
 						AutoGenerateColumns="False"
 						IsReadOnly="False">
-                    <DataGrid.Columns>
+                    <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="Auto"/>
                         <DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}"/>
                         <DataGridTextColumn Header="Apellido" Binding="{Binding LastName}"/>
                         <DataGridTextColumn Header="Correo" Binding="{Binding Email}"/>
                         <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </ScrollViewer>
 
-        </StackPanel>
-    </Grid>
+        </Grid>
+
+   </StackPanel>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -20,6 +21,9 @@ namespace UiDesktopApp1.ViewModels.Pages
 
         [ObservableProperty]
         private string parentCategoryName = string.Empty;
+
+        [ObservableProperty]
+        private string? selectedFolderPath;
 
         public ObservableCollection<Category> CategoriesList { get; } = new();
         private readonly IContentDialogService _contentDialogService;
@@ -99,7 +103,35 @@ namespace UiDesktopApp1.ViewModels.Pages
         }
 
         [RelayCommand]
-        public void ExportToExcel()
+        public void SelectFolder()
+        {
+#if NET8_0_OR_GREATER
+            OpenFolderDialog openFolderDialog = new()
+            {
+                Multiselect = false,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            };
+            if (openFolderDialog.ShowDialog() != true || openFolderDialog.FolderNames.Length == 0)
+            {
+                return;
+            }
+            string selectedFolder = openFolderDialog.FolderNames[0];
+            SelectedFolderPath = selectedFolder;
+
+            try
+            {
+                ExportToExcel(selectedFolder);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error exporting to Excel: {ex.Message}");
+            }
+#else
+            Debug.WriteLine("Esta función requiere .NET 8 o superior.");
+#endif
+        }
+        [RelayCommand]
+        public void ExportToExcel(string folderpath)
         {
             var dt = new DataTable("Category");
             dt.Columns.Add("ID", typeof(int));
@@ -110,8 +142,8 @@ namespace UiDesktopApp1.ViewModels.Pages
             {
                 dt.Rows.Add(category.CategoryId, category.CategoryName, category.ParentCategoryName);
             }
-            string dowloadpaths = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-            string filePath = Path.Combine(dowloadpaths, "Categorias.xlsx");
+            string filePath = Path.Combine(folderpath, "Categories.xlsx");
+
             using (var wb = new ClosedXML.Excel.XLWorkbook())
             {
                 wb.Worksheets.Add(dt);
