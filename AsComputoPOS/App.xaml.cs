@@ -51,7 +51,6 @@ namespace UiDesktopApp1
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<INavigationWindow>(sp => sp.GetRequiredService<MainWindow>());
 
-
                 services.AddSingleton<MainWindowViewModel>();
 
                 services.AddSingleton<IAuthenticationService, AuthenticationService>();
@@ -60,9 +59,6 @@ namespace UiDesktopApp1
                 // App UI Pages
                 services.AddSingleton<AuthWindow>();
                 services.AddSingleton<AuthWindowViewModel>();
-
-                services.AddSingleton<DashboardPage>();
-                services.AddSingleton<DashboardViewModel>();
 
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();

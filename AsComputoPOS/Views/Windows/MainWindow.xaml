@@ -47,11 +47,11 @@
                     x:Name="RootNavigation"
                     Padding="42,0,42,0"
                     BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
+                    MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
                     FrameMargin="0"
                     IsBackButtonVisible="Collapsed"
                     IsPaneToggleVisible="True"
-                    MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     OpenPaneLength="175"
                     PaneDisplayMode="LeftMinimal">
                     <ui:NavigationView.Header>
