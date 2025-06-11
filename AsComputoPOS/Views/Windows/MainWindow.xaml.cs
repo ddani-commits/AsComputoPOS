@@ -51,7 +51,7 @@ namespace UiDesktopApp1.Views.Windows
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-          //  Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
         INavigationView INavigationWindow.GetNavigation()
