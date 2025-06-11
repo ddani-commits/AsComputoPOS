@@ -87,5 +87,10 @@ namespace UiDesktopApp1.Controls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
