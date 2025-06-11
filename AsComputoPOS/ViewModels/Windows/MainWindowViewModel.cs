@@ -5,21 +5,15 @@ using Wpf.Ui.Controls;
 
 namespace UiDesktopApp1.ViewModels.Windows
 {
-    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ObservableObject
+    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ViewModel
     {
+        
         [ObservableProperty]
         private string _applicationTitle = "As Computo PoS";
 
         [ObservableProperty]
-        private ObservableCollection<object> _menuItems = new()
-        {
-            /* new NavigationViewItem()
-            {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
-            },*/
-
+        private ObservableCollection<object> _menuItems =
+        [
             new NavigationViewPointOfSale(panelService, serviceProvider)
             {
                 Content = "Punto de venta",
@@ -49,7 +43,11 @@ namespace UiDesktopApp1.ViewModels.Windows
             {
                 Content = "Inventario",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
-                TargetPageType = typeof(Views.Pages.InventoryPage)
+                MenuItemsSource = new object[]
+                {
+                    new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.CategoryPage)),
+                    new NavigationViewItem("Existencias", typeof(Views.Pages.SettingsPage))
+                }
             },
 
             new NavigationViewItem()
@@ -64,7 +62,7 @@ namespace UiDesktopApp1.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.VehicleTruckProfile20},
                 TargetPageType = typeof(Views.Pages.SuppliersPage)
             }
-        };
+        ];
 
         [ObservableProperty]
         private ObservableCollection<object> _footerMenuItems = new()
