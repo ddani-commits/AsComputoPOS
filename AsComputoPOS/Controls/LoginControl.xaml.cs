@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 using UiDesktopApp1.Services;
 
 namespace UiDesktopApp1.Controls
@@ -21,8 +22,10 @@ namespace UiDesktopApp1.Controls
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            _authenticationService.HasUsers();
-            _authenticationService.Login(_email, _password);
+            var email = Email.Text;
+            var password = Password.Text;
+            _authenticationService.Login(email, password);
+            Debug.WriteLine($"Login attempt with Email: {email} and Password: {password}");
         }
     }
 }

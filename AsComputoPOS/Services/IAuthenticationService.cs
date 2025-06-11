@@ -8,7 +8,7 @@ namespace UiDesktopApp1.Services
         bool? IsAuthenticated { get; }
         Employee? CurrentEmployee { get; }
         bool Login(string email, string password);
-        void Register(string firstName, string lastName, string email);
+        void Register(string firstName, string lastName, string email, string password);
         bool HasUsers();
         void Logout();
         event EventHandler? AuthenticationStateChanged;

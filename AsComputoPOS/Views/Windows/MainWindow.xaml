@@ -63,7 +63,22 @@
                             <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
                         </Grid>
                     </ui:NavigationView.ContentOverlay>
+                    <!--Footer-->
+                    <ui:NavigationView.FooterMenuItems>
+
+                        <ui:DropDownButton Content="Usuario" Icon="{ui:SymbolIcon Fluent24}">
+                            <ui:DropDownButton.Flyout>
+                                <ContextMenu>
+                                    <MenuItem Header="Cerrar sesión"/>
+                                </ContextMenu>
+                                
+                            </ui:DropDownButton.Flyout>
+
+                        </ui:DropDownButton>                     
+                    </ui:NavigationView.FooterMenuItems>
+
                 </ui:NavigationView>
+               
             </Grid>
 
             <!-- Panel lateral -->

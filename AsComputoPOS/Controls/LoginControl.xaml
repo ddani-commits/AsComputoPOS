@@ -10,7 +10,7 @@
     <Grid>
         <StackPanel Margin="20" MaxWidth="300">
             <TextBlock 
-                    Text="AsComputo" 
+                    Text="TamoPOS" 
                     FontSize="36"
                     FontWeight="Bold"
                     Foreground="Black"

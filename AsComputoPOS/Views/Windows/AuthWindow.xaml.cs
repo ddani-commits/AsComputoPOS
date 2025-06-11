@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using UiDesktopApp1.Services;
 using UiDesktopApp1.ViewModels.Windows;
 
@@ -16,6 +17,7 @@ namespace UiDesktopApp1.Views.Windows
             _authenticationService = authenticationService;
 
             _authenticationService.AuthenticationStateChanged += OnAuthenticationStateChanged;
+            Application.Current.Exit += OnAppExit;
             var users = _authenticationService.HasUsers();
 
             Debug.WriteLine("app has users: ", users);
@@ -25,16 +27,17 @@ namespace UiDesktopApp1.Views.Windows
                 LoginControl.SetAuthenticationService(_authenticationService);
                 LoginControl.Visibility = Visibility.Visible;
                 RegisterControl.Visibility = Visibility.Collapsed;
-            } else
+            }
+            else
             {
                 RegisterControl.SetAuthenticationService(_authenticationService);
                 LoginControl.Visibility = Visibility.Collapsed;
-                RegisterControl.Visibility = Visibility.Visible;    
+                RegisterControl.Visibility = Visibility.Visible;
             }
 
             Debug.WriteLine(LoginControl.Visibility);
             Debug.WriteLine(RegisterControl.Visibility);
-        
+
         }
 
         // Either login or register must return true to the DialogResult variable to be able
@@ -53,8 +56,36 @@ namespace UiDesktopApp1.Views.Windows
             }
             else
             {
-                this.DialogResult = false;
+                System.Windows.MessageBox.Show("Authentication failed. Please try again.", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public static void ShowAuthWindow()
+        {
+            var mainWindow = App.Services.GetRequiredService<MainWindow>();
+            Application.Current.MainWindow = mainWindow;
+            mainWindow.Show();
+
+            var authWindow = App.Services.GetRequiredService<AuthWindow>();
+            authWindow.Owner = mainWindow;
+            var result = authWindow.ShowDialog();
+
+        }
+
+        private void OnAppExit(object? sender, ExitEventArgs e)
+        {
+            if (this.IsVisible)
+            {
+                this.Close();
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Current.Exit -= OnAppExit;
+            //_authenticationService.Logout(); // Ensure to logout when the window is closed
+
         }
     }
 }

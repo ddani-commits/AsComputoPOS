@@ -55,7 +55,7 @@ namespace UiDesktopApp1.Controls
             Debug.WriteLine(FirstName);
             Debug.WriteLine(LastName);
             Debug.WriteLine(Email);
-            _authenticationService.Register(FirstName, LastName, Email);
+            _authenticationService.Register(FirstName, LastName, Email, Password);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -20,6 +20,7 @@ namespace UiDesktopApp1
     /// </summary>
     public partial class App
     {
+     
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -106,7 +107,7 @@ namespace UiDesktopApp1
             // lead to inconsistencies
             using (var db = new ApplicationDbContext())
             {
-                //db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
+               // db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
                 db.Database.EnsureCreated();
             }
             await _host.StartAsync();

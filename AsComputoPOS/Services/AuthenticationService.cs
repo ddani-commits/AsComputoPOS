@@ -1,4 +1,5 @@
-﻿using UiDesktopApp1.Data;
+﻿using UiDesktopApp1.Controls;
+using UiDesktopApp1.Data;
 using UiDesktopApp1.Models;
 
 namespace UiDesktopApp1.Services
@@ -21,19 +22,29 @@ namespace UiDesktopApp1.Services
         }
         public bool Login(string email, string password)
         {
-            IsAuthenticated = true;
+            IsAuthenticated = false;
             using (var context = new ApplicationDbContext())
             {
                 CurrentEmployee = context.Employees.FirstOrDefault(employee => employee.Email == email);
-                OnAuthenticationStateChanged();
-                return CurrentEmployee != null;
+
+                if (CurrentEmployee != null && CurrentEmployee.VerifyPassword(password)) // Verificar el hash de la contraseña
+                {
+                    IsAuthenticated = true;
+                    OnAuthenticationStateChanged();
+                    return true;
+                }
             }
+
+            OnAuthenticationStateChanged();
+            return false;
         }
-        public void Register(string firstName, string lastName, string email)
+
+        public void Register(string firstName, string lastName, string email, string password)
         {
             using (var context = new ApplicationDbContext())
             {
                 CurrentEmployee = new Employee(firstName, lastName, email);
+                CurrentEmployee.SetPassword(password);
                 context.Employees.Add(CurrentEmployee);
                 context.SaveChanges();
             }
