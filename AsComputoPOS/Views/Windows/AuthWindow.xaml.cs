@@ -17,7 +17,6 @@ namespace UiDesktopApp1.Views.Windows
             _authenticationService = authenticationService;
 
             _authenticationService.AuthenticationStateChanged += OnAuthenticationStateChanged;
-            Application.Current.Exit += OnAppExit;
             var users = _authenticationService.HasUsers();
 
             Debug.WriteLine("app has users: ", users);
@@ -69,22 +68,6 @@ namespace UiDesktopApp1.Views.Windows
             var authWindow = App.Services.GetRequiredService<AuthWindow>();
             authWindow.Owner = mainWindow;
             var result = authWindow.ShowDialog();
-
-        }
-
-        private void OnAppExit(object? sender, ExitEventArgs e)
-        {
-            if (this.IsVisible)
-            {
-                this.Close();
-            }
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            Application.Current.Exit -= OnAppExit;
-            //_authenticationService.Logout(); // Ensure to logout when the window is closed
 
         }
     }
