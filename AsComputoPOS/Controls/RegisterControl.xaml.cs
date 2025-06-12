@@ -30,8 +30,17 @@ namespace TamoPOS.Controls
             get => _email;
             set { _email = value; OnPropertyChanged(); }
         }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public string Password
+        {
+            get => _password;
+            set { _password = value; OnPropertyChanged(); }
+        }
+
+        public string ConfirmPassword
+        {  
+            get => _confirmPassword;
+            set { _confirmPassword = value; OnPropertyChanged(); }
+        }
 
         public RegisterControl() 
         {
@@ -52,10 +61,19 @@ namespace TamoPOS.Controls
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e) {
-            Debug.WriteLine(FirstName);
-            Debug.WriteLine(LastName);
-            Debug.WriteLine(Email);
-            _authenticationService.Register(FirstName, LastName, Email);
+            var password = PasswordBox.Password;
+            var confirmPassword = ConfirmPasswordBox.Password;
+            if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                System.Windows.MessageBox.Show("Please fill in all fields.", "Registration Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            if(password != confirmPassword)
+            {
+                  System.Windows.MessageBox.Show("Las contraseñas no coinciden.", "Registration Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            _authenticationService.Register(FirstName, LastName, Email,password);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

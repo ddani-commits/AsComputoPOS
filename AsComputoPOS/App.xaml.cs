@@ -20,6 +20,7 @@ namespace TamoPOS
     /// </summary>
     public partial class App
     {
+     
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -57,7 +58,7 @@ namespace TamoPOS
                 services.AddSingleton<IPoSPanelService, PoSPanelService>();
 
                 // App UI Pages
-                services.AddSingleton<AuthWindow>();
+                services.AddTransient<AuthWindow>();
                 services.AddSingleton<AuthWindowViewModel>();
 
                 services.AddSingleton<SettingsPage>();
@@ -105,7 +106,7 @@ namespace TamoPOS
             // lead to inconsistencies
             using (var db = new ApplicationDbContext())
             {
-                //db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
+                db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
                 db.Database.EnsureCreated();
             }
             await _host.StartAsync();

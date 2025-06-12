@@ -24,34 +24,36 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
+            <Label Content="Nombre:" />
             <ui:TextBox 
-                PlaceholderText="Nombre" 
+                PlaceholderText="Ej. Carlos" 
                 Text="{Binding NameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="EmployeeName" Grid.Row="0" Margin="0, 5" />
-            
+            <Label Content="Apellidos:" />
             <ui:TextBox 
-                PlaceholderText="Apellido" 
+                PlaceholderText="Ej. Antonio" 
                 Text="{Binding LastNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="EmployeeLastName" Grid.Row="1" Margin="0, 5" />
-            
+
+            <Label Content="Email:" />
             <ui:TextBox 
-                PlaceholderText="Email" 
+                PlaceholderText="Ej. ejemplo@ejemplo.com" 
                 Text="{Binding EmailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="Email" 
                 Grid.Row="2" 
                 Margin="0, 5" />
-            
-            <ui:TextBox 
-                PlaceholderText="Contrasena" 
+            <Label Content="Contraseña:" />
+            <ui:PasswordBox 
+                PlaceholderText="*****" 
                 Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Grid.Row="4" 
                 Margin="0, 5"  />
-            
-            <ui:TextBox 
-                PlaceholderText="Repite la contrasena" 
+            <Label Content="Repetir contraseña:" />
+            <ui:PasswordBox 
+                PlaceholderText="****" 
                 Text="{Binding ConfirmPasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Grid.Row="4" 
-                Margin="0, 5"  />
+                Margin="0, 5" TextChanged="PasswordBox_TextChanged"  />
         </StackPanel>
     </Grid>
 </ui:ContentDialog>

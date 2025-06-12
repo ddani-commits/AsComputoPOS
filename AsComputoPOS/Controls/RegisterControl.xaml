@@ -49,15 +49,15 @@
                 <ui:TextBlock Text="Contraseña:" Margin="0,0,0,5"/>
                 <ui:PasswordBox 
                     PlaceholderText="Escribe una contrasena" 
-                    Name="PasswordText"
-                    Text="{Binding Password}"
+                    Name="PasswordBox"
+                    Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0,0,0,20"/>
                 
                 <ui:TextBlock Text="Confirmar contraseña:" Margin="0,0,0,5"/>
                 <ui:PasswordBox 
                     PlaceholderText="Repite tu contrasena" 
-                    Text="{Binding ConfirmPassword}"
-                    Name="ConfirmPasswordText" 
+                    Text="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Name="ConfirmPasswordBox" 
                     Margin="0,0,0,20"/>
             
                 <ui:Button 
