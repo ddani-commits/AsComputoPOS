@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using UiDesktopApp1.Views.Windows;
+using TamoPOS.Views.Windows;
 using Wpf.Ui;
 
 namespace TamoPOS.Services

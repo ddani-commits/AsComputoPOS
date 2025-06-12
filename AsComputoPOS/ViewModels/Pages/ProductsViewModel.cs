@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using UiDesktopApp1.Controls;
-using UiDesktopApp1.Data;
-using UiDesktopApp1.Models;
+using TamoPOS.Controls;
+using TamoPOS.Data;
+using TamoPOS.Models;
 using Wpf.Ui;
 
-namespace UiDesktopApp1.ViewModels.Pages
+namespace TamoPOS.ViewModels.Pages
 {
     public partial class ProductsViewModel: ViewModel
     {

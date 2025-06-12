@@ -1,7 +1,7 @@
-﻿using UiDesktopApp1.Models;
-using UiDesktopApp1.Services;
+﻿using TamoPOS.Models;
+using TamoPOS.Services;
 
-namespace UiDesktopApp1.ViewModels.Windows
+namespace TamoPOS.ViewModels.Windows
 {
     public partial class AuthWindowViewModel: ObservableObject { }
 }

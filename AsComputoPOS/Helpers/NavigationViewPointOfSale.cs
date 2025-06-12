@@ -26,6 +26,7 @@ namespace TamoPOS.Helpers
                 _poSPanelService.ExpandSidePanel(_serviceProvider);
                 Debug.WriteLine("PoSPanelService is null, cannot expand side panel");
             }
+            IsActive = !IsActive;
         }
     }
 }

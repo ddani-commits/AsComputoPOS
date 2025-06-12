@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using Wpf.Ui.Appearance;
 
-namespace UiDesktopApp1.Helpers
+namespace TamoPOS.Helpers
 {
     internal class EnumToBooleanConverter : IValueConverter
     {

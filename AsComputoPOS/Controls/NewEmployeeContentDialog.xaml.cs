@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using UiDesktopApp1.Models;
+using TamoPOS.Models;
 using Wpf.Ui.Controls;
 
-namespace UiDesktopApp1.Controls
+namespace TamoPOS.Controls
 {
     public partial class NewEmployeeContentDialog : ContentDialog
     {

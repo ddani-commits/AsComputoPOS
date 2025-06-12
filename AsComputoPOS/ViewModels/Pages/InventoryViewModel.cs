@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UiDesktopApp1.ViewModels.Pages
+﻿namespace TamoPOS.ViewModels.Pages
 {
-    public class InventoryViewModel: ObservableObject
-    {
-    }
+    public partial class InventoryViewModel: ViewModel {}
 }

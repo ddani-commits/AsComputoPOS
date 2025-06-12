@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using UiDesktopApp1.Services;
+using TamoPOS.Services;
 
-namespace UiDesktopApp1.Controls
+namespace TamoPOS.Controls
 {
     public partial class RegisterControl : UserControl
     {
