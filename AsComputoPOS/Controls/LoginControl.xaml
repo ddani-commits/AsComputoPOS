@@ -28,7 +28,7 @@
             <ui:TextBox Name="Email" Margin="0,0,0,10"/>
 
             <ui:TextBlock Text="Contraseña:" Margin="0,0,0,5"/>
-            <ui:PasswordBox Name="Password" Margin="0,0,0,20"/>
+            <ui:PasswordBox Name="PasswordBox" Margin="0,0,0,20"/>
 
             <ui:Button 
                 Appearance="Primary"
