@@ -40,7 +40,7 @@
                     <DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="*"/>
                     <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="*"/>
                     <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="*"/>
-                    <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive}"/>
+                    <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTemplateColumn Header="Acción">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

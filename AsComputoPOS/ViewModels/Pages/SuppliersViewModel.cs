@@ -31,7 +31,7 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string phone = string.Empty;
         [ObservableProperty]
-        private string? selectedFolderPath; 
+        private string? selectedFolderPath;
         public ObservableCollection<Models.Supplier> SuppliersList { get; } = new();
         private readonly IContentDialogService _contentDialogService;
         public SuppliersViewModel(IContentDialogService contentDialogService)
@@ -79,7 +79,7 @@ namespace TamoPOS.ViewModels.Pages
             using var db = new ApplicationDbContext();
             foreach (var supplier in SuppliersList)
             {
-                db.Suppliers.Update(supplier);
+                db.Entry(supplier).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
             db.SaveChanges();
             Debug.WriteLine("Saved from ViewModel");

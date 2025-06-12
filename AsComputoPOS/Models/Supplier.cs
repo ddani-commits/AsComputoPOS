@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using TamoPOS.ViewModels.Pages;
 
 namespace TamoPOS.Models
@@ -11,7 +12,19 @@ namespace TamoPOS.Models
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool _isActive { get; set; } = true;
+        public bool IsActive
+        {
+            get => _isActive;
+            set
+            {
+                if( _isActive != value )
+                {
+                    _isActive = value;
+                  OnPropertyChanged(nameof(IsActive));
+                }
+            }
+        }
 
         public Supplier(string name, string contactName, string address, string email, string phone )
         {
@@ -24,5 +37,12 @@ namespace TamoPOS.Models
         }
         [NotMapped]
         public SuppliersViewModel ViewModel { get; internal set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
