@@ -9,6 +9,7 @@ namespace UiDesktopApp1.Views.Windows
     {
         private readonly IAuthenticationService _authenticationService;
         public AuthWindowViewModel ViewModel;
+        private bool _loginAttempted = false;
         public AuthWindow(AuthWindowViewModel viewModel, IAuthenticationService authenticationService)
         {
             ViewModel = viewModel;
@@ -43,19 +44,23 @@ namespace UiDesktopApp1.Views.Windows
         // to continue to MainWindow
         public void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            _loginAttempted = true;
         }
 
         private void OnAuthenticationStateChanged(object? sender, EventArgs e)
         {
             if (_authenticationService.IsAuthenticated == true)
             {
-                this.DialogResult = true;
+                if(this.IsLoaded && this.IsVisible)
+                {
+                    this.DialogResult = true;
+                }
                 this.Close();
             }
             else
             {
-                System.Windows.MessageBox.Show("Authentication failed. Please try again.", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("Inicie sesión para continuar", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _loginAttempted = false;
             }
         }
 

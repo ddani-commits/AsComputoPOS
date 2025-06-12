@@ -59,7 +59,7 @@ namespace UiDesktopApp1
                 services.AddSingleton<IPoSPanelService, PoSPanelService>();
 
                 // App UI Pages
-                services.AddSingleton<AuthWindow>();
+                services.AddTransient<AuthWindow>();
                 services.AddSingleton<AuthWindowViewModel>();
 
                 services.AddSingleton<DashboardPage>();

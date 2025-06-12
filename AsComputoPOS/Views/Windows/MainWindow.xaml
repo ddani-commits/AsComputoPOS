@@ -66,19 +66,19 @@
                     <!--Footer-->
                     <ui:NavigationView.FooterMenuItems>
 
-                        <ui:DropDownButton Content="Usuario" Icon="{ui:SymbolIcon Fluent24}">
+                        <ui:DropDownButton Content="Usuario" Padding="10,10,10,0"  Icon="{ui:SymbolIcon Fluent24}" Width="179">
                             <ui:DropDownButton.Flyout>
                                 <ContextMenu>
-                                    <MenuItem Header="Cerrar sesión"/>
+                                    <MenuItem Header="Cerrar sesión"  HorizontalAlignment="Left" Click="SignOutButton_Click" />
                                 </ContextMenu>
-                                
+
                             </ui:DropDownButton.Flyout>
 
-                        </ui:DropDownButton>                     
+                        </ui:DropDownButton>
                     </ui:NavigationView.FooterMenuItems>
 
                 </ui:NavigationView>
-               
+
             </Grid>
 
             <!-- Panel lateral -->

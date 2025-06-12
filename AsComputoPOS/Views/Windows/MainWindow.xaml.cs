@@ -1,4 +1,9 @@
-﻿using UiDesktopApp1.ViewModels.Windows;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using System.Windows.Controls.Ribbon.Primitives;
+using UiDesktopApp1.Services;
+using UiDesktopApp1.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
@@ -77,6 +82,20 @@ namespace UiDesktopApp1.Views.Windows
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Maximized;
+        }
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var authService = App.Services.GetRequiredService<IAuthenticationService>();
+            authService.Logout();
+            var authWindow = App.Services.GetRequiredService<AuthWindow>();
+            authWindow.Owner = this;
+            var result = authWindow.ShowDialog();
+            if (result != true)
+            {
+                this.Close();
+                Debug.WriteLine("Holi");
+                
+            }
         }
     }
 }
