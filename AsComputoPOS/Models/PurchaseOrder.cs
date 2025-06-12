@@ -8,21 +8,22 @@ namespace TamoPOS.Models
         public int Id { get; set; }
         public Supplier Supplier { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public Decimal Total {get; set;}
-        public Decimal Subtotal {get; set;}
+        public decimal Total {get; set;}
+        public decimal Subtotal {get; set;}
         public ICollection<ProductPurchase> ProductPurchases { get; set; }
     }
 
     // Product purchase represents each one of the items that are being purchased in a purchase order
     public class ProductPurchase {
+        public int Id { get; set; }
         public Product Product {get; set;} // references the product being resupplied
-        public Decimal UnitPrice {get; set;} // represents the purchase price from the business perspective
-        public Decimal Quantity {get; set;} // represents how many units were bougth in this batch
-        public Decimal Subtotal {get; set;} // represents the price before discounts, etc.
-        public Decimal Total {get; set;} // represents the price after discounts, etc.
+        public decimal UnitPrice {get; set;} // represents the purchase price from the business perspective
+        public decimal Quantity {get; set;} // represents how many units were bougth in this batch
+        public decimal Subtotal {get; set;} // represents the price before discounts, etc.
+        public decimal Total {get; set;} // represents the price after discounts, etc.
         public decimal? FlatProfitMargin { get; set; }    // e.g. add $5 to the unit price
         public decimal? PercentProfitMargin { get; set; } // e.g. add 10% to the unit price
-        public Decimal SalePrice {get; set;} // represents the price of the product after adding the markup/profit marginS
+        public decimal SalePrice {get; set;} // represents the price of the product after adding the markup/profit marginS
         public ICollection<StockBatch> StockBatches { get; set; } // there might be multiple batches for the same product purchase, each with its own stock left
     }
 
