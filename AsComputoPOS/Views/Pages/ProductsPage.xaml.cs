@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using UiDesktopApp1.ViewModels.Pages;
+using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace UiDesktopApp1.Views.Pages
+namespace TamoPOS.Views.Pages
 {
     public partial class ProductsPage : INavigableView<ProductsViewModel>, INotifyPropertyChanged
     {

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UiDesktopApp1.Views.Pages
+namespace TamoPOS.Views.Pages
 {
     /// <summary>
     /// Lógica de interacción para SalesHistoryPage.xaml

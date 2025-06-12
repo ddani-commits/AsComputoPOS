@@ -8,13 +8,13 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Xml.Linq;
 using TamoPOS.Controls;
-using UiDesktopApp1.Data;
-using UiDesktopApp1.Models;
-using UiDesktopApp1.Services;
+using TamoPOS.Data;
+using TamoPOS.Models;
+using TamoPOS.Services;
 using Wpf.Ui;
 
 
-namespace UiDesktopApp1.ViewModels.Pages
+namespace TamoPOS.ViewModels.Pages
 {
     public partial class SuppliersViewModel: ViewModel
     {

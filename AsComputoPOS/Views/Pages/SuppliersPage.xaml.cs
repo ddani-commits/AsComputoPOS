@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UiDesktopApp1.ViewModels.Pages;
+using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace UiDesktopApp1.Views.Pages
+namespace TamoPOS.Views.Pages
 {
   
     public partial class SuppliersPage : INavigableView<SuppliersViewModel>

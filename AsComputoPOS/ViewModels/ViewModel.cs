@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace UiDesktopApp1.ViewModels
+namespace TamoPOS.ViewModels
 {
     public abstract partial class ViewModel : ObservableObject, INavigationAware
     {

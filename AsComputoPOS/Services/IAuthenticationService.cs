@@ -1,6 +1,6 @@
-﻿using UiDesktopApp1.Models;
+﻿using TamoPOS.Models;
 
-namespace UiDesktopApp1.Services
+namespace TamoPOS.Services
 {
     public interface IAuthenticationService
     {

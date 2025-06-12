@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UiDesktopApp1.ViewModels.Pages;
-//using UiDesktopApp1.ViewModels.Category;
+using TamoPOS.ViewModels.Pages;
+//using TamoPOS.ViewModels.Category;
 
-namespace UiDesktopApp1.Models
+namespace TamoPOS.Models
 {
     public class Category
     {

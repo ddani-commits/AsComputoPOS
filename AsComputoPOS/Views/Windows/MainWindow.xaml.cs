@@ -1,10 +1,10 @@
-﻿using UiDesktopApp1.ViewModels.Windows;
+﻿using TamoPOS.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
-namespace UiDesktopApp1.Views.Windows
+namespace TamoPOS.Views.Windows
 {
     public partial class MainWindow : INavigationWindow
     {

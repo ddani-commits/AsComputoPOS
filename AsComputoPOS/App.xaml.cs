@@ -4,16 +4,16 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Windows.Threading;
 using TamoPOS.Services;
-using UiDesktopApp1.Data;
-using UiDesktopApp1.Services;
-using UiDesktopApp1.ViewModels.Pages;
-using UiDesktopApp1.ViewModels.Windows;
-using UiDesktopApp1.Views.Pages;
-using UiDesktopApp1.Views.Windows;
+using TamoPOS.Data;
+using TamoPOS.Services;
+using TamoPOS.ViewModels.Pages;
+using TamoPOS.ViewModels.Windows;
+using TamoPOS.Views.Pages;
+using TamoPOS.Views.Windows;
 using Wpf.Ui;
 using Wpf.Ui.DependencyInjection;
 
-namespace UiDesktopApp1
+namespace TamoPOS
 {
     /// <summary>
     /// Interaction logic for App.xaml

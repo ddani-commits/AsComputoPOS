@@ -3,7 +3,7 @@ using TamoPOS.Helpers;
 using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
-namespace UiDesktopApp1.ViewModels.Windows
+namespace TamoPOS.ViewModels.Windows
 {
     public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ViewModel
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UiDesktopApp1.Views.Pages;
-using UiDesktopApp1.Views.Windows;
+using TamoPOS.Views.Pages;
+using TamoPOS.Views.Windows;
 using Wpf.Ui;
 
-namespace UiDesktopApp1.Services
+namespace TamoPOS.Services
 {
     /// <summary>
     /// Managed host of the application.

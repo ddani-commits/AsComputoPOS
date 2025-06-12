@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UiDesktopApp1.Models;
+using TamoPOS.Models;
 
-namespace UiDesktopApp1.Controls
+namespace TamoPOS.Controls
 {
     /// <summary>
     /// Lógica de interacción para ProductControl.xaml

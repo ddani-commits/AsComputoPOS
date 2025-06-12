@@ -1,4 +1,4 @@
-﻿namespace UiDesktopApp1.Models
+﻿namespace TamoPOS.Models
 {
     // EF Base model for Employee
     public class Employee

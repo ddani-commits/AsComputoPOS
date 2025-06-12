@@ -6,7 +6,7 @@
 using System.Windows.Controls;
 using Wpf.Ui.Controls;
 
-namespace UiDesktopApp1.Controls;
+namespace TamoPOS.Controls;
 
 public partial class TermsOfUseContentDialog : ContentDialog
 {   
