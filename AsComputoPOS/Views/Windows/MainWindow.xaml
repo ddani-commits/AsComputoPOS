@@ -1,9 +1,9 @@
 ﻿<ui:FluentWindow
-    x:Class="UiDesktopApp1.Views.Windows.MainWindow"
+    x:Class="TamoPOS.Views.Windows.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:UiDesktopApp1.Views.Windows"
+    xmlns:local="clr-namespace:TamoPOS.Views.Windows"
     xmlns:panel="clr-namespace:TamoPOS.Controls.PointOfSalePanel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -41,9 +41,8 @@
                 <ColumnDefinition Width="0*" x:Name="SidePanelColumn" />
             </Grid.ColumnDefinitions>
 
-            <!-- Contenedor de navegación y contenido -->
-            <Grid Grid.Column="0">
-                <ui:NavigationView
+            <!-- Contenedor de navegación y contenido <Grid Grid.Column="0">-->
+            <ui:NavigationView Grid.Column="0"
                     x:Name="RootNavigation"
                     Padding="42,0,42,0"
                     BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
@@ -53,19 +52,18 @@
                     IsBackButtonVisible="Collapsed"
                     IsPaneToggleVisible="True"
                     OpenPaneLength="175"
-                    PaneDisplayMode="LeftMinimal">
-                    <ui:NavigationView.Header>
-                        <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
-                    </ui:NavigationView.Header>
+                    PaneDisplayMode="Left">
+                <ui:NavigationView.Header>
+                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                </ui:NavigationView.Header>
 
-                    <ui:NavigationView.ContentOverlay>
-                        <Grid>
-                            <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
-                        </Grid>
-                    </ui:NavigationView.ContentOverlay>
-                </ui:NavigationView>
-            </Grid>
-
+                <ui:NavigationView.ContentOverlay>
+                    <Grid>
+                        <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                    </Grid>
+                </ui:NavigationView.ContentOverlay>
+            </ui:NavigationView>
+            <!--</Grid>-->
             <panel:PointOfSalePanel Grid.Column="1" x:Name="SidePanel"/>
         </Grid>
 
