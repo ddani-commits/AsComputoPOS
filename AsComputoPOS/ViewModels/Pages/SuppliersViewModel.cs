@@ -4,13 +4,9 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq.Expressions;
-using System.Net;
-using System.Xml.Linq;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
-using TamoPOS.Services;
 using Wpf.Ui;
 
 
@@ -167,8 +163,6 @@ namespace TamoPOS.ViewModels.Pages
                 wb.SaveAs(filePath);
                 Debug.WriteLine($"Se descargó correctamente a: {filePath}");
             }
-         
         }
-
     }
 }

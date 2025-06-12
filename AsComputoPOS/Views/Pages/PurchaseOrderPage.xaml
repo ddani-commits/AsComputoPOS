@@ -10,6 +10,35 @@
       Title="PurchaseOrderPage">
 
     <Grid>
-        <ui:Button Content="Registrar orden de compra" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <ui:Button Grid.Row="0" Content="Registrar orden de compra" />
+        <ui:DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseOrders}" AutoGenerateColumns="True" Margin="5">
+            <!--
+                <ui:DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding SupplierId}" Width="Auto"/>
+                    <DataGridTextColumn Header="Nombre de la compañía" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Nombre del contacto" Binding="{Binding ContactName}" Width="*"/>
+                    <DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="*"/>
+                    <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="*"/>
+                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="*"/>
+                    <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTemplateColumn Header="Acción">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                        Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}" HorizontalAlignment="Center">
+                                    <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </ui:DataGrid.Columns>
+                -->
+        </ui:DataGrid>
     </Grid>
 </Page>
