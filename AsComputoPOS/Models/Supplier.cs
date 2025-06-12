@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using UiDesktopApp1.ViewModels.Pages;
+using TamoPOS.ViewModels.Pages;
 
-namespace UiDesktopApp1.Models
+namespace TamoPOS.Models
 {
     public class Supplier
     {

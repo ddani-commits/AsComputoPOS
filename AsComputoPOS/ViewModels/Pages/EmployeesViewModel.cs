@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using UiDesktopApp1.Data;
-using UiDesktopApp1.Models;
+using TamoPOS.Data;
+using TamoPOS.Models;
 using Wpf.Ui;
-using UiDesktopApp1.Controls;
+using TamoPOS.Controls;
 
-namespace UiDesktopApp1.ViewModels.Pages
+namespace TamoPOS.ViewModels.Pages
 {
     // Now every view model must inherit from ViewModel class
     public partial class EmployeesViewModel : ViewModel

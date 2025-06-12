@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace UiDesktopApp1.Models
+﻿
+using Microsoft.AspNetCore.Identity;
+namespace TamoPOS.Models
 {
     // EF Base model for Employee
     public class Employee

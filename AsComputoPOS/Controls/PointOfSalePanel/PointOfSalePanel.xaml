@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="TamoPOS.Controls.PointOfSalePanel.PointOfSalePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TamoPOS.Controls.PointOfSalePanel"
+             mc:Ignorable="d" 
+                          xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             d:DesignHeight="650" d:DesignWidth="400">
+    <Border Padding="10" BorderBrush="{StaticResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1, 0, 0, 0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0" LastChildFill="False">
+                    <TextBlock Text="Ticket" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" DockPanel.Dock="Left" />
+                    <ToggleButton 
+                        Name="Edit" 
+                        Content="Editar" 
+                        Width="75"
+                        Checked="Edit_Checked"
+                        Unchecked="Edit_Unchecked"
+                        DockPanel.Dock="Right" />
+                </DockPanel>
+                <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">El carrito esta vacio</TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="2" >
+                    <TextBlock FontSize="24" FontWeight="Bold">Metodo de pago</TextBlock>
+                    <ComboBox Margin="0, 8" ItemsSource="{Binding Colors}" MinWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <ui:SymbolIcon Symbol="Accessibility16" />
+                                    <TextBlock Text="{Binding}" Margin="4, 0"/>
+                                </DockPanel >
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Height="100">
+                <Rectangle Fill="Black" Stroke="Black"/>
+                <TextBlock Text="Accept"
+                           Foreground="White"
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           FontSize="32" 
+                           FontWeight="Bold"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

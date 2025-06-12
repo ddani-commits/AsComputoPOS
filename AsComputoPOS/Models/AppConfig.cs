@@ -1,4 +1,4 @@
-﻿namespace UiDesktopApp1.Models
+﻿namespace TamoPOS.Models
 {
     public class AppConfig
     {

@@ -1,4 +1,4 @@
-namespace UiDesktopApp1.Resources
+namespace TamoPOS.Resources
 {
     public partial class Translations
     {

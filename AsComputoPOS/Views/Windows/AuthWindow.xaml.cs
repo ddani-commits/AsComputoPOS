@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using UiDesktopApp1.Services;
-using UiDesktopApp1.ViewModels.Windows;
+using TamoPOS.Services;
+using TamoPOS.ViewModels.Windows;
 
-namespace UiDesktopApp1.Views.Windows
+namespace TamoPOS.Views.Windows
 {
     public partial class AuthWindow : Window
     {

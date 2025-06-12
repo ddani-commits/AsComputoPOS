@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Windows.Controls;
+using TamoPOS.Services;
 using System.ComponentModel;
-using UiDesktopApp1.Services;
 using System.Runtime.CompilerServices;
 
-
-namespace UiDesktopApp1.Controls
+namespace TamoPOS.Controls
 {
     public partial class LoginControl : UserControl
     {

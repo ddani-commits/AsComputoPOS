@@ -1,15 +1,15 @@
 ﻿<ui:FluentWindow
-    x:Class="UiDesktopApp1.Views.Windows.MainWindow"
+    x:Class="TamoPOS.Views.Windows.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:UiDesktopApp1.Views.Windows"
+    xmlns:local="clr-namespace:TamoPOS.Views.Windows"
+    xmlns:panel="clr-namespace:TamoPOS.Controls.PointOfSalePanel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     d:DataContext="{d:DesignInstance local:MainWindow, IsDesignTimeCreatable=True}"
-    Width="1100" Height="650"
-    d:DesignHeight="450" d:DesignWidth="800"
+    Width="1100" Height="650" d:DesignHeight="450" d:DesignWidth="800"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
@@ -41,53 +41,30 @@
                 <ColumnDefinition Width="0*" x:Name="SidePanelColumn" />
             </Grid.ColumnDefinitions>
 
-            <!-- Contenedor de navegación y contenido -->
-            <Grid Grid.Column="0">
-                <ui:NavigationView
+            <!-- Contenedor de navegación y contenido <Grid Grid.Column="0">-->
+            <ui:NavigationView Grid.Column="0"
                     x:Name="RootNavigation"
                     Padding="42,0,42,0"
                     BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
+                    MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
                     FrameMargin="0"
                     IsBackButtonVisible="Collapsed"
                     IsPaneToggleVisible="True"
-                    MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     OpenPaneLength="175"
-                    PaneDisplayMode="LeftMinimal">
-                    <ui:NavigationView.Header>
-                        <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
-                    </ui:NavigationView.Header>
+                    PaneDisplayMode="Left">
+                <ui:NavigationView.Header>
+                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                </ui:NavigationView.Header>
 
-                    <ui:NavigationView.ContentOverlay>
-                        <Grid>
-                            <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
-                        </Grid>
-                    </ui:NavigationView.ContentOverlay>
-                    <!--Footer-->
-                    <ui:NavigationView.FooterMenuItems>
-
-                        <ui:DropDownButton Content="Usuario" Padding="10,10,10,0"  Icon="{ui:SymbolIcon Fluent24}" Width="179">
-                            <ui:DropDownButton.Flyout>
-                                <ContextMenu>
-                                    <MenuItem Header="Cerrar sesión"  HorizontalAlignment="Left" Click="SignOutButton_Click" />
-                                </ContextMenu>
-
-                            </ui:DropDownButton.Flyout>
-
-                        </ui:DropDownButton>
-                    </ui:NavigationView.FooterMenuItems>
-
-                </ui:NavigationView>
-
-            </Grid>
-
-            <!-- Panel lateral -->
-            <Border Grid.Column="1" Background="LightGray" x:Name="SidePanel">
-                <StackPanel>
-                    <TextBlock Text="Contenido del panel lateral" Margin="10"/>
-                    <TextBlock Text="Panel lateral" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Border>
+                <ui:NavigationView.ContentOverlay>
+                    <Grid>
+                        <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                    </Grid>
+                </ui:NavigationView.ContentOverlay>
+            </ui:NavigationView>
+            <!--</Grid>-->
+            <panel:PointOfSalePanel Grid.Column="1" x:Name="SidePanel"/>
         </Grid>
 
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->

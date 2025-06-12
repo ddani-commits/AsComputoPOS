@@ -1,8 +1,7 @@
-﻿using UiDesktopApp1.Controls;
-using UiDesktopApp1.Data;
-using UiDesktopApp1.Models;
+﻿using TamoPOS.Data;
+using TamoPOS.Models;
 
-namespace UiDesktopApp1.Services
+namespace TamoPOS.Services
 {
     public class AuthenticationService : IAuthenticationService
     {

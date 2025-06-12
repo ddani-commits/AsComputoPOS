@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace UiDesktopApp1.Models
+namespace TamoPOS.Models
 {
     public struct DataColor
     {

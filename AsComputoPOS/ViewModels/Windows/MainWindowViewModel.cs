@@ -3,71 +3,73 @@ using TamoPOS.Helpers;
 using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
-namespace UiDesktopApp1.ViewModels.Windows
+namespace TamoPOS.ViewModels.Windows
 {
-    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ObservableObject
+    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ViewModel
     {
+        
         [ObservableProperty]
         private string _applicationTitle = "As Computo PoS";
 
         [ObservableProperty]
-        private ObservableCollection<object> _menuItems = new()
-        {
-            new NavigationViewItem()
-            {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Category",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Grid24 },
-                TargetPageType = typeof(Views.Pages.CategoryPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Employees",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.People24 },
-                TargetPageType = typeof(Views.Pages.EmployeesPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Inventory",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
-                TargetPageType = typeof(Views.Pages.InventoryPage)
-            },
+        private ObservableCollection<object> _menuItems =
+        [
             new NavigationViewPointOfSale(panelService, serviceProvider)
             {
-                Content = "Point Of Sale",
+                Content = "Punto de venta",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.BarcodeScanner20 },
             },
+
+            new NavigationViewItemSeparator(),
             new NavigationViewItem()
             {
-                Content = "Products",
+                Content = "Productos",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
                 TargetPageType = typeof(Views.Pages.ProductsPage)
             },
             new NavigationViewItem()
             {
-                Content = "Sales History",
+                Content = "Categorías",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Grid24 },
+                TargetPageType = typeof(Views.Pages.CategoryPage)
+            },
+            new NavigationViewItem()
+            {
+                Content = "Empleados",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.People24 },
+                TargetPageType = typeof(Views.Pages.EmployeesPage)
+            },
+            new NavigationViewItem()
+            {
+                Content = "Inventario",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
+                MenuItemsSource = new object[]
+                {
+                    new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.CategoryPage)),
+                    new NavigationViewItem("Existencias", typeof(Views.Pages.SettingsPage))
+                }
+            },
+
+            new NavigationViewItem()
+            {
+                Content = "Ventas",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Receipt20},
                 TargetPageType = typeof(Views.Pages.SalesHistoryPage)
             },
             new NavigationViewItem()
             {
-                Content = "Suppliers",
+                Content = "Proveedores",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.VehicleTruckProfile20},
                 TargetPageType = typeof(Views.Pages.SuppliersPage)
             }
-        };
+        ];
 
         [ObservableProperty]
         private ObservableCollection<object> _footerMenuItems = new()
         {
             new NavigationViewItem()
             {
-                Content = "Settings",
+                Content = "Ajustes",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
                 TargetPageType = typeof(Views.Pages.SettingsPage)
             }

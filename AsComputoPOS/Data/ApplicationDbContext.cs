@@ -1,7 +1,7 @@
-﻿using UiDesktopApp1.Models;
+﻿using TamoPOS.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace UiDesktopApp1.Data
+namespace TamoPOS.Data
 {
     public class ApplicationDbContext: DbContext
     {

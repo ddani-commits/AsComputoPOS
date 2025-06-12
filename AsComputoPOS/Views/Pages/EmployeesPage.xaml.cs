@@ -1,8 +1,8 @@
-﻿using UiDesktopApp1.ViewModels.Pages;
+﻿using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
 
 // You must declare new pages like this
-namespace UiDesktopApp1.Views.Pages
+namespace TamoPOS.Views.Pages
 {
     public partial class EmployeesPage : INavigableView<EmployeesViewModel>
     {
