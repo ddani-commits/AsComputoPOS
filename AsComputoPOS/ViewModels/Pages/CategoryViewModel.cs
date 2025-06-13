@@ -31,7 +31,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _contentDialogService = contentDialogService;
             LoadCategories();
-        }
+        } 
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();
@@ -46,8 +46,12 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
-                var newCategoryContentDialog = new NewCategoryContentDialog(_contentDialogService.GetDialogHost(), AddCategory);
+               
+                var newCategoryContentDialog = new NewCategoryContentDialog(
+                    _contentDialogService.GetDialogHost(),
+                    CategoriesList,
+                    AddCategory
+                );
                 _ = await newCategoryContentDialog.ShowAsync();
             }
             Debug.WriteLine("Show SignIn Content Dialog Command Executed");
@@ -149,6 +153,6 @@ namespace TamoPOS.ViewModels.Pages
                 wb.Worksheets.Add(dt);
                 wb.SaveAs(filePath);
             }
-        }
+        }       
     }
 }
