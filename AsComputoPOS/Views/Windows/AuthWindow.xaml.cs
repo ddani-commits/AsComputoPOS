@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TamoPOS.Services;
 using TamoPOS.ViewModels.Windows;
 
@@ -59,7 +60,12 @@ namespace TamoPOS.Views.Windows
             }
             else
             {
-               
+                var uiMessageBox = new Wpf.Ui.Controls.MessageBox
+                {
+                    Title = "Inicio de sesión fallido.",
+                    Content = "Correo y/o contraseña incorrectos. Por favor, intente de nuevo.",
+                };
+                _ = uiMessageBox.ShowDialogAsync();
                 _loginAttempted = false;
             }
         }    
