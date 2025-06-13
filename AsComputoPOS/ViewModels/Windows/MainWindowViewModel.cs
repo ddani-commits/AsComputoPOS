@@ -45,7 +45,7 @@ namespace TamoPOS.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
                 MenuItemsSource = new object[]
                 {
-                    new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.CategoryPage)),
+                    new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.PurchaseOrderPage)),
                     new NavigationViewItem("Existencias", typeof(Views.Pages.SettingsPage))
                 }
             },
