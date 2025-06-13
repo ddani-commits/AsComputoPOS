@@ -20,6 +20,7 @@ namespace TamoPOS.Controls
             get => _categoryName;
             set { _categoryName = value; OnPropertyChanged(); }
         }
+
         public string ParentCategoryNameText
         {
             get => _parentCategoryName;

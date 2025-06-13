@@ -11,6 +11,7 @@ namespace TamoPOS.ViewModels.Pages
     {
         public ObservableCollection<PurchaseOrder> PurchaseOrders { get; } = new();
         private readonly IContentDialogService _contentDialogService;
+        private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
 
         public PurchaseOrderViewModel(IContentDialogService contentDialogService)
         {
@@ -20,8 +21,7 @@ namespace TamoPOS.ViewModels.Pages
 
         public void LoadPurchaseOrders()
         {
-            using var db = new ApplicationDbContext();
-            foreach(var purchaseOrder in db.PurchaseOrders)
+            foreach(var purchaseOrder in _dbContext.PurchaseOrders)
             {
                 PurchaseOrders.Add(purchaseOrder);
             }
@@ -32,20 +32,17 @@ namespace TamoPOS.ViewModels.Pages
         {
             if(_contentDialogService.GetDialogHost() is not null)
             {
-                var newPurcharseOrderContentDialog = new NewPurchaseOrderDialog(_contentDialogService.GetDialogHost(), AddPurchaseOrder);
-                _ = await newPurcharseOrderContentDialog.ShowAsync();
+                var newPurchaseOrderContentDialog = new NewPurchaseOrderDialog(_contentDialogService.GetDialogHost(), AddPurchaseOrder);
+                _ = await newPurchaseOrderContentDialog.ShowAsync();
             }
         }
 
         [RelayCommand]
         public void AddPurchaseOrder(PurchaseOrder purchaseOrder)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.PurchaseOrders.Add(purchaseOrder);
-                context.SaveChanges();
-                PurchaseOrders.Add(purchaseOrder);
-            }
+            _dbContext.PurchaseOrders.Add(purchaseOrder);
+            _dbContext.SaveChanges();
+            PurchaseOrders.Add(purchaseOrder);
         }
 
         [RelayCommand]
