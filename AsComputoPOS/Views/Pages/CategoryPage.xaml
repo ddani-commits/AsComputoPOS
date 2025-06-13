@@ -9,8 +9,6 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CategoryPage">
 
-   
-
     <StackPanel>
         <Grid Margin="5" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>

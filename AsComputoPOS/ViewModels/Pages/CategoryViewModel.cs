@@ -54,18 +54,16 @@ namespace TamoPOS.ViewModels.Pages
         }
         // Añadir
         [RelayCommand]
-        public void AddCategory(Category CurrentCategory)
+        public void AddCategory(Category CurrentCategory) // think this is wrong, variables should be lowercase
         {
             using (var context = new ApplicationDbContext())
             {
                 context.Categories.Add(CurrentCategory);
                 context.SaveChanges();
                 CategoriesList.Add(CurrentCategory);
-
             }
         }
         // Guardar
-
         [RelayCommand]
         public void SaveCategory()
         {
