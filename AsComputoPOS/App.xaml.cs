@@ -58,7 +58,7 @@ namespace TamoPOS
                 services.AddSingleton<IPoSPanelService, PoSPanelService>();
 
                 // App UI Pages
-                services.AddTransient<AuthWindow>();
+                services.AddSingleton<AuthWindow>();
                 services.AddSingleton<AuthWindowViewModel>();
 
                 services.AddSingleton<SettingsPage>();

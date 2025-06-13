@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
@@ -14,7 +15,23 @@ namespace TamoPOS.Controls
     {
         private string _categoryName = "";
         private string _parentCategoryName = "";
+        public ObservableCollection<Category> CategoriesList { get; }
 
+        private Category? _selectedCategory;
+        public Category? SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                if (_selectedCategory != null)
+                {
+                   
+                    ParentCategoryNameText = _selectedCategory.ParentCategoryName;
+                }
+                OnPropertyChanged();
+            }
+        }
         public string CategoryNameText
         {
             get => _categoryName;
@@ -28,17 +45,20 @@ namespace TamoPOS.Controls
 
         private readonly Action<Category>? _saveCategories;
 
-        public NewCategoryContentDialog(ContentPresenter? contentPresenter, Action<Category>? saveCategories = null) : base(contentPresenter)
+        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ObservableCollection<Category> categoriesList, Action<Category>? saveCategories = null) : base(contentPresenter)
         {
             InitializeComponent();
+            CategoriesList = categoriesList;
             _saveCategories = saveCategories;
             DataContext = this;
+       
         }
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
             {
-                var category = new Category(CategoryNameText, ParentCategoryNameText);
+                var parentCategory = SelectedCategory?.CategoryName ?? ParentCategoryNameText;
+                var category = new Category(CategoryNameText, parentCategory);
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
                 Debug.WriteLine("Primary button clickerd");
