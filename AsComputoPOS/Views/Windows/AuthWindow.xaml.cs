@@ -59,21 +59,9 @@ namespace TamoPOS.Views.Windows
             }
             else
             {
-                System.Windows.MessageBox.Show("Inicie sesión para continuar", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 _loginAttempted = false;
             }
-        }
-
-        public static void ShowAuthWindow()
-        {
-            var mainWindow = App.Services.GetRequiredService<MainWindow>();
-            Application.Current.MainWindow = mainWindow;
-            mainWindow.Show();
-
-            var authWindow = App.Services.GetRequiredService<AuthWindow>();
-            authWindow.Owner = mainWindow;
-            var result = authWindow.ShowDialog();
-
-        }
+        }    
     }
 }
