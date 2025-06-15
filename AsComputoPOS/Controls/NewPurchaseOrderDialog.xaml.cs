@@ -10,12 +10,17 @@ namespace TamoPOS.Controls
     {
         private readonly Action<PurchaseOrder>? _savePurchaseOrder;
         public List<string> SuppliersList = new();
-        private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext _dbContext;
 
-        public NewPurchaseOrderDialog(ContentPresenter? contentPresenter, Action<PurchaseOrder>? savePurchaseOrder = null) : base(contentPresenter)
+        public NewPurchaseOrderDialog(
+            ApplicationDbContext dbContext,
+            ContentPresenter? contentPresenter, 
+            Action<PurchaseOrder>? savePurchaseOrder = null
+          ) : base(contentPresenter)
         {
             InitializeComponent();
             _savePurchaseOrder = savePurchaseOrder;
+            _dbContext = dbContext;
             DatePickerField.SelectedDate = DateTime.Now;
             DataContext = this;
         }

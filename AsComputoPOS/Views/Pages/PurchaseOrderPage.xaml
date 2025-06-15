@@ -22,14 +22,27 @@
                 <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate}" Width="*"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
                 <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal}" Width="*"/>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Supplier.Name}" Width="*"/>
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                
+                            <Button Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}" 
+                                    HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        
+                                    <ui:TextBlock>Ir</ui:TextBlock>
+                                <ui:SymbolIcon Symbol="ArrowUp24" Foreground="Gray"/>
+                                    </StackPanel>
+                            </Button>
                             <Button Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                     CommandParameter="{Binding}" 
                                     HorizontalAlignment="Center">
                                 <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
                             </Button>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

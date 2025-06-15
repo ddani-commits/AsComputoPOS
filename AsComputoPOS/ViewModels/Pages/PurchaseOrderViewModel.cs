@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -21,18 +21,23 @@ namespace TamoPOS.ViewModels.Pages
 
         public void LoadPurchaseOrders()
         {
-            foreach(var purchaseOrder in _dbContext.PurchaseOrders)
+            var orders = _dbContext.PurchaseOrders
+                                   .Include(po => po.Supplier) // Include nested object Supplier
+                                   .ToList();
+
+            foreach (var purchaseOrder in orders)
             {
                 PurchaseOrders.Add(purchaseOrder);
             }
         }
+
 
         [RelayCommand]
         public async Task ShowNewPurchaseOrderDialog()
         {
             if(_contentDialogService.GetDialogHost() is not null)
             {
-                var newPurchaseOrderContentDialog = new NewPurchaseOrderDialog(_contentDialogService.GetDialogHost(), AddPurchaseOrder);
+                var newPurchaseOrderContentDialog = new NewPurchaseOrderDialog(_dbContext, _contentDialogService.GetDialogHost(), AddPurchaseOrder);
                 _ = await newPurchaseOrderContentDialog.ShowAsync();
             }
         }
