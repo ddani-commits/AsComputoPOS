@@ -44,7 +44,7 @@ namespace TamoPOS.Controls
             }
         }
 
-        private async void SupplierBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void SupplierBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -55,9 +55,6 @@ namespace TamoPOS.Controls
 
                 foreach (Supplier supplier in suppliers)
                 {
-                    Debug.WriteLine(supplier.Name);
-                    SuppliersList.Add(supplier.Name);
-
                     if (!SuppliersList.Contains(supplier.Name))
                     {
                         SuppliersList.Add(supplier.Name);
