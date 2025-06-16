@@ -7,13 +7,13 @@ using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
-    public partial class PurchaseOrderViewModel : ViewModel
+    public partial class PurchaseOrdersViewModel : ViewModel
     {
         public ObservableCollection<PurchaseOrder> PurchaseOrders { get; } = new();
         private readonly IContentDialogService _contentDialogService;
         private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public PurchaseOrderViewModel(IContentDialogService contentDialogService)
+        public PurchaseOrdersViewModel(IContentDialogService contentDialogService)
         {
             _contentDialogService = contentDialogService;
             LoadPurchaseOrders();

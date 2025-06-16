@@ -85,8 +85,8 @@ namespace TamoPOS
                 services.AddSingleton<SuppliersPage>();
                 services.AddSingleton<SuppliersViewModel>();
 
-                services.AddSingleton<PurchaseOrderPage>();
-                services.AddSingleton<PurchaseOrderViewModel>();
+                services.AddSingleton<PurchaseOrdersPage>();
+                services.AddSingleton<PurchaseOrdersViewModel>();
             }).Build();
 
         /// <summary>
