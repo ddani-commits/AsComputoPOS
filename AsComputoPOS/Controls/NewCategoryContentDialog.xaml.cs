@@ -51,17 +51,19 @@ namespace TamoPOS.Controls
             CategoriesList = categoriesList;
             _saveCategories = saveCategories;
             DataContext = this;
-       
+          
         }
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
             {
-                var parentCategory = SelectedCategory?.CategoryName ?? ParentCategoryNameText;
-                var category = new Category(CategoryNameText, parentCategory);
+                int? parentCategoryId = SelectedCategory?.CategoryId;
+                var parentCategoryName = SelectedCategory?.CategoryName ?? ParentCategoryNameText;
+                var category = new Category(CategoryNameText, parentCategoryName);
+                
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
-                Debug.WriteLine("Primary button clickerd");
+                Debug.WriteLine($"Primary button clickerd {parentCategoryId}");
             }
             else if (button == ContentDialogButton.Close)
             {
