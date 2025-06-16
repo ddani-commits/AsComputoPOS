@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Text;
 using System.Windows.Threading;
 using TamoPOS.Services;
 using TamoPOS.Data;
@@ -18,9 +19,15 @@ namespace TamoPOS
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App : Application
     {
-     
+        public App()
+        {
+            // Registrar el proveedor de codificaciones al inicio de la aplicación, esto se hace porque ExcelDataReader necesita soporte para 
+            //codificaciones, que no estan dispoibles por defecto en .NET moderno
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection

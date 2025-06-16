@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using ExcelDataReader;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
@@ -140,7 +142,7 @@ namespace TamoPOS.ViewModels.Pages
             var dt = new DataTable("Category");
             dt.Columns.Add("ID", typeof(int));
             dt.Columns.Add("Nombre de Categoría", typeof(string));
-            dt.Columns.Add("Nombre de Categoría Padre", typeof(string));
+            dt.Columns.Add("Nombre de la Categoría Padre", typeof(string));
 
             foreach (var category in CategoriesList)
             {
@@ -153,6 +155,75 @@ namespace TamoPOS.ViewModels.Pages
                 wb.Worksheets.Add(dt);
                 wb.SaveAs(filePath);
             }
-        }       
+        }
+        [RelayCommand]
+        public void ImportFormExcel()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*xls",
+                Title = "Importar categorías desde Excel"
+            };
+            if (openFileDialog.ShowDialog() != true)
+                return;
+            try
+            {
+                using var stream = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                using var reader = ExcelReaderFactory.CreateReader(stream);
+                var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                {
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                    {
+                        UseHeaderRow = true
+                    }
+                });
+                var dataTable = dataSet.Tables[0];
+                using var db = new ApplicationDbContext();
+                CategoriesList.Clear();
+                foreach(DataRow row in dataTable.Rows)
+                {
+                    var idRaw = row["ID"]?.ToString();
+                    var categoryNameRaw = row["Nombre de Categoría"];
+                    var parentCategoryNameRaw = row["Nombre de la categoría padre"];
+                    string nombre = categoryNameRaw?.ToString() ?? string.Empty;
+                    string padre = parentCategoryNameRaw?.ToString() ?? string.Empty;
+                  
+                    Category? category = null;
+
+                    if (int.TryParse(idRaw, out int id) && id > 0 )
+                    {
+                        Category? padreCategoria = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                        int? parentCategoryId = padreCategoria?.CategoryId;
+                        if (category != null)
+                        {
+                            category.CategoryName = nombre;
+                         
+                            category.ParentCategoryName = padre;
+                            db.Categories.Update(category);
+                        }
+                    }
+                    if (category == null)
+                    {
+                        category = new Category(nombre, padre);
+                        db.Categories.Add(category);
+                    }
+                    CategoriesList.Add(category);
+                }
+                db.SaveChanges();
+
+                Debug.WriteLine("Categorías importadas correctamente desde Excel.");
+                CategoriesList.Clear();
+                foreach(var cat in db.Categories)
+                {
+                    cat.ViewModel = this;
+                    CategoriesList.Add(cat);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al importar: {ex.Message}");
+            }
+        }
     }
 }

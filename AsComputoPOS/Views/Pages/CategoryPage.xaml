@@ -22,18 +22,26 @@
                 <Button Command="{Binding ShowSignInContentDialogCommand}" HorizontalAlignment="Left"  Margin="0,0,5,0">
                     <ui:SymbolIcon  Symbol="Add28" />
                 </Button>
-            
-                <Button Command="{Binding SaveCategoryCommand}" HorizontalAlignment="Left"  Margin="0,0,10,0">
-                <ui:SymbolIcon Symbol="Save28" />
+
+                <Button Command="{Binding SaveCategoryCommand}" HorizontalAlignment="Left"  Margin="0,0,5,0">
+                    <ui:SymbolIcon Symbol="Save28" />
                 </Button>
-            
-        </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,5,0">
+                
             <Button  Command="{Binding SelectFolderCommand}" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Exportar" Margin="0,0,5,0"/>
                     <ui:SymbolIcon Symbol="ArrowDownload16" Margin="0,0,5,0"/>
                 </StackPanel>
             </Button>
+            <Button  Command="{Binding ImportFormExcelCommand}" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Importar" />
+                    <ui:SymbolIcon Symbol="Attach24" Margin="0,0,5,0"  />
+                </StackPanel>
+            </Button>
+            </StackPanel>
         </Grid>
         <Grid>
 
