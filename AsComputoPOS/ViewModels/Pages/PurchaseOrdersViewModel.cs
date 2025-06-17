@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -63,15 +61,11 @@ namespace TamoPOS.ViewModels.Pages
         [RelayCommand]
         public void NavigateToPurchaseOrderDetails(int Id)
         {
-            // Navigate to Purchase Order Details page with the selected purchase order
-            // This is a placeholder for actual navigation logic
-            Debug.WriteLine($"Navigating to details of Purchase Order ID: {Id}");
             _purchaseOrderDetailViewModel.LoadDetails(Id);
             _navigationService.Navigate(typeof(PurchaseOrderDetailPage));
         }
 
         [RelayCommand]
         public void CreatePurchaseOrder() { }
-
     }
 }
