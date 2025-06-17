@@ -52,8 +52,6 @@
 
                     </DataGridTemplateColumn>
                 </ui:DataGrid.Columns>
-
-
             </ui:DataGrid>
         </Grid>
     </StackPanel>

@@ -46,7 +46,7 @@ namespace TamoPOS.ViewModels.Windows
                 MenuItemsSource = new object[]
                 {
                     new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.PurchaseOrdersPage)),
-                    new NavigationViewItem("Detalle Ordene de compra", typeof(Views.Pages.PurchaseOrderDetailPage)),
+                    new NavigationViewItem("Detalle de Orden de compra", typeof(Views.Pages.PurchaseOrderDetailPage)),
                     new NavigationViewItem("Existencias", typeof(Views.Pages.SettingsPage))
                 }
             },
