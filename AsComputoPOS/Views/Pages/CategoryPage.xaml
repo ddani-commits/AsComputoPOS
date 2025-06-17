@@ -34,7 +34,6 @@
             </Button>
         </Grid>
         <Grid>
-
             <ui:DataGrid ItemsSource="{Binding CategoriesList}" AutoGenerateColumns="False" Margin="5">
                 <ui:DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>

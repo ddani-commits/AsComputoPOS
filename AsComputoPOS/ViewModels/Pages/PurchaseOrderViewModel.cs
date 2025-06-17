@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Views.Pages;
 using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
@@ -11,10 +14,18 @@ namespace TamoPOS.ViewModels.Pages
     {
         public ObservableCollection<PurchaseOrder> PurchaseOrders { get; } = new();
         private readonly IContentDialogService _contentDialogService;
+        private readonly INavigationService _navigationService;
+        private readonly PurchaseOrderDetailViewModel _purchaseOrderDetailViewModel;
         private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public PurchaseOrdersViewModel(IContentDialogService contentDialogService)
+        public PurchaseOrdersViewModel(
+            IContentDialogService contentDialogService, 
+            INavigationService navigationService,
+            PurchaseOrderDetailViewModel purchaseOrderDetailViewModel
+            )
         {
+            _purchaseOrderDetailViewModel = purchaseOrderDetailViewModel;
+            _navigationService = navigationService;
             _contentDialogService = contentDialogService;
             LoadPurchaseOrders();
         }
@@ -30,7 +41,6 @@ namespace TamoPOS.ViewModels.Pages
                 PurchaseOrders.Add(purchaseOrder);
             }
         }
-
 
         [RelayCommand]
         public async Task ShowNewPurchaseOrderDialog()
@@ -51,10 +61,17 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         [RelayCommand]
-        public void CreatePurchaseOrder()
+        public void NavigateToPurchaseOrderDetails(int Id)
         {
-
+            // Navigate to Purchase Order Details page with the selected purchase order
+            // This is a placeholder for actual navigation logic
+            Debug.WriteLine($"Navigating to details of Purchase Order ID: {Id}");
+            _purchaseOrderDetailViewModel.LoadDetails(Id);
+            _navigationService.Navigate(typeof(PurchaseOrderDetailPage));
         }
+
+        [RelayCommand]
+        public void CreatePurchaseOrder() { }
 
     }
 }
