@@ -11,6 +11,8 @@ namespace TamoPOS.ViewModels.Pages
 {
     public partial class PurchaseOrderDetailViewModel: ViewModel
     {
+        private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
+
         [ObservableProperty]
         private string? _idText;
 
@@ -65,7 +67,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(_contentDialogService.GetDialogHost(), AddProductPurchase);
+                var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(_applicationDbContext, _contentDialogService.GetDialogHost(), AddProductPurchase);
                 _ = await newProductPurchaseContentDialog.ShowAsync();
             }
         }

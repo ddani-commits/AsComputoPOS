@@ -36,74 +36,59 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ui:TextBlock 
+        <ui:TextBlock Text="Producto*"
             FontTypography="BodyStrong" 
             ToolTipService.ToolTip="Obligatorio"
             Grid.Row="0" 
             Grid.Column="0" 
-            Text="Producto*"
             HorizontalAlignment="Left" />
         <ui:AutoSuggestBox 
             Grid.Row="0" 
-            Grid.Column="1" 
+            Grid.Column="1"
+            TextChanged="ProductAutoSuggestBox_TextChanged"
             x:Name="ProductAutoSuggestBox"
             HorizontalAlignment="Stretch" />
 
         <ui:TextBlock Grid.Row="1" FontTypography="Caption" Text="Costos" Margin="0, 16" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
 
-        <ui:TextBlock 
+        <ui:TextBlock Text="Precio de compra*" 
             FontTypography="BodyStrong" 
             ToolTipService.ToolTip="Obligatorio"
             Grid.Row="2" 
             Grid.Column="0" 
-            Text="Precio de compra*" 
             HorizontalAlignment="Left" />
         <ui:NumberBox 
             Margin="0, 0, 0, 4"
             x:Name="UnitPriceNumberBox"
+            Value="{Binding PurchasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="2" 
             Grid.Column="1" />
 
-        <ui:TextBlock 
+        <ui:TextBlock Text="Cantidad*" 
             FontTypography="BodyStrong" 
             ToolTipService.ToolTip="Obligatorio"
             Grid.Row="3" 
             Grid.Column="0" 
-            Text="Cantidad*" 
             HorizontalAlignment="Left" />
         <ui:NumberBox 
             Margin="0, 0, 0, 4"
             x:Name="QuantityNumberBox"
+            Value="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="3" 
             Grid.Column="1" />
 
-        <TextBlock 
+        <TextBlock Text="Subtotal" 
             Grid.Row="4" 
             Grid.Column="0" 
-            Text="Subtotal" 
             HorizontalAlignment="Left" />
-        <ui:TextBlock Grid.Row="4" Grid.Column="1" Text="$2249.23" />
-        <!--
-        <ui:NumberBox 
-            x:Name="SubtotalNumberBox"
-            Margin="0, 0, 0, 8"
-            Grid.Row="4" 
-            Grid.Column="1" />
+        <ui:TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SubtotalString, UpdateSourceTrigger=PropertyChanged}" />
 
-        
-        <TextBlock 
-            Grid.Row="5" 
-            Grid.Column="0" 
-            Text="Total" 
-            HorizontalAlignment="Left" />
-        <ui:NumberBox 
-            x:Name="TotalNumberBox"
-            Margin="0, 0, 0, 8"
-            Grid.Row="5" 
-            Grid.Column="1" />
-        -->
-
-        <ui:TextBlock Grid.Row="6" FontTypography="Caption" Text="Ganancia" Margin="0, 16" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+        <ui:TextBlock 
+            Grid.Row="6" 
+            FontTypography="Caption" 
+            Text="Ganancia" 
+            Margin="0, 16" 
+            Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
 
         <TextBlock 
             Grid.Row="7" 
@@ -112,6 +97,7 @@
             HorizontalAlignment="Left" />
         <ui:NumberBox 
             x:Name="FlatProfitMarginNumberBox"
+            Value="{Binding FlatMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="0, 0, 0, 4"
             Grid.Row="7" 
             Grid.Column="1" />
@@ -123,6 +109,7 @@
             HorizontalAlignment="Left" />
         <ui:NumberBox 
             x:Name="PercentProfitMarginNumberBox"
+            Value="{Binding PercentageMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="0, 0, 0, 4"
             Grid.Row="8" 
             Grid.Column="1" />
@@ -134,6 +121,7 @@
             HorizontalAlignment="Left" />
         <ui:NumberBox 
             x:Name="SalePrice"
+            Value="{Binding PublicPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Margin="0, 0, 0, 4"
             Grid.Row="9" 
             Grid.Column="1" />
