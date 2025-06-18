@@ -98,9 +98,8 @@ namespace TamoPOS.Controls
             } 
         }
 
-
-        public string SubtotalString => _subtotal.ToString("F3");
-
+        public string SubtotalString => "$ " + _subtotal.ToString("F2");
+             
         private void RecalculateFromPurchasePrice()
         {
             _flatMargin = _purchasePrice * _percentageMargin / 100m;
@@ -108,6 +107,7 @@ namespace TamoPOS.Controls
             _subtotal = _purchasePrice * _quantity;
             OnPropertyChanged(nameof(FlatMargin));
             OnPropertyChanged(nameof(PublicPrice));
+            OnPropertyChanged(nameof(SubtotalString));
         }
 
         private void OnPropertyChanged(string name)
