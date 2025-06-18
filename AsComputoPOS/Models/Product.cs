@@ -8,8 +8,7 @@
         public string? Barcode { get; set; }
         public Category? Category { get; set; }
         public int? CategoryId { get; set; }
-        public string? SKU { get; set; }
-
+        public string? SKU { get; set; }    
         public Product() { }
 
         public Product(string productName, bool isActive, string barcode, string SKU)
@@ -19,6 +18,11 @@
             Barcode = barcode;
             //Category = category;
             this.SKU = SKU;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
