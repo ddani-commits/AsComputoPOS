@@ -46,6 +46,7 @@
             Grid.Row="0" 
             Grid.Column="1"
             TextChanged="ProductAutoSuggestBox_TextChanged"
+            SuggestionChosen="ProductAutoSuggestBox_SuggestionChosen"
             x:Name="ProductAutoSuggestBox"
             HorizontalAlignment="Stretch" />
 

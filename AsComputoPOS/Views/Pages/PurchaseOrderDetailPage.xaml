@@ -112,17 +112,18 @@
 
         <ui:DataGrid 
             Grid.Row="4" 
-            ItemsSource="{Binding PurchaseOrders}" 
+            ItemsSource="{Binding ProductPurchases}" 
             AutoGenerateColumns="False" 
             Margin="0, 4">
             <ui:DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.ProductName}" Width="auto"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}" Width="auto"/>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Quantity}" Width="auto"/>
-                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal}" Width="auto"/>
+                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat={}{0:C2}}" Width="auto"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="auto"/>
                 <DataGridTextColumn Header="Precio al publico" Binding="{Binding SalePrice}" Width="auto"/>
                 <DataGridTextColumn Header="Margen absoluto" Binding="{Binding FlatProfitMargin}" Width="auto"/>
                 <DataGridTextColumn Header="Margen relativo" Binding="{Binding PercentProfitMargin}" Width="auto"/>
+                <!--
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -134,6 +135,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                -->
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>

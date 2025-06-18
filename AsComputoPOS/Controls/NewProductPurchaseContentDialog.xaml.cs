@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
@@ -75,8 +77,7 @@ namespace TamoPOS.Controls
         }
 
         private decimal _subtotal;
-        public decimal Subtotal 
-        {
+        public decimal Subtotal {
             get => _subtotal;
             set
             {
@@ -91,14 +92,13 @@ namespace TamoPOS.Controls
             {
                 _quantity = value;
                 decimal sub = _quantity * _purchasePrice;
-                _subtotal = sub;
-                Debug.WriteLine(_subtotal);
+                Subtotal = sub;
                 OnPropertyChanged(nameof(Subtotal));
                 OnPropertyChanged(nameof(SubtotalString));
             } 
         }
 
-        public string SubtotalString => "$ " + _subtotal.ToString("F2");
+        public string SubtotalString => "$ " + _subtotal.ToString("N2");
              
         private void RecalculateFromPurchasePrice()
         {
@@ -130,6 +130,43 @@ namespace TamoPOS.Controls
             DataContext = this;
         }
 
+        protected override void OnButtonClick(ContentDialogButton button)
+        {
+            if (button == ContentDialogButton.Primary)
+            {
+                if (_selectedProduct is null) return;
+                // Perform save operation
+                ProductPurchase productPurchase = new ProductPurchase
+                {
+                    Product = _selectedProduct,
+                    UnitPrice = PurchasePrice,
+                    Quantity = Quantity,
+                    Subtotal = Subtotal,
+                    Total = Subtotal,   
+                    FlatProfitMargin = FlatMargin,
+                    PercentProfitMargin = PercentageMargin,
+                    SalePrice = PublicPrice
+                };
+                _saveProductPurchase?.Invoke(productPurchase);
+                base.OnButtonClick(button);
+                Debug.WriteLine("primary button clicked");
+            }
+            else if (button == ContentDialogButton.Secondary)
+            {
+                // Secondary operation
+                ClearFields();
+                Debug.WriteLine("Secondary button clicked");
+            }
+            else if (button == ContentDialogButton.Close)
+            {
+                // Close dialog without saving
+                Debug.WriteLine("Cancel button clicked");
+                base.OnButtonClick(button);
+            }
+        }
+
+        public void ClearFields() { }
+
         private void ProductAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -138,16 +175,14 @@ namespace TamoPOS.Controls
                     .Products
                     .Where(product => product.Name.Contains(sender.Text))
                     .ToList();
-
-                foreach (Product product in products)
-                {
-                    if (!ProductsList.Contains(product.Name))
-                    {
-                        ProductsList.Add(product.Name);
-                    }
-                }
-                ProductAutoSuggestBox.OriginalItemsSource = ProductsList;
+                ProductAutoSuggestBox.OriginalItemsSource = products;
             }
+        }
+
+        private Product _selectedProduct;
+        private void ProductAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if(args.SelectedItem is Product) _selectedProduct = args.SelectedItem as Product;
         }
     }
 }

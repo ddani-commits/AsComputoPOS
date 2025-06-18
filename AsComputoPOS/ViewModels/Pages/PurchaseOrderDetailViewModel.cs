@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TamoPOS.Controls;
@@ -27,35 +26,7 @@ namespace TamoPOS.ViewModels.Pages
 
         private IContentDialogService _contentDialogService;
 
-        public ObservableCollection<ProductPurchase> PurchaseOrders { get; } = new ObservableCollection<ProductPurchase>()
-        {
-            new ProductPurchase()
-            {
-                Id = 0,
-                FlatProfitMargin = 5,
-                PercentProfitMargin = 19,
-                Product = new Product("Sabritas", true, "24949", "24u842"),
-                ProductId = 4,
-                Quantity = 10,
-                SalePrice = 294,
-                Subtotal = 249,
-                Total = 249 * 10,
-                UnitPrice = 848
-            },
-            new ProductPurchase()
-            {
-                Id = 1,
-                FlatProfitMargin = 34,
-                PercentProfitMargin = 1,
-                Product = new Product("Coca Cola", true, "99258", "67193"),
-                ProductId = 5,
-                Quantity = 20,
-                SalePrice = 20 + 34,
-                Subtotal = 249,
-                Total = 249 * 10,
-                UnitPrice = 15
-            }
-        };
+        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
 
         public PurchaseOrderDetailViewModel(IContentDialogService contentDialogService) 
         {
@@ -73,9 +44,27 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         [RelayCommand]
+        public void LoadProductPurchases()
+        {
+            ProductPurchases.Clear();
+            _applicationDbContext.ProductPurchases
+                .Include(pp => pp.Product)
+                .Where(pp => pp.PurchaseOrderId == CurrentPurchaseOrder!.Id)
+                .ToList()
+                .ForEach(pp => ProductPurchases.Add(pp));
+            foreach(ProductPurchase pr in ProductPurchases)
+            {
+                Debug.WriteLine(pr.Id);
+            }
+        }
+
+        [RelayCommand]
         public void AddProductPurchase(ProductPurchase productPurchase)
         {
-            PurchaseOrders.Add(productPurchase);
+            productPurchase.PurchaseOrderId = CurrentPurchaseOrder!.Id;
+            _applicationDbContext.ProductPurchases.Add(productPurchase);
+            _applicationDbContext.SaveChanges();
+            ProductPurchases.Add(productPurchase);
         }
 
         public void LoadDetails(int Id)

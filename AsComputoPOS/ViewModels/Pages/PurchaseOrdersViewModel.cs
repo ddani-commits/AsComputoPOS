@@ -62,6 +62,7 @@ namespace TamoPOS.ViewModels.Pages
         public void NavigateToPurchaseOrderDetails(int Id)
         {
             _purchaseOrderDetailViewModel.LoadDetails(Id);
+            _purchaseOrderDetailViewModel.LoadProductPurchases();
             _navigationService.Navigate(typeof(PurchaseOrderDetailPage));
         }
 
