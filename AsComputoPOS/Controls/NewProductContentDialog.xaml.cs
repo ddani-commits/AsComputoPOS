@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using DocumentFormat.OpenXml.Vml;
+using Microsoft.Win32;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
 
@@ -16,6 +19,7 @@ namespace TamoPOS.Controls
         private bool _isActive = true;
         private string _barcode = string.Empty;
         private string _SKU = string.Empty;
+        private string _imagePath = string.Empty;
 
         public string ProductName
         {
@@ -41,13 +45,44 @@ namespace TamoPOS.Controls
             set { _SKU = value; OnPropertyChanged(); }
         }
 
+        public byte[] ImageBytes;
+
         private readonly Action<Product>? _createProduct;
 
-        public NewProductContentDialog(ContentPresenter? contentPresenter, Action<Product>? createProduct = null) : base(contentPresenter)
+        public NewProductContentDialog(
+            ApplicationDbContext dbContext, 
+            ContentPresenter? contentPresenter, 
+            Action<Product>? createProduct = null
+        ) : base(contentPresenter)
         {
             InitializeComponent();
             _createProduct = createProduct;
             DataContext = this;
+            Title = "Crear un producto";
+        }
+
+        public void OnOpenPicture()
+        {
+            //OpenedPicturePathVisibility = Visibility.Collapsed;
+
+            OpenFileDialog openFileDialog = new()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                Filter = "Image files (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png|All files (*.*)|*.*",
+            };
+
+            if (openFileDialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            //if (!File.Exists(openFileDialog.FileName))
+            //{
+            //    return;
+            //}
+
+            //OpenedPicturePath = openFileDialog.FileName;
+            //OpenedPicturePathVisibility = Visibility.Visible;
         }
 
         protected override void OnButtonClick(ContentDialogButton button)
@@ -55,7 +90,15 @@ namespace TamoPOS.Controls
             if (button == ContentDialogButton.Primary)
             {
                 // Perform save operation
-                var product = new Product(Name, IsActive, Barcode, SKU);
+                var product = new Product()
+                {
+                    Name = ProductName,
+                    IsActive = IsActive,
+                    Barcode = Barcode,
+                    //Category = SelectedCategory,
+                    SKU = SKU,
+                    ImageData = ImageBytes,
+                };
                 _createProduct?.Invoke(product);
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");
