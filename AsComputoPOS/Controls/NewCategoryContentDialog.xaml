@@ -26,13 +26,13 @@
                 PlaceholderText="Ej. Electronicos" 
                 Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="CategoryName" Margin="0, 5" />
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Visibility="Collapsed"/>
+            
             <Label Content="Nombre de la categoría padre" />
-
             <ui:AutoSuggestBox
                 x:Name="CategoryAutoSuggestBox"
                 HorizontalAlignment="Left"
-                Width="300"
-                Margin="10"
+                Width="300"  
                 PlaceholderText="Buscar categoría padre"
                 Text="{Binding ParentCategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextChanged="CategoryAutoSuggestBox_TextChanged"

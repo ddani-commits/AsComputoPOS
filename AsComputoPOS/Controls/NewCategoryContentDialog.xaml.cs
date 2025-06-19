@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
