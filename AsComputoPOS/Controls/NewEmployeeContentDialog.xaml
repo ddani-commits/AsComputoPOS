@@ -17,6 +17,7 @@
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:NewEmployeeContentDialog}" />
     </ui:ContentDialog.Resources>
+   
     
     <Grid>
         <Grid.RowDefinitions>
@@ -24,6 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
+            <TextBlock Text="Nuevo empleado" FontSize="20"/>
             <Label Content="Nombre:" />
             <ui:TextBox 
                 PlaceholderText="Ej. Carlos" 
@@ -44,16 +46,19 @@
                 Margin="0, 5" />
             <Label Content="Contraseña:" />
             <ui:PasswordBox 
+                Name="PasswordBox"
                 PlaceholderText="*****" 
                 Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Grid.Row="4" 
                 Margin="0, 5"  />
             <Label Content="Repetir contraseña:" />
             <ui:PasswordBox 
+                Name="ConfirmPasswordBox"
                 PlaceholderText="****" 
                 Text="{Binding ConfirmPasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Grid.Row="4" 
                 Margin="0, 5" TextChanged="PasswordBox_TextChanged"  />
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Visibility="Collapsed" Margin="0, 5"/>
         </StackPanel>
     </Grid>
 </ui:ContentDialog>
