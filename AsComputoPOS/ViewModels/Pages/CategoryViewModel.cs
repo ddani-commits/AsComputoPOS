@@ -100,7 +100,7 @@ namespace TamoPOS.ViewModels.Pages
             else
             {
                 Debug.WriteLine("Category not found.");
-            }
+            }        
         }
         //Recargar
         private void ReloadCategories()

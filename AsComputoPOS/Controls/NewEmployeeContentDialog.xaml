@@ -8,8 +8,8 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-             PrimaryButtonText = "Save employee"
-             CloseButtonText="Cancel"
+             PrimaryButtonText = "Guardar"
+             CloseButtonText="Cancelar"
              DialogMaxWidth="650"   
              DialogWidth="650"
              d:DesignHeight="450" d:DesignWidth="650">
