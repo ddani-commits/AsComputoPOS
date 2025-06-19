@@ -4,16 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TamoPOS.Controls"
-                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border 
-        CornerRadius="8"
-        BorderThickness="1" 
-        BorderBrush="Gray" >
-        <StackPanel
-            Margin="10"
-            Orientation="Horizontal">
+    <ui:Card>
+        <StackPanel Orientation="Horizontal" >
             <Rectangle 
                 x:Name="ProductImage" 
                 Width="100" 
@@ -24,12 +19,13 @@
                     FontSize="22"
                     Text="{Binding Name}" 
                     FontWeight="Bold"/>
-                <TextBlock Text="$9,999.99" />
+                <ui:TextBlock Text="$9,999.99" />
+                <ui:TextBlock Text="33 existencias" />
                 <ui:Button 
                     Appearance="Dark"
                     Content="Agregar al carrito" />
             </StackPanel>
             <TextBlock Text="{Binding SKU}" />
         </StackPanel>
-    </Border>
+    </ui:Card>
 </UserControl>
