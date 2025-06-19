@@ -51,8 +51,14 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
-            //busca en la base de datos cada que el usuario escribe un nombre exactamente
-            var parentCategory = _applicationDbcontext.Categories
+                if (string.IsNullOrWhiteSpace(CategoryNameText))
+                {
+                    ErrorsMessageTextBlock.Text = "El nombre de la categoría no puede estar vacío.";
+                    ErrorsMessageTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
+                //busca en la base de datos cada que el usuario escribe un nombre exactamente
+                var parentCategory = _applicationDbcontext.Categories
             .FirstOrDefault(c => c.CategoryName == ParentCategoryNameText);
                 Category category = new Category
                 {

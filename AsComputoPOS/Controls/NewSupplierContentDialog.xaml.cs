@@ -60,6 +60,12 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
+                if(string.IsNullOrEmpty(NameText) || string.IsNullOrEmpty(ContactNameText))
+                {
+                    ErrorsMessageTextBlock.Text = "El nombre de la compañía y el nombre de contacto son obligatorios.";
+                    ErrorsMessageTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
                 var supplier = new Supplier(NameText, ContactNameText, AddressText, EmailText, PhoneText);
                 _saveSupplier?.Invoke(supplier);
                 base.OnButtonClick(button);

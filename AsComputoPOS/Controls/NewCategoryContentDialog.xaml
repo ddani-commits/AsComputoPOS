@@ -39,6 +39,7 @@
                 SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen"
                 
                 />
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Margin="0, 10, 0, 0" />
         </StackPanel>
     </Grid>
 </ui:ContentDialog>
