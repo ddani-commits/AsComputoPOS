@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
@@ -52,7 +53,13 @@ namespace TamoPOS.Controls
             if (button == ContentDialogButton.Primary)
             {
             //busca en la base de datos cada que el usuario escribe un nombre exactamente
-            var parentCategory = _applicationDbcontext.Categories
+            if (string.IsNullOrWhiteSpace(CategoryNameText))
+            {
+                ErrorsMessageTextBlock.Text = "El nombre de la categoría no puede estar vacío.";
+                    ErrorsMessageTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
+                var parentCategory = _applicationDbcontext.Categories
             .FirstOrDefault(c => c.CategoryName == ParentCategoryNameText);
                 Category category = new Category
                 {
