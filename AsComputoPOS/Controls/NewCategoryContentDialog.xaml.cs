@@ -1,37 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
 
 namespace TamoPOS.Controls
 {
-    /// <summary>
-    /// Lógica de interacción para NewCategoryContentDialog.xaml
-    /// </summary>
     public partial class NewCategoryContentDialog : ContentDialog
     {
         private string _categoryName = "";
         private string _parentCategoryName = "";
-        public ObservableCollection<Category> CategoriesList { get; }
-
+        private readonly ApplicationDbContext _applicationDbcontext;
+        private readonly ContentPresenter? _contentPresenter;
+         public List<string> CategoryList = new();
+        private readonly Action<Category>? _saveCategories;
         private Category? _selectedCategory;
-        public Category? SelectedCategory
-        {
-            get => _selectedCategory;
-            set
-            {
-                _selectedCategory = value;
-                if (_selectedCategory != null)
-                {
-                   
-                    ParentCategoryNameText = _selectedCategory.ParentCategoryName;
-                }
-                OnPropertyChanged();
-            }
-        }
         public string CategoryNameText
         {
             get => _categoryName;
@@ -42,36 +29,62 @@ namespace TamoPOS.Controls
             get => _parentCategoryName;
             set { _parentCategoryName = value; OnPropertyChanged(); }
         }
-
-        private readonly Action<Category>? _saveCategories;
-
-        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ObservableCollection<Category> categoriesList, Action<Category>? saveCategories = null) : base(contentPresenter)
+        public Category? SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                ParentCategoryNameText = _selectedCategory?.CategoryName ?? string.Empty;
+                OnPropertyChanged();
+            }
+        }
+        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ApplicationDbContext dbContext, Action<Category>? saveCategories = null ) : base(contentPresenter)
         {
             InitializeComponent();
-            CategoriesList = categoriesList;
+            _contentPresenter = contentPresenter;
+            _applicationDbcontext = dbContext;
             _saveCategories = saveCategories;
             DataContext = this;
-          
         }
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
             {
-                int? parentCategoryId = SelectedCategory?.CategoryId;
-                var parentCategoryName = SelectedCategory?.CategoryName ?? ParentCategoryNameText;
-                var category = new Category(CategoryNameText, parentCategoryName);
-                
+            //busca en la base de datos cada que el usuario escribe un nombre exactamente
+            var parentCategory = _applicationDbcontext.Categories
+            .FirstOrDefault(c => c.CategoryName == ParentCategoryNameText);
+                Category category = new Category
+                {
+                    CategoryName = CategoryNameText,
+                    ParentCategoryId = parentCategory?.CategoryId
+                };
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
-                Debug.WriteLine($"Primary button clickerd {parentCategoryId}");
+                Debug.WriteLine($"Nueva categoría: {category.CategoryName}, Padre: {parentCategory?.CategoryName}");
             }
             else if (button == ContentDialogButton.Close)
             {
                 base.OnButtonClick(button);
-                Debug.WriteLine("Close button clicked");
+                Debug.WriteLine("Cerrar");
             }
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private void CategoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+
+                var categories = _applicationDbcontext.Categories
+                      .Where(c => c.CategoryName.Contains(sender.Text))
+                      .ToList();
+                CategoryAutoSuggestBox.OriginalItemsSource = categories;
+            }
+        }
+      public event PropertyChangedEventHandler? PropertyChanged;  
+         private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+       {
+            if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
+        }
         private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

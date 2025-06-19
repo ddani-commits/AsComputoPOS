@@ -22,11 +22,9 @@ namespace TamoPOS.ViewModels.Pages
         private string categoryName = string.Empty;
 
         [ObservableProperty]
-        private string parentCategoryName = string.Empty;
-
-        [ObservableProperty]
         private string? selectedFolderPath;
-
+        private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
+        public int? ParentCategoryId { get; set; }
         public ObservableCollection<Category> CategoriesList { get; } = new();
         private readonly IContentDialogService _contentDialogService;
         public CategoryViewModel(IContentDialogService contentDialogService)
@@ -37,9 +35,8 @@ namespace TamoPOS.ViewModels.Pages
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();
-            foreach (var category in db.Categories)
+            foreach(var category in db.Categories)
             {
-                category.ViewModel = this;
                 CategoriesList.Add(category);
             }
         }
@@ -48,15 +45,13 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-               
-                var newCategoryContentDialog = new NewCategoryContentDialog(
+                var newCategoryContentDialog = new NewCategoryContentDialog(   
                     _contentDialogService.GetDialogHost(),
-                    CategoriesList,
+                    _dbContext,
                     AddCategory
                 );
                 _ = await newCategoryContentDialog.ShowAsync();
             }
-            Debug.WriteLine("Show SignIn Content Dialog Command Executed");
         }
         // Añadir
         [RelayCommand]
@@ -67,11 +62,10 @@ namespace TamoPOS.ViewModels.Pages
                 context.Categories.Add(CurrentCategory);
                 context.SaveChanges();
                 CategoriesList.Add(CurrentCategory);
-
             }
+            ReloadCategories();
         }
         // Guardar
-
         [RelayCommand]
         public void SaveCategory()
         {
@@ -81,14 +75,15 @@ namespace TamoPOS.ViewModels.Pages
                 db.Categories.Update(category);
             }
             db.SaveChanges();
+            ReloadCategories();
             Debug.WriteLine("Saved from ViewModel");
         }
 
         // Elliminar
         [RelayCommand]
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(object parameter)
         {
-            if (category is null) return;
+            if (parameter is not Category category) return;
 
             using var db = new ApplicationDbContext();
             var categoryToDelete = db.Categories.Find(category.CategoryId);
@@ -107,7 +102,16 @@ namespace TamoPOS.ViewModels.Pages
                 Debug.WriteLine("Category not found.");
             }
         }
-
+        //Recargar
+        private void ReloadCategories()
+        {
+            CategoriesList.Clear();
+            using var db = new ApplicationDbContext();
+            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
+            {
+                CategoriesList.Add(category);
+            }
+        }
         [RelayCommand]
         public void SelectFolder()
         {
@@ -183,42 +187,43 @@ namespace TamoPOS.ViewModels.Pages
                 foreach(DataRow row in dataTable.Rows)
                 {
                     var idRaw = row["ID"]?.ToString();
-                    var categoryNameRaw = row["Nombre de Categoría"];
-                    var parentCategoryNameRaw = row["Nombre de la categoría padre"];
-                    string nombre = categoryNameRaw?.ToString() ?? string.Empty;
-                    string padre = parentCategoryNameRaw?.ToString() ?? string.Empty;
-                  
-                    Category? category = null;
-
-                    if (int.TryParse(idRaw, out int id) && id > 0 )
+                    var nombre = row["Nombre de Categoría"]?.ToString() ?? string.Empty;
+                    var padreName = row["Nombre de la categoría padre"]?.ToString();
+                    int? parentId = null;
+                    if (!string.IsNullOrWhiteSpace(padreName))
                     {
-                        Category? padreCategoria = db.Categories.FirstOrDefault(c => c.CategoryId == id);
-                        int? parentCategoryId = padreCategoria?.CategoryId;
+                        var parent = db.Categories.FirstOrDefault(c => c.CategoryName == padreName);
+                        parentId = parent?.CategoryId;
+                    }
+                    Category? category = null;
+                    if (int.TryParse(idRaw, out int id) && id > 0)
+                    {
+                        category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
                         if (category != null)
                         {
                             category.CategoryName = nombre;
-                         
-                            category.ParentCategoryName = padre;
+                            category.ParentCategoryId = parentId;
                             db.Categories.Update(category);
                         }
                     }
                     if (category == null)
                     {
-                        category = new Category(nombre, padre);
+                        category = new Category
+                        {
+                            CategoryName = nombre,
+                            ParentCategoryId = parentId,
+                        };
                         db.Categories.Add(category);
                     }
                     CategoriesList.Add(category);
                 }
                 db.SaveChanges();
-
-                Debug.WriteLine("Categorías importadas correctamente desde Excel.");
                 CategoriesList.Clear();
-                foreach(var cat in db.Categories)
+                foreach(var cat in db.Categories.Include(c => c.ParentCategory))
                 {
                     cat.ViewModel = this;
                     CategoriesList.Add(cat);
                 }
-
             }
             catch (Exception ex)
             {
