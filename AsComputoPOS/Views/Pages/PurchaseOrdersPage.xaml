@@ -1,0 +1,49 @@
+﻿<Page 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TamoPOS.Views.Pages"
+      mc:Ignorable="d" 
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      d:DesignHeight="450" d:DesignWidth="800"
+      x:Class="TamoPOS.Views.Pages.PurchaseOrdersPage"
+      Title="PurchaseOrdersPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:Button Grid.Row="0" Content="Registrar orden de compra" Command="{Binding ShowNewPurchaseOrderDialogCommand}" />
+        <ui:DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseOrders}" AutoGenerateColumns="False" Margin="5">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate}" Width="*"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
+                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal}" Width="*"/>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Supplier.Name}" Width="*"/>
+                <DataGridTemplateColumn Header="Acción">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button 
+                                    Command="{Binding DataContext.NavigateToPurchaseOrderDetailsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding Id}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:TextBlock>Ir</ui:TextBlock>
+                                        <ui:SymbolIcon Symbol="ArrowUp24" Foreground="Gray"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button HorizontalAlignment="Center">
+                                    <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
+    </Grid>
+</Page>

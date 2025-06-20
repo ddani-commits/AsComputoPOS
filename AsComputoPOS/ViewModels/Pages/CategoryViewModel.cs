@@ -8,7 +8,6 @@ using System.IO;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
-using TamoPOS.Services;
 using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
@@ -31,7 +30,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _contentDialogService = contentDialogService;
             LoadCategories();
-        } 
+        }
         private void LoadCategories()
         {
             CategoriesList.Clear();
@@ -40,12 +39,13 @@ namespace TamoPOS.ViewModels.Pages
                 CategoriesList.Add(category);
             }
         }
+        
         [RelayCommand]
         private async Task ShowSignInContentDialog()
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                var newCategoryContentDialog = new NewCategoryContentDialog(   
+                var newCategoryContentDialog = new NewCategoryContentDialog(
                     _contentDialogService.GetDialogHost(),
                     _dbContext,
                     AddCategory
@@ -53,9 +53,9 @@ namespace TamoPOS.ViewModels.Pages
                 _ = await newCategoryContentDialog.ShowAsync();
             }
         }
-        // Añadir
+
         [RelayCommand]
-        public void AddCategory(Category CurrentCategory)
+        public void AddCategory(Category CurrentCategory) // think this is wrong, variables should be lowercase
         {
             _dbContext.Categories.Add(CurrentCategory);
             Debug.WriteLine(CurrentCategory.ParentCategory is null);
@@ -75,7 +75,6 @@ namespace TamoPOS.ViewModels.Pages
             Debug.WriteLine("Saved from ViewModel");
         }
 
-        // Elliminar
         [RelayCommand]
         public void DeleteCategory(object parameter)
         {
@@ -94,7 +93,7 @@ namespace TamoPOS.ViewModels.Pages
             else
             {
                 Debug.WriteLine("Category not found.");
-            }        
+            }
         }
         [RelayCommand]
         public void SelectFolder()
@@ -167,7 +166,7 @@ namespace TamoPOS.ViewModels.Pages
                 });
                 var dataTable = dataSet.Tables[0];
                 CategoriesList.Clear();
-                foreach(DataRow row in dataTable.Rows)
+                foreach (DataRow row in dataTable.Rows)
                 {
                     var idRaw = row["ID"]?.ToString();
                     var nombre = row["Nombre de Categoría"]?.ToString() ?? string.Empty;

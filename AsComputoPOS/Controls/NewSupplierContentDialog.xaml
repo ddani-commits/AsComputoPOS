@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TamoPOS.Controls"
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
-                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+             ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
              PrimaryButtonText = "Guardar"
              CloseButtonText="Cancelar"

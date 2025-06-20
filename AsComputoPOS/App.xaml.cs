@@ -92,8 +92,11 @@ namespace TamoPOS
                 services.AddSingleton<SuppliersPage>();
                 services.AddSingleton<SuppliersViewModel>();
 
-                services.AddSingleton<PurchaseOrderPage>();
-                services.AddSingleton<PurchaseOrderViewModel>();
+                services.AddSingleton<PurchaseOrdersPage>();
+                services.AddSingleton<PurchaseOrdersViewModel>();
+
+                services.AddSingleton<PurchaseOrderDetailPage>();
+                services.AddSingleton<PurchaseOrderDetailViewModel>();
             }).Build();
 
         /// <summary>
@@ -113,7 +116,7 @@ namespace TamoPOS
             // lead to inconsistencies
             using (var db = new ApplicationDbContext())
             {
-               // db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
+                //db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
                 db.Database.EnsureCreated();
             }
             await _host.StartAsync();

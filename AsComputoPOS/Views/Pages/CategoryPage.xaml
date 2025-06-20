@@ -9,8 +9,6 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CategoryPage">
 
-   
-
     <StackPanel>
         <Grid Margin="5" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -44,7 +42,6 @@
             </StackPanel>
         </Grid>
         <Grid>
-
             <ui:DataGrid ItemsSource="{Binding CategoriesList}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5">
                 <ui:DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto" IsReadOnly="True"/>
@@ -63,11 +60,7 @@
 
                     </DataGridTemplateColumn>
                 </ui:DataGrid.Columns>
-
-
             </ui:DataGrid>
         </Grid>
     </StackPanel>
-    
-    
 </Page>

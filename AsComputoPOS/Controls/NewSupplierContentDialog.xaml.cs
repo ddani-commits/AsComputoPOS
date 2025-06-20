@@ -19,7 +19,6 @@ namespace TamoPOS.Controls
         private string _email = string.Empty;
         private string _phone = string.Empty;
         
-
         public string NameText
         {
             get => _name;
@@ -53,7 +52,6 @@ namespace TamoPOS.Controls
             InitializeComponent();
             _saveSupplier = saveSupplier;
             DataContext = this;
-
         }
 
         protected override void OnButtonClick(ContentDialogButton button)
@@ -81,7 +79,7 @@ namespace TamoPOS.Controls
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-                       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
       
     }

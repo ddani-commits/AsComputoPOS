@@ -1,10 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using System.Windows.Media;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
@@ -15,9 +12,9 @@ namespace TamoPOS.Controls
     {
         private string _categoryName = "";
         private string _parentCategoryName = "";
-        private readonly ApplicationDbContext _applicationDbcontext;
+        private readonly ApplicationDbContext _applicationDbContext;
         private readonly ContentPresenter? _contentPresenter;
-         public List<string> CategoryList = new();
+        public List<string> CategoryList = new();
         private readonly Action<Category>? _saveCategories;
         private Category? _selectedCategory;
         public string CategoryNameText
@@ -25,6 +22,7 @@ namespace TamoPOS.Controls
             get => _categoryName;
             set { _categoryName = value; OnPropertyChanged(); }
         }
+
         public string ParentCategoryNameText
         {
             get => _parentCategoryName;
@@ -40,11 +38,15 @@ namespace TamoPOS.Controls
                 OnPropertyChanged();
             }
         }
-        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ApplicationDbContext dbContext, Action<Category>? saveCategories = null ) : base(contentPresenter)
+        public NewCategoryContentDialog(
+            ContentPresenter? contentPresenter, 
+            ApplicationDbContext dbContext, 
+            Action<Category>? saveCategories = null
+        ) : base(contentPresenter)
         {
             InitializeComponent();
             _contentPresenter = contentPresenter;
-            _applicationDbcontext = dbContext;
+            _applicationDbContext = dbContext;
             _saveCategories = saveCategories;
             DataContext = this;
         }
@@ -87,11 +89,14 @@ namespace TamoPOS.Controls
          private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
        {
             if (args.SelectedItem is Category) SelectedCategory = args.SelectedItem as Category;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
         }
         private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
