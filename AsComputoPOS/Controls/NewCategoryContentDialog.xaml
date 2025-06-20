@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TamoPOS.Controls"
              mc:Ignorable="d" 
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:pages="clr-namespace:TamoPOS.ViewModels.Pages" d:DataContext="{d:DesignInstance Type=pages:CategoryViewModel}"
+                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
              PrimaryButtonText = "Guardar"
              CloseButtonText="Cancel"
@@ -26,11 +26,20 @@
                 PlaceholderText="Ej. Electronicos" 
                 Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="CategoryName" Margin="0, 5" />
-            <Label Content="Nombre de la categoría secundaría" />
-            <ui:TextBox 
-                PlaceholderText="Ej. Monitores" 
-                Text="{Binding ParentCategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PRopertyChanged}"
-                x:Name="ParentCategoryName" Margin="0,5"/>
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Visibility="Collapsed"/>
+            
+            <Label Content="Nombre de la categoría padre" />
+            <ui:AutoSuggestBox
+                x:Name="CategoryAutoSuggestBox"
+                HorizontalAlignment="Left"
+                Width="300"  
+                PlaceholderText="Buscar categoría padre"
+                Text="{Binding ParentCategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextChanged="CategoryAutoSuggestBox_TextChanged"
+                SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen"
+                
+                />
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Margin="0, 10, 0, 0" />
         </StackPanel>
     </Grid>
 </ui:ContentDialog>

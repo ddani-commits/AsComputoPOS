@@ -83,19 +83,6 @@ namespace TamoPOS.Views.Windows
         {
             WindowState = WindowState.Maximized;
         }
-        private void SignOutButton_Click(object sender, RoutedEventArgs e)
-        {
-            var authService = App.Services.GetRequiredService<IAuthenticationService>();
-            authService.Logout();
-            var authWindow = App.Services.GetRequiredService<AuthWindow>();
-            authWindow.Owner = this;
-            var result = authWindow.ShowDialog();
-            if (result != true)
-            {
-                this.Close();
-                Debug.WriteLine("Holi");
-                
-            }
-        }
+     
     }
 }

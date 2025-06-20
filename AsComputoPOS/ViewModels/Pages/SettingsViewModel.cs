@@ -1,4 +1,8 @@
-﻿using Wpf.Ui.Abstractions.Controls;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using TamoPOS.Services;
+using TamoPOS.Views.Windows;
+using Wpf.Ui.Abstractions.Controls;
 using Wpf.Ui.Appearance;
 
 namespace TamoPOS.ViewModels.Pages
@@ -60,6 +64,22 @@ namespace TamoPOS.ViewModels.Pages
 
                     break;
             }
+        }
+
+        private static void RestartApplication()
+        {
+            string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName; 
+            if(!string.IsNullOrEmpty(exePath))
+            {
+                System.Diagnostics.Process.Start(exePath);
+                System.Windows.Application.Current.Shutdown();
+            }
+        }
+
+        [RelayCommand]
+        private void RestartApp()
+        {
+            RestartApplication();
         }
     }
 }

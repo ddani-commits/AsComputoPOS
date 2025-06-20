@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using ExcelDataReader;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
@@ -20,24 +22,21 @@ namespace TamoPOS.ViewModels.Pages
         private string categoryName = string.Empty;
 
         [ObservableProperty]
-        private string parentCategoryName = string.Empty;
-
-        [ObservableProperty]
         private string? selectedFolderPath;
-
+        private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
+        public int? ParentCategoryId { get; set; }
         public ObservableCollection<Category> CategoriesList { get; } = new();
         private readonly IContentDialogService _contentDialogService;
         public CategoryViewModel(IContentDialogService contentDialogService)
         {
             _contentDialogService = contentDialogService;
             LoadCategories();
-        }
+        } 
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();
-            foreach (var category in db.Categories)
+            foreach(var category in db.Categories)
             {
-                category.ViewModel = this;
                 CategoriesList.Add(category);
             }
         }
@@ -46,11 +45,13 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
-                var newCategoryContentDialog = new NewCategoryContentDialog(_contentDialogService.GetDialogHost(), AddCategory);
+                var newCategoryContentDialog = new NewCategoryContentDialog(   
+                    _contentDialogService.GetDialogHost(),
+                    _dbContext,
+                    AddCategory
+                );
                 _ = await newCategoryContentDialog.ShowAsync();
             }
-            Debug.WriteLine("Show SignIn Content Dialog Command Executed");
         }
         // Añadir
         [RelayCommand]
@@ -62,6 +63,7 @@ namespace TamoPOS.ViewModels.Pages
                 context.SaveChanges();
                 CategoriesList.Add(CurrentCategory);
             }
+            ReloadCategories();
         }
         // Guardar
         [RelayCommand]
@@ -73,14 +75,15 @@ namespace TamoPOS.ViewModels.Pages
                 db.Categories.Update(category);
             }
             db.SaveChanges();
+            ReloadCategories();
             Debug.WriteLine("Saved from ViewModel");
         }
 
         // Elliminar
         [RelayCommand]
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(object parameter)
         {
-            if (category is null) return;
+            if (parameter is not Category category) return;
 
             using var db = new ApplicationDbContext();
             var categoryToDelete = db.Categories.Find(category.CategoryId);
@@ -97,9 +100,18 @@ namespace TamoPOS.ViewModels.Pages
             else
             {
                 Debug.WriteLine("Category not found.");
+            }        
+        }
+        //Recargar
+        private void ReloadCategories()
+        {
+            CategoriesList.Clear();
+            using var db = new ApplicationDbContext();
+            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
+            {
+                CategoriesList.Add(category);
             }
         }
-
         [RelayCommand]
         public void SelectFolder()
         {
@@ -134,7 +146,7 @@ namespace TamoPOS.ViewModels.Pages
             var dt = new DataTable("Category");
             dt.Columns.Add("ID", typeof(int));
             dt.Columns.Add("Nombre de Categoría", typeof(string));
-            dt.Columns.Add("Nombre de Categoría Padre", typeof(string));
+            dt.Columns.Add("Nombre de la Categoría Padre", typeof(string));
 
             foreach (var category in CategoriesList)
             {
@@ -146,6 +158,76 @@ namespace TamoPOS.ViewModels.Pages
             {
                 wb.Worksheets.Add(dt);
                 wb.SaveAs(filePath);
+            }
+        }
+        [RelayCommand]
+        public void ImportFormExcel()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*xls",
+                Title = "Importar categorías desde Excel"
+            };
+            if (openFileDialog.ShowDialog() != true)
+                return;
+            try
+            {
+                using var stream = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                using var reader = ExcelReaderFactory.CreateReader(stream);
+                var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                {
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                    {
+                        UseHeaderRow = true
+                    }
+                });
+                var dataTable = dataSet.Tables[0];
+                using var db = new ApplicationDbContext();
+                CategoriesList.Clear();
+                foreach(DataRow row in dataTable.Rows)
+                {
+                    var idRaw = row["ID"]?.ToString();
+                    var nombre = row["Nombre de Categoría"]?.ToString() ?? string.Empty;
+                    var padreName = row["Nombre de la categoría padre"]?.ToString();
+                    int? parentId = null;
+                    if (!string.IsNullOrWhiteSpace(padreName))
+                    {
+                        var parent = db.Categories.FirstOrDefault(c => c.CategoryName == padreName);
+                        parentId = parent?.CategoryId;
+                    }
+                    Category? category = null;
+                    if (int.TryParse(idRaw, out int id) && id > 0)
+                    {
+                        category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                        if (category != null)
+                        {
+                            category.CategoryName = nombre;
+                            category.ParentCategoryId = parentId;
+                            db.Categories.Update(category);
+                        }
+                    }
+                    if (category == null)
+                    {
+                        category = new Category
+                        {
+                            CategoryName = nombre,
+                            ParentCategoryId = parentId,
+                        };
+                        db.Categories.Add(category);
+                    }
+                    CategoriesList.Add(category);
+                }
+                db.SaveChanges();
+                CategoriesList.Clear();
+                foreach(var cat in db.Categories.Include(c => c.ParentCategory))
+                {
+                    cat.ViewModel = this;
+                    CategoriesList.Add(cat);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al importar: {ex.Message}");
             }
         }
     }

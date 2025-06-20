@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TamoPOS.Services;
 using TamoPOS.ViewModels.Windows;
 
@@ -59,21 +60,14 @@ namespace TamoPOS.Views.Windows
             }
             else
             {
-                System.Windows.MessageBox.Show("Inicie sesión para continuar", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var uiMessageBox = new Wpf.Ui.Controls.MessageBox
+                {
+                    Title = "Inicio de sesión fallido.",
+                    Content = "Correo y/o contraseña incorrectos. Por favor, intente de nuevo.",
+                };
+                _ = uiMessageBox.ShowDialogAsync();
                 _loginAttempted = false;
             }
-        }
-
-        public static void ShowAuthWindow()
-        {
-            var mainWindow = App.Services.GetRequiredService<MainWindow>();
-            Application.Current.MainWindow = mainWindow;
-            mainWindow.Show();
-
-            var authWindow = App.Services.GetRequiredService<AuthWindow>();
-            authWindow.Owner = mainWindow;
-            var result = authWindow.ShowDialog();
-
-        }
+        }    
     }
 }
