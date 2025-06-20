@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -21,16 +20,22 @@ namespace TamoPOS.ViewModels.Pages
 
         private void LoadProducts()
         {
-            foreach (var product in _appDbContext.Products)
+            // Only show products with stock
+            var productPurchases = _appDbContext.ProductPurchases
+                .Where(productPurchase => productPurchase.QuantityRemaining > 0)
+                .GroupBy(productPurchase => productPurchase.ProductId)
+                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First().Product)
+                .ToList();
+
+            foreach (var productPurchase in productPurchases)
             {
-                ProductsList.Add(product);
+                ProductsList.Add(productPurchase);
             }
         }
 
         [RelayCommand]
         private async Task OnShowDialog()
         {
-            Debug.WriteLine("Show dialog button Clicked");
             if (_contentDialogService.GetDialogHost() is not null)
             {   // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
                 var newProductDialog = new NewProductContentDialog(_appDbContext, _contentDialogService.GetDialogHost(), AddProduct);
@@ -44,7 +49,6 @@ namespace TamoPOS.ViewModels.Pages
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
             ProductsList.Add(product);
-            Console.WriteLine("Add Product command executed.");
         }
 
         [RelayCommand]
