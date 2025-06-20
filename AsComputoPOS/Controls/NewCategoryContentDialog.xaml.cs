@@ -38,7 +38,11 @@ namespace TamoPOS.Controls
                 OnPropertyChanged();
             }
         }
-        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ApplicationDbContext dbContext, Action<Category>? saveCategories = null) : base(contentPresenter)
+        public NewCategoryContentDialog(
+            ContentPresenter? contentPresenter, 
+            ApplicationDbContext dbContext, 
+            Action<Category>? saveCategories = null
+        ) : base(contentPresenter)
         {
             InitializeComponent();
             _contentPresenter = contentPresenter;

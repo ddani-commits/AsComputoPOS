@@ -8,7 +8,6 @@ using System.IO;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
-using TamoPOS.Services;
 using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
@@ -31,21 +30,22 @@ namespace TamoPOS.ViewModels.Pages
         {
             _contentDialogService = contentDialogService;
             LoadCategories();
-        } 
+        }
         private void LoadCategories()
         {
             using var db = new ApplicationDbContext();
-            foreach(var category in db.Categories)
+            foreach (var category in db.Categories)
             {
                 CategoriesList.Add(category);
             }
         }
+        
         [RelayCommand]
         private async Task ShowSignInContentDialog()
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                var newCategoryContentDialog = new NewCategoryContentDialog(   
+                var newCategoryContentDialog = new NewCategoryContentDialog(
                     _contentDialogService.GetDialogHost(),
                     _dbContext,
                     AddCategory
@@ -53,19 +53,16 @@ namespace TamoPOS.ViewModels.Pages
                 _ = await newCategoryContentDialog.ShowAsync();
             }
         }
-        // Añadir
+
         [RelayCommand]
         public void AddCategory(Category CurrentCategory) // think this is wrong, variables should be lowercase
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Categories.Add(CurrentCategory);
-                context.SaveChanges();
-                CategoriesList.Add(CurrentCategory);
-            }
-            ReloadCategories();
+            _dbContext.Categories.Add(CurrentCategory);
+            Debug.WriteLine(CurrentCategory.ParentCategory is null);
+            _dbContext.SaveChanges();
+            CategoriesList.Add(CurrentCategory);
         }
-        // Guardar
+
         [RelayCommand]
         public void SaveCategory()
         {
@@ -75,11 +72,9 @@ namespace TamoPOS.ViewModels.Pages
                 db.Categories.Update(category);
             }
             db.SaveChanges();
-            ReloadCategories();
             Debug.WriteLine("Saved from ViewModel");
         }
 
-        // Elliminar
         [RelayCommand]
         public void DeleteCategory(object parameter)
         {
@@ -100,18 +95,10 @@ namespace TamoPOS.ViewModels.Pages
             else
             {
                 Debug.WriteLine("Category not found.");
-            }        
-        }
-        //Recargar
-        private void ReloadCategories()
-        {
-            CategoriesList.Clear();
-            using var db = new ApplicationDbContext();
-            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
-            {
-                CategoriesList.Add(category);
             }
         }
+
+
         [RelayCommand]
         public void SelectFolder()
         {
@@ -184,7 +171,7 @@ namespace TamoPOS.ViewModels.Pages
                 var dataTable = dataSet.Tables[0];
                 using var db = new ApplicationDbContext();
                 CategoriesList.Clear();
-                foreach(DataRow row in dataTable.Rows)
+                foreach (DataRow row in dataTable.Rows)
                 {
                     var idRaw = row["ID"]?.ToString();
                     var nombre = row["Nombre de Categoría"]?.ToString() ?? string.Empty;
@@ -219,7 +206,7 @@ namespace TamoPOS.ViewModels.Pages
                 }
                 db.SaveChanges();
                 CategoriesList.Clear();
-                foreach(var cat in db.Categories.Include(c => c.ParentCategory))
+                foreach (var cat in db.Categories.Include(c => c.ParentCategory))
                 {
                     cat.ViewModel = this;
                     CategoriesList.Add(cat);
