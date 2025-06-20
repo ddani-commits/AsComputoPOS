@@ -7,11 +7,15 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize"
         xmlns:controls="clr-namespace:TamoPOS.Controls"
-        Title="" Width="400" SizeToContent="Height" >
+        Title="">
     <Grid>
-        <controls:LoginControl x:Name="LoginControl" />
-        <controls:RegisterControl x:Name="RegisterControl" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Source="/Assets/background.png" Stretch="UniformToFill" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <controls:LoginControl Grid.Column="1" x:Name="LoginControl" VerticalAlignment="Center" />
+        <controls:RegisterControl Grid.Column="1" x:Name="RegisterControl" VerticalAlignment="Center" />
     </Grid>
 </Window>

@@ -29,11 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\background.png" />
     <None Remove="Assets\wpfui-icon-256.png" />
     <None Remove="Assets\wpfui-icon-1024.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\background.png" />
     <Resource Include="Assets\wpfui-icon-256.png" />
     <Resource Include="Assets\wpfui-icon-1024.png" />
   </ItemGroup>

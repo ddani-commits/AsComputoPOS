@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Threading;
 using TamoPOS.Services;
 using TamoPOS.Data;
-using TamoPOS.Services;
 using TamoPOS.ViewModels.Pages;
 using TamoPOS.ViewModels.Windows;
 using TamoPOS.Views.Pages;
@@ -116,7 +115,7 @@ namespace TamoPOS
             // lead to inconsistencies
             using (var db = new ApplicationDbContext())
             {
-                //db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
+               // db.Database.EnsureDeleted(); // <- Sirve para borrar la base de datos, cada vez que se abre la aplicación
                 db.Database.EnsureCreated();
             }
             await _host.StartAsync();

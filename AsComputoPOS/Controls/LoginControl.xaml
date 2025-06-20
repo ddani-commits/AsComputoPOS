@@ -17,7 +17,8 @@
                     HorizontalAlignment="Center"
                     Margin="0,0,0,20"/>
             <TextBlock 
-                    Text="Bienvenido a AsComputo PoS. Por favor, inicie sesion." 
+                    Text="Le damos la bienvenida a su punto de venta. Inicie sesión para continuar." 
+                    TextAlignment="Center"
                     FontSize="16"
                     Foreground="Black"
                     HorizontalAlignment="Left"
