@@ -27,7 +27,7 @@
             Content="Nuevo producto" 
             Command="{Binding ViewModel.ShowDialogCommand}"/>
 
-        <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" Grid.Column="1" Margin="0, 0, 10, 0" />
+        <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
         <ItemsControl 
                 Focusable="False"
@@ -37,22 +37,18 @@
                 ItemsSource="{Binding ViewModel.ProductsList}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" Focusable="False" ItemHeight="Auto" Margin="-10, 0, 0, 0" />
-                    <!--
-                    <UniformGrid Columns="{Binding Columns}" Rows="5" HorizontalAlignment="Stretch" Margin="-10, 0, 0, 0"/>
-                    -->
+                    <WrapPanel Orientation="Horizontal" Focusable="False" ItemHeight="Auto" Margin="-8, 0, 0, 0" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <controls:ProductControl 
                             Data="{Binding}"
-                            Padding="10, 10, 0, 0"
-                            Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}"
-                            />
+                            Padding="8, 8, 0, 0"
+                            Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
     </Grid>
 </Page>
