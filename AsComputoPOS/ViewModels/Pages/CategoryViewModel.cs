@@ -203,7 +203,6 @@ namespace TamoPOS.ViewModels.Pages
                 CategoriesList.Clear();
                 foreach(var cat in _dbContext.Categories.Include(c => c.ParentCategory))
                 {
-                    cat.ViewModel = this;
                     CategoriesList.Add(cat);
                 }
             }
