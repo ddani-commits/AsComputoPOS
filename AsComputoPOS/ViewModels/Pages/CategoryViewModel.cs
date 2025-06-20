@@ -34,8 +34,8 @@ namespace TamoPOS.ViewModels.Pages
         } 
         private void LoadCategories()
         {
-            using var db = new ApplicationDbContext();
-            foreach(var category in db.Categories)
+            CategoriesList.Clear();
+            foreach(var category in _dbContext.Categories)
             {
                 CategoriesList.Add(category);
             }
@@ -57,25 +57,21 @@ namespace TamoPOS.ViewModels.Pages
         [RelayCommand]
         public void AddCategory(Category CurrentCategory)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Categories.Add(CurrentCategory);
-                context.SaveChanges();
-                CategoriesList.Add(CurrentCategory);
-            }
-            ReloadCategories();
+            _dbContext.Categories.Add(CurrentCategory);
+            Debug.WriteLine(CurrentCategory.ParentCategory is null);
+            _dbContext.SaveChanges();
+            CategoriesList.Add(CurrentCategory); 
         }
         // Guardar
         [RelayCommand]
         public void SaveCategory()
-        {
-            using var db = new ApplicationDbContext();
+        {   
             foreach (var category in CategoriesList)
             {
-                db.Categories.Update(category);
+                _dbContext.Categories.Update(category);
             }
-            db.SaveChanges();
-            ReloadCategories();
+            _dbContext.SaveChanges();
+            LoadCategories();
             Debug.WriteLine("Saved from ViewModel");
         }
 
@@ -84,14 +80,12 @@ namespace TamoPOS.ViewModels.Pages
         public void DeleteCategory(object parameter)
         {
             if (parameter is not Category category) return;
-
-            using var db = new ApplicationDbContext();
-            var categoryToDelete = db.Categories.Find(category.CategoryId);
+            var categoryToDelete = _dbContext.Categories.Find(category.CategoryId);
 
             if (categoryToDelete != null)
             {
-                db.Categories.Remove(categoryToDelete);
-                db.SaveChanges();
+                _dbContext.Categories.Remove(categoryToDelete);
+                _dbContext.SaveChanges();
                 CategoriesList.Remove(category);
 
                 if (SelectedCategory?.CategoryId == category.CategoryId)
@@ -101,16 +95,6 @@ namespace TamoPOS.ViewModels.Pages
             {
                 Debug.WriteLine("Category not found.");
             }        
-        }
-        //Recargar
-        private void ReloadCategories()
-        {
-            CategoriesList.Clear();
-            using var db = new ApplicationDbContext();
-            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
-            {
-                CategoriesList.Add(category);
-            }
         }
         [RelayCommand]
         public void SelectFolder()
@@ -182,7 +166,6 @@ namespace TamoPOS.ViewModels.Pages
                     }
                 });
                 var dataTable = dataSet.Tables[0];
-                using var db = new ApplicationDbContext();
                 CategoriesList.Clear();
                 foreach(DataRow row in dataTable.Rows)
                 {
@@ -192,18 +175,18 @@ namespace TamoPOS.ViewModels.Pages
                     int? parentId = null;
                     if (!string.IsNullOrWhiteSpace(padreName))
                     {
-                        var parent = db.Categories.FirstOrDefault(c => c.CategoryName == padreName);
+                        var parent = _dbContext.Categories.FirstOrDefault(c => c.CategoryName == padreName);
                         parentId = parent?.CategoryId;
                     }
                     Category? category = null;
                     if (int.TryParse(idRaw, out int id) && id > 0)
                     {
-                        category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                        category = _dbContext.Categories.FirstOrDefault(c => c.CategoryId == id);
                         if (category != null)
                         {
                             category.CategoryName = nombre;
                             category.ParentCategoryId = parentId;
-                            db.Categories.Update(category);
+                            _dbContext.Categories.Update(category);
                         }
                     }
                     if (category == null)
@@ -213,13 +196,13 @@ namespace TamoPOS.ViewModels.Pages
                             CategoryName = nombre,
                             ParentCategoryId = parentId,
                         };
-                        db.Categories.Add(category);
+                        _dbContext.Categories.Add(category);
                     }
                     CategoriesList.Add(category);
                 }
-                db.SaveChanges();
+                _dbContext.SaveChanges();
                 CategoriesList.Clear();
-                foreach(var cat in db.Categories.Include(c => c.ParentCategory))
+                foreach(var cat in _dbContext.Categories.Include(c => c.ParentCategory))
                 {
                     cat.ViewModel = this;
                     CategoriesList.Add(cat);

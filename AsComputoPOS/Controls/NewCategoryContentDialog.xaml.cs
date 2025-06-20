@@ -58,17 +58,14 @@ namespace TamoPOS.Controls
                     ErrorsMessageTextBlock.Visibility = Visibility.Visible;
                     return;
                 }
-                //busca en la base de datos cada que el usuario escribe un nombre exactamente
-                var parentCategory = _applicationDbcontext.Categories
-            .FirstOrDefault(c => c.CategoryName == ParentCategoryNameText);
                 Category category = new Category
                 {
                     CategoryName = CategoryNameText,
-                    ParentCategoryId = parentCategory?.CategoryId
+                    ParentCategoryId = SelectedCategory?.CategoryId
                 };
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
-                Debug.WriteLine($"Nueva categoría: {category.CategoryName}, Padre: {parentCategory?.CategoryName}");
+                Debug.WriteLine($"Nueva categoría: {category.CategoryName}, Padre: {SelectedCategory?.CategoryName}");
             }
             else if (button == ContentDialogButton.Close)
             {
@@ -80,7 +77,6 @@ namespace TamoPOS.Controls
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-
                 var categories = _applicationDbcontext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
@@ -90,7 +86,7 @@ namespace TamoPOS.Controls
       public event PropertyChangedEventHandler? PropertyChanged;  
          private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
        {
-            if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
+            if (args.SelectedItem is Category) SelectedCategory = args.SelectedItem as Category;
         }
         private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
