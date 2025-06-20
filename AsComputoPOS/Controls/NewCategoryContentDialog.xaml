@@ -18,7 +18,6 @@
     </ui:ContentDialog.Resources>
     <Grid>
         <StackPanel>
-            
             <Label Content="Nombre de la categoría nueva:"/>
             <ui:TextBox
                 PlaceholderText="Ej. Electronicos" 

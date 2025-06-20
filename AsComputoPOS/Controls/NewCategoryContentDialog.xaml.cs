@@ -79,16 +79,12 @@ namespace TamoPOS.Controls
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _applicationDbcontext.Categories
+                var categories = _applicationDbContext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
                 CategoryAutoSuggestBox.OriginalItemsSource = categories;
             }
         }
-      public event PropertyChangedEventHandler? PropertyChanged;  
-         private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-       {
-            if (args.SelectedItem is Category) SelectedCategory = args.SelectedItem as Category;
         public event PropertyChangedEventHandler? PropertyChanged;
         private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
