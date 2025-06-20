@@ -98,6 +98,16 @@ namespace TamoPOS.Controls
             } 
         }
 
+        private decimal _quantityRemaining;
+        public decimal QuantityRemaining
+        {
+            get => _quantityRemaining;
+            set
+            {
+                _quantityRemaining = value;
+            }
+        }
+
         public string SubtotalString => "$ " + _subtotal.ToString("N2");
              
         private void RecalculateFromPurchasePrice()
@@ -144,8 +154,9 @@ namespace TamoPOS.Controls
                     Subtotal = Subtotal,
                     Total = Subtotal,   
                     FlatProfitMargin = FlatMargin,
-                    PercentProfitMargin = PercentageMargin,
-                    SalePrice = PublicPrice
+                    PercentProfitMargin = PercentageMargin / 100,
+                    SalePrice = PublicPrice,
+                    QuantityRemaining = QuantityRemaining
                 };
                 _saveProductPurchase?.Invoke(productPurchase);
                 base.OnButtonClick(button);
