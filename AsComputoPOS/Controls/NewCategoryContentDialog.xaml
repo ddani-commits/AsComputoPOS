@@ -20,7 +20,7 @@
 
     <Grid>
         <StackPanel>
-            <ui:TextBlock Text="Categoría nueva" FontSize="24" Margin="0, 10, 0, 10" />
+            
             <Label Content="Nombre de la categoría nueva:"/>
             <ui:TextBox
                 PlaceholderText="Ej. Electronicos" 
@@ -36,10 +36,8 @@
                 PlaceholderText="Buscar categoría padre"
                 Text="{Binding ParentCategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextChanged="CategoryAutoSuggestBox_TextChanged"
-                SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen"
-                
-                />
-            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Margin="0, 10, 0, 0" />
+                SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen" />
+            <TextBlock x:Name="AutoSuggestBoxError" Foreground="#B00020" Margin="0, 10, 0, 0" />
         </StackPanel>
     </Grid>
 </ui:ContentDialog>
