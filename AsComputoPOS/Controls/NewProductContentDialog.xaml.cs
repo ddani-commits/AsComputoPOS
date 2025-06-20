@@ -10,43 +10,38 @@ using Wpf.Ui.Controls;
 
 namespace TamoPOS.Controls
 {
-    /// <summary>
-    /// Lógica de interacción para NewProductContentDialog.xaml
-    /// </summary>
     public partial class NewProductContentDialog : ContentDialog
     {
-        private string _name = string.Empty;
-        private bool _isActive = true;
-        private string _barcode = string.Empty;
-        private string _SKU = string.Empty;
-        private string _imagePath = string.Empty;
-
+        private string _productName = string.Empty;
         public string ProductName
         {
-            get => _name;
-            set { _name = value; OnPropertyChanged(); }
+            get => _productName;
+            set { _productName = value; OnPropertyChanged(); }
         }
 
+        private bool _isActive = true;
         public bool IsActive
         {
             get => _isActive;
             set { _isActive = value; OnPropertyChanged(); }
         }
 
+        private string _barcode = string.Empty;
         public string Barcode
         {
             get => _barcode;
             set { _barcode = value; OnPropertyChanged(); }
         }
 
+        private string _SKU = string.Empty;
         public string SKU
         {
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
-
-        public byte[] ImageBytes;
-
+        
+        private string _imagePath = string.Empty;
+        public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
 
         public NewProductContentDialog(
@@ -55,16 +50,15 @@ namespace TamoPOS.Controls
             Action<Product>? createProduct = null
         ) : base(contentPresenter)
         {
-            InitializeComponent();
             _createProduct = createProduct;
             DataContext = this;
             Title = "Crear un producto";
+            InitializeComponent();
         }
 
         public void OnOpenPicture()
         {
             //OpenedPicturePathVisibility = Visibility.Collapsed;
-
             OpenFileDialog openFileDialog = new()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
@@ -89,7 +83,6 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
-                // Perform save operation
                 var product = new Product()
                 {
                     Name = ProductName,
@@ -105,7 +98,6 @@ namespace TamoPOS.Controls
             }
             else if (button == ContentDialogButton.Secondary)
             {
-                // Secondary operation
                 Debug.WriteLine("Secondary button clicked");
             }
             else if (button == ContentDialogButton.Close)

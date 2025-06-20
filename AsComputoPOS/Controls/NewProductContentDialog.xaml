@@ -22,7 +22,7 @@
             <ui:TextBox 
                 Grid.ColumnSpan="2" Grid.Row="1"
                 PlaceholderText="Mi producto" 
-                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="ProductNameField" Margin="0, 5" />
 
         <Label Content="Codigo de barras" Grid.Row="2"/>
