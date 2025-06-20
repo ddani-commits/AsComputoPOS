@@ -10,7 +10,7 @@ namespace TamoPOS.Views.Pages
         public SettingsPage(SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = ViewModel;
+            DataContext = this;
             InitializeComponent();
         }
     }
