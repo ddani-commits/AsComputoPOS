@@ -12,15 +12,15 @@ namespace TamoPOS.Controls
     /// </summary>
     public partial class NewProductContentDialog : ContentDialog
     {
-        private string _productName = string.Empty;
+        private string _name = string.Empty;
         private bool _isActive = true;
         private string _barcode = string.Empty;
         private string _SKU = string.Empty;
 
         public string ProductName
         {
-            get => _productName;
-            set { _productName = value; OnPropertyChanged(); }
+            get => _name;
+            set { _name = value; OnPropertyChanged(); }
         }
 
         public bool IsActive
@@ -55,7 +55,7 @@ namespace TamoPOS.Controls
             if (button == ContentDialogButton.Primary)
             {
                 // Perform save operation
-                var product = new Product(ProductName, IsActive, Barcode, SKU);
+                var product = new Product(Name, IsActive, Barcode, SKU);
                 _createProduct?.Invoke(product);
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");
@@ -72,7 +72,6 @@ namespace TamoPOS.Controls
                 Debug.WriteLine("Cancel button clicked");
             }
         }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

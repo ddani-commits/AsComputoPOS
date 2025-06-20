@@ -22,7 +22,7 @@
             <StackPanel Margin="10, 0">
                 <TextBlock 
                     FontSize="22"
-                    Text="{Binding ProductName}" 
+                    Text="{Binding Name}" 
                     FontWeight="Bold"/>
                 <TextBlock Text="$9,999.99" />
                 <ui:Button 

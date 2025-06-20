@@ -24,7 +24,7 @@
         <StackPanel>
             <ui:TextBox 
                 PlaceholderText="Nombre del producto" 
-                Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="ProductNameField" Margin="0, 5" />
             <ui:TextBox 
                 PlaceholderText="Codigo de barras" 
