@@ -20,7 +20,7 @@ namespace TamoPOS.Controls
         public List<string> CategoryList = new();
         private readonly Action<Category>? _saveCategories;
         private Category? _selectedCategory;
-        
+
         public string CategoryNameText
         {
             get => _categoryName;
@@ -41,10 +41,10 @@ namespace TamoPOS.Controls
                 OnPropertyChanged();
             }
         }
-        
+
         public NewCategoryContentDialog(
-            ContentPresenter? contentPresenter, 
-            ApplicationDbContext dbContext, 
+            ContentPresenter? contentPresenter,
+            ApplicationDbContext dbContext,
             Action<Category>? saveCategories = null
         ) : base(contentPresenter)
         {
@@ -54,8 +54,8 @@ namespace TamoPOS.Controls
             _saveCategories = saveCategories;
             DataContext = this;
         }
-        
-        
+
+
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
@@ -76,21 +76,21 @@ namespace TamoPOS.Controls
             }
             else if (button == ContentDialogButton.Close)
             {
-                base.OnButtonClick(button);       
+                base.OnButtonClick(button);
             }
         }
         private void CategoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _applicationDbcontext.Categories
+                var categories = _applicationDbContext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
                 CategoryAutoSuggestBox.OriginalItemsSource = categories;
             }
         }
-      public event PropertyChangedEventHandler? PropertyChanged;  
-      private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
         }
