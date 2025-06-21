@@ -15,17 +15,17 @@ namespace TamoPOS.Controls
     {
         private string _categoryName = "";
         private string _parentCategoryName = "";
-        private readonly ApplicationDbContext _applicationDbcontext;
+        private readonly ApplicationDbContext _applicationDbContext;
         private readonly ContentPresenter? _contentPresenter;
-         public List<string> CategoryList = new();
+        public List<string> CategoryList = new();
         private readonly Action<Category>? _saveCategories;
         private Category? _selectedCategory;
+        
         public string CategoryNameText
         {
             get => _categoryName;
             set { _categoryName = value; OnPropertyChanged(); }
         }
-
         public string ParentCategoryNameText
         {
             get => _parentCategoryName;
@@ -41,14 +41,21 @@ namespace TamoPOS.Controls
                 OnPropertyChanged();
             }
         }
-        public NewCategoryContentDialog(ContentPresenter? contentPresenter, ApplicationDbContext dbContext, Action<Category>? saveCategories = null ) : base(contentPresenter)
+        
+        public NewCategoryContentDialog(
+            ContentPresenter? contentPresenter, 
+            ApplicationDbContext dbContext, 
+            Action<Category>? saveCategories = null
+        ) : base(contentPresenter)
         {
             InitializeComponent();
             _contentPresenter = contentPresenter;
-            _applicationDbcontext = dbContext;
+            _applicationDbContext = dbContext;
             _saveCategories = saveCategories;
             DataContext = this;
         }
+        
+        
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
@@ -59,29 +66,23 @@ namespace TamoPOS.Controls
                     ErrorsMessageTextBlock.Visibility = Visibility.Visible;
                     return;
                 }
-                //busca en la base de datos cada que el usuario escribe un nombre exactamente
-                var parentCategory = _applicationDbcontext.Categories
-            .FirstOrDefault(c => c.CategoryName == ParentCategoryNameText);
                 Category category = new Category
                 {
                     CategoryName = CategoryNameText,
-                    ParentCategoryId = parentCategory?.CategoryId
+                    ParentCategoryId = SelectedCategory?.CategoryId
                 };
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
-                Debug.WriteLine($"Nueva categoría: {category.CategoryName}, Padre: {parentCategory?.CategoryName}");
             }
             else if (button == ContentDialogButton.Close)
             {
-                base.OnButtonClick(button);
-                Debug.WriteLine("Cerrar");
+                base.OnButtonClick(button);       
             }
         }
         private void CategoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-
                 var categories = _applicationDbcontext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
@@ -89,14 +90,13 @@ namespace TamoPOS.Controls
             }
         }
       public event PropertyChangedEventHandler? PropertyChanged;  
-         private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-       {
+      private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
             if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
         }
         private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

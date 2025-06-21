@@ -13,21 +13,17 @@
              DialogMaxWidth="650"   
              DialogWidth="650"
              d:DesignHeight="450" d:DesignWidth="650">
-
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:NewCategoryContentDialog}" />
     </ui:ContentDialog.Resources>
-
     <Grid>
         <StackPanel>
-            <ui:TextBlock Text="Categoría nueva" FontSize="24" Margin="0, 10, 0, 10" />
             <Label Content="Nombre de la categoría nueva:"/>
             <ui:TextBox
                 PlaceholderText="Ej. Electronicos" 
                 Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="CategoryName" Margin="0, 5" />
             <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Visibility="Collapsed"/>
-            
             <Label Content="Nombre de la categoría padre" />
             <ui:AutoSuggestBox
                 x:Name="CategoryAutoSuggestBox"
@@ -36,9 +32,7 @@
                 PlaceholderText="Buscar categoría padre"
                 Text="{Binding ParentCategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextChanged="CategoryAutoSuggestBox_TextChanged"
-                SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen"
-                
-                />
+                SuggestionChosen="CategoryAutoSuggestBox_SuggestionChosen"/>
             <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Margin="0, 10, 0, 0" />
         </StackPanel>
     </Grid>

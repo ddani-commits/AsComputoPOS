@@ -42,10 +42,9 @@
             </StackPanel>
         </Grid>
         <Grid>
-
             <ui:DataGrid ItemsSource="{Binding CategoriesList}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5">
                 <ui:DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding CategoryName}" Width="*"/>
                     <DataGridTextColumn Header="Categoria Padre" Binding="{Binding ParentCategoryName, Mode=OneWay}" Width="*"/>
                     <DataGridTemplateColumn Header="Acción">
@@ -64,6 +63,4 @@
             </ui:DataGrid>
         </Grid>
     </StackPanel>
-    
-    
 </Page>

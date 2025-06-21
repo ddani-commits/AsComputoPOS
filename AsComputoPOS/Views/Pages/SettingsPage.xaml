@@ -48,6 +48,6 @@
             Text="About TamoPOS" />
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
 
-        <ui:Button Content="Cerrar sesión" Margin="0,10,10,0" Command="{Binding RestartAppCommand}" />
+        <ui:Button Content="Cerrar sesión" Margin="0,10,10,0" Command="{Binding ViewModel.RestartAppCommand}" />
     </StackPanel>
 </Page>
