@@ -66,7 +66,8 @@ namespace TamoPOS.ViewModels.Pages
             }
         }
 
-        private static void RestartApplication()
+        [RelayCommand]
+        private static void RestartApp()
         {
             string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName; 
             if(!string.IsNullOrEmpty(exePath))
@@ -74,12 +75,6 @@ namespace TamoPOS.ViewModels.Pages
                 System.Diagnostics.Process.Start(exePath);
                 System.Windows.Application.Current.Shutdown();
             }
-        }
-
-        [RelayCommand]
-        private void RestartApp()
-        {
-            RestartApplication();
         }
     }
 }
