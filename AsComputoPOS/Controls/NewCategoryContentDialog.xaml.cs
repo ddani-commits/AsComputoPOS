@@ -19,7 +19,7 @@ namespace TamoPOS.Controls
         private readonly ContentPresenter? _contentPresenter;
         public List<string> CategoryList = new();
         private readonly Action<Category>? _saveCategories;
-        private Category? _selectedCategory;
+        private Category? _selectedCategory;    
         
         public string CategoryNameText
         {
@@ -40,7 +40,7 @@ namespace TamoPOS.Controls
                 ParentCategoryNameText = _selectedCategory?.CategoryName ?? string.Empty;
                 OnPropertyChanged();
             }
-        }
+        }   
         
         public NewCategoryContentDialog(
             ContentPresenter? contentPresenter, 
@@ -53,7 +53,7 @@ namespace TamoPOS.Controls
             _applicationDbContext = dbContext;
             _saveCategories = saveCategories;
             DataContext = this;
-        }
+        }    
         
         
         protected override void OnButtonClick(ContentDialogButton button)
@@ -83,7 +83,7 @@ namespace TamoPOS.Controls
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _applicationDbcontext.Categories
+                var categories = _applicationDbContext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
                 CategoryAutoSuggestBox.OriginalItemsSource = categories;
