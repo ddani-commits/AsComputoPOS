@@ -19,8 +19,7 @@ namespace TamoPOS.Models
         {
             return CategoryName;
         }
-        [NotMapped]
-        public CategoryViewModel? ViewModel { get; internal set; }
+
         [NotMapped]
         public string? ParentCategoryName
         {

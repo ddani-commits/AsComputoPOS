@@ -1,4 +1,4 @@
-﻿using ExcelDataReader;
+using ExcelDataReader;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
@@ -30,10 +30,10 @@ namespace TamoPOS.ViewModels.Pages
         {
             _contentDialogService = contentDialogService;
             LoadCategories();
-        }
+        } 
         private void LoadCategories()
         {
-            CategoriesList.Clear();
+            CategoriesList.Clear(); // for convenience
             foreach(var category in _dbContext.Categories)
             {
                 CategoriesList.Add(category);
@@ -62,7 +62,6 @@ namespace TamoPOS.ViewModels.Pages
             _dbContext.SaveChanges();
             CategoriesList.Add(CurrentCategory); 
         }
-        // Guardar
         [RelayCommand]
         public void SaveCategory()
         {   
@@ -93,6 +92,16 @@ namespace TamoPOS.ViewModels.Pages
             else
             {
                 Debug.WriteLine("Category not found.");
+            }        
+        }
+        //Recargar
+        private void ReloadCategories()
+        {
+            CategoriesList.Clear();
+            using var db = new ApplicationDbContext();
+            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
+            {
+                CategoriesList.Add(category);
             }
         }
         [RelayCommand]
@@ -203,7 +212,6 @@ namespace TamoPOS.ViewModels.Pages
                 CategoriesList.Clear();
                 foreach(var cat in _dbContext.Categories.Include(c => c.ParentCategory))
                 {
-                    cat.ViewModel = this;
                     CategoriesList.Add(cat);
                 }
             }

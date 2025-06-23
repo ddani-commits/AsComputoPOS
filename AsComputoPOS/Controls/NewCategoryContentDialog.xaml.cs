@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
@@ -17,12 +20,12 @@ namespace TamoPOS.Controls
         public List<string> CategoryList = new();
         private readonly Action<Category>? _saveCategories;
         private Category? _selectedCategory;
+        
         public string CategoryNameText
         {
             get => _categoryName;
             set { _categoryName = value; OnPropertyChanged(); }
         }
-
         public string ParentCategoryNameText
         {
             get => _parentCategoryName;
@@ -38,6 +41,7 @@ namespace TamoPOS.Controls
                 OnPropertyChanged();
             }
         }
+        
         public NewCategoryContentDialog(
             ContentPresenter? contentPresenter, 
             ApplicationDbContext dbContext, 
@@ -50,6 +54,8 @@ namespace TamoPOS.Controls
             _saveCategories = saveCategories;
             DataContext = this;
         }
+        
+        
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
@@ -67,26 +73,24 @@ namespace TamoPOS.Controls
                 };
                 _saveCategories?.Invoke(category);
                 base.OnButtonClick(button);
-                Debug.WriteLine($"Nueva categoría: {category.CategoryName}, Padre: {SelectedCategory?.CategoryName}");
             }
             else if (button == ContentDialogButton.Close)
             {
-                base.OnButtonClick(button);
-                Debug.WriteLine("Cerrar");
+                base.OnButtonClick(button);       
             }
         }
         private void CategoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _applicationDbContext.Categories
+                var categories = _applicationDbcontext.Categories
                       .Where(c => c.CategoryName.Contains(sender.Text))
                       .ToList();
                 CategoryAutoSuggestBox.OriginalItemsSource = categories;
             }
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+      public event PropertyChangedEventHandler? PropertyChanged;  
+      private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
         }

@@ -23,6 +23,7 @@
                 PlaceholderText="Ej. Electronicos" 
                 Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 x:Name="CategoryName" Margin="0, 5" />
+            <TextBlock x:Name="ErrorsMessageTextBlock" Foreground="#B00020" Visibility="Collapsed"/>
             <Label Content="Nombre de la categoría padre" />
             <ui:AutoSuggestBox
                 x:Name="CategoryAutoSuggestBox"

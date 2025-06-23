@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TamoPOS.Services;
 using TamoPOS.ViewModels.Windows;
 
@@ -68,6 +69,31 @@ namespace TamoPOS.Views.Windows
                 _ = uiMessageBox.ShowDialogAsync();
                 _loginAttempted = false;
             }
-        }    
+        }
+
+        //Funciones para el botón de cerrar y minimizar
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized? WindowState.Normal : WindowState.Maximized;
+        }
+        private void CustomWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            }
+            else
+            {
+                DragMove();
+            }
+        }
     }
 }
