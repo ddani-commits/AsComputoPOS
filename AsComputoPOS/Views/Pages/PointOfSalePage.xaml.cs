@@ -1,28 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using TamoPOS.ViewModels.Pages;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace TamoPOS.Views.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para PointOfSalePage.xaml
-    /// </summary>
-    public partial class PointOfSalePage : Page
+    public partial class PointOfSalePage : INavigableView<PointOfSaleViewModel>, INotifyPropertyChanged
     {
-        public PointOfSalePage()
+        public PointOfSaleViewModel ViewModel { get; }
+        public int Columns { get; set; } = 3;
+        public double _productControlWidth;
+        public double ProductControlWidth
         {
+            get => _productControlWidth;
+            set
+            {
+                _productControlWidth = value;
+                OnPropertyChanged(nameof(ProductControlWidth));
+            }
+        }
+
+        public PointOfSalePage(PointOfSaleViewModel viewModel)
+        {
+            ViewModel = viewModel;
+            DataContext = this;
             InitializeComponent();
+        }
+
+        private void ItemsControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double availableWidth = e.NewSize.Width;
+            if (availableWidth > 581) Columns = 2;
+            if (availableWidth > 870) Columns = 3;
+
+            int padding = 8 * 2; // Assuming 8px padding on each side
+
+            ProductControlWidth = (availableWidth / Columns);
+            Debug.WriteLine($"Available Width: {availableWidth}, ProductControlWidth: {ProductControlWidth}, Padding: {0}");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

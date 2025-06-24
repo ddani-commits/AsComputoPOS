@@ -6,9 +6,29 @@
       xmlns:local="clr-namespace:TamoPOS.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:controls="clr-namespace:TamoPOS.Controls"
       Title="PointOfSalePage">
 
     <Grid>
-        <TextBlock Text="Point of Sale Page" FontSize="24" FontWeight="Bold" Margin="20"/>
+        <ItemsControl 
+                Focusable="False"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                SizeChanged="ItemsControl_SizeChanged"
+                ItemsSource="{Binding ViewModel.ProductsList}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" Focusable="False" ItemHeight="Auto" Margin="-8, 0, 0, 0" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:ProductControl 
+                            Data="{Binding}"
+                            Padding="8, 8, 0, 0"
+                            Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Page>
