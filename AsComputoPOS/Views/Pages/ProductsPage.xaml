@@ -29,26 +29,15 @@
 
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-        <ItemsControl 
-                Focusable="False"
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                SizeChanged="ItemsControl_SizeChanged"
-                ItemsSource="{Binding ViewModel.ProductsList}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" Focusable="False" ItemHeight="Auto" Margin="-8, 0, 0, 0" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <controls:ProductControl 
-                            Data="{Binding}"
-                            Padding="8, 8, 0, 0"
-                            Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+        <DataGrid
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding ViewModel.ProductsList}"
+            AutoGenerateColumns="True"
+            CanUserAddRows="False"
+            Margin="0,8,0,0"
+            IsReadOnly="True"
+            SelectionMode="Single"
+            SelectionUnit="FullRow" />
     </Grid>
 </Page>
