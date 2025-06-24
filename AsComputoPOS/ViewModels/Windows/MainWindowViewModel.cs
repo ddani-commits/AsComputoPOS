@@ -7,30 +7,22 @@ namespace TamoPOS.ViewModels.Windows
 {
     public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ViewModel
     {
-        
+
         [ObservableProperty]
         private string _applicationTitle = "As Computo PoS";
 
         [ObservableProperty]
         private ObservableCollection<object> _menuItems =
         [
-            new NavigationViewPointOfSale(panelService, serviceProvider)
+            new NavigationViewItem()
             {
                 Content = "Punto de venta",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.BarcodeScanner20 },
+                TargetPageType = typeof(Views.Pages.PointOfSalePage)
             },
 
             new NavigationViewItemSeparator(),
-            new NavigationViewItem()
-            {
-                Content = "Productos",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
-                TargetPageType = typeof(Views.Pages.ProductsPage),
-                MenuItemsSource = new object[]
-                {
-                    new NavigationViewItem("Categorías", typeof(Views.Pages.CategoryPage))
-                }
-            },
+
             new NavigationViewItem()
             {
                 Content = "Empleados",
@@ -43,9 +35,23 @@ namespace TamoPOS.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
                 MenuItemsSource = new object[]
                 {
-                    new NavigationViewItem("Ordenes de compra", typeof(Views.Pages.PurchaseOrdersPage)),
-                    new NavigationViewItem("Detalle de Orden de compra", typeof(Views.Pages.PurchaseOrderDetailPage)),
-                    new NavigationViewItem("Existencias", typeof(Views.Pages.SettingsPage))
+                    new NavigationViewItem()
+                    {
+                        Content = "Compras",
+                        Icon = new SymbolIcon { Symbol = SymbolRegular.Clipboard20},
+                        TargetPageType = typeof(Views.Pages.PurchaseOrdersPage),
+                    },
+                    new NavigationViewItem()
+                    {
+                        Content = "Productos",
+                        Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
+                        TargetPageType = typeof(Views.Pages.ProductsPage),
+                    },
+                    new NavigationViewItem(){
+                        Content = "Categorías",
+                        Icon = new SymbolIcon { Symbol = SymbolRegular.Grid20   },
+                        TargetPageType = typeof(Views.Pages.CategoryPage),
+                    }
                 }
             },
 
