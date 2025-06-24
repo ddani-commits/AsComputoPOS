@@ -21,10 +21,7 @@ namespace TamoPOS.ViewModels.Pages
         private void LoadProducts()
         {
             // Only show products with stock
-            var productPurchases = _appDbContext.ProductPurchases
-                .Where(productPurchase => productPurchase.QuantityRemaining > 0)
-                .GroupBy(productPurchase => productPurchase.ProductId)
-                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First().Product)
+            var productPurchases = _appDbContext.Products
                 .ToList();
 
             foreach (var productPurchase in productPurchases)
