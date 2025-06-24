@@ -25,13 +25,11 @@ namespace TamoPOS.ViewModels.Windows
             {
                 Content = "Productos",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
-                TargetPageType = typeof(Views.Pages.ProductsPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Categorías",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Grid24 },
-                TargetPageType = typeof(Views.Pages.CategoryPage)
+                TargetPageType = typeof(Views.Pages.ProductsPage),
+                MenuItemsSource = new object[]
+                {
+                    new NavigationViewItem("Categorías", typeof(Views.Pages.CategoryPage))
+                }
             },
             new NavigationViewItem()
             {

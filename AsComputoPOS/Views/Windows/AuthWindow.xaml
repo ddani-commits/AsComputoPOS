@@ -7,11 +7,39 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize"
         xmlns:controls="clr-namespace:TamoPOS.Controls"
-        Title="" Width="400" SizeToContent="Height" >
-    <Grid>
-        <controls:LoginControl x:Name="LoginControl" />
-        <controls:RegisterControl x:Name="RegisterControl" />
-    </Grid>
+        Title=""
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Width="1000"
+        Height="700">
+    <Border Background="Transparent" CornerRadius="10" Padding="0" SnapsToDevicePixels="True">
+        <Grid>
+
+            <!--Contenido principal-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="/Assets/background.png" Stretch="UniformToFill" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <controls:LoginControl Grid.Column="1" x:Name="LoginControl" VerticalAlignment="Center" />
+                <controls:RegisterControl Grid.Column="1" x:Name="RegisterControl" VerticalAlignment="Center" Visibility="Collapsed" />
+            </Grid>
+
+            <!--Barra de título-->
+            <Grid Background="Transparent" VerticalAlignment="Top" MouseLeftButtonDown="CustomWindow_MouseDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Content="&#x2013;" Width="40" Height="40" Background="Transparent" Foreground="Black" BorderThickness="0" FontSize="16" Click="MinimizeButton_Click"/>
+                <Button Grid.Column="2" Content="&#x2610;" Width="40" Height="40" Background="Transparent" Foreground="Black" BorderThickness="0" FontSize="14" Click="MaximizeButton_Click"/>
+                <Button Grid.Column="3" Content="&#x2715;" Width="40" Height="40" Background="Transparent" Foreground="Black" BorderThickness="0" FontSize="14" Click="CloseButton_Click"/>
+            </Grid>
+
+        </Grid>
+    </Border>
 </Window>

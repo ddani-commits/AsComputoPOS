@@ -61,8 +61,22 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
-                // Perform save operation
-                var employee = new Employee(NameText, LastNameText, EmailText);
+                var password = PasswordBox.Password;
+                var confirmPassword = ConfirmPasswordBox.Password;
+                if (string.IsNullOrWhiteSpace(NameText) || string.IsNullOrWhiteSpace(LastNameText) || string.IsNullOrWhiteSpace(EmailText) || string.IsNullOrWhiteSpace(PasswordText) || string.IsNullOrWhiteSpace(ConfirmPasswordText))
+                    {
+                    ErrorsMessageTextBlock.Text = "Todos los campos son obligatorios. Por favor, completa todos los campos.";
+                    ErrorsMessageTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
+                else if (password != confirmPassword)
+                {
+                    ErrorsMessageTextBlock.Text = "Las contraseñas no coinciden. Por favor, verifica e intenta de nuevo.";
+                    ErrorsMessageTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
+                    // Perform save operation
+                    var employee = new Employee(NameText, LastNameText, EmailText);
                 _saveEmployees?.Invoke(employee);
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");

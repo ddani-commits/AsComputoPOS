@@ -12,19 +12,21 @@ namespace TamoPOS.Models
     public class Category
     {
         public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public string ParentCategoryName { get; set; }
-
-      
-        public Category( string categoryName, string parentCategoryName)
-        {          
-            CategoryName = categoryName;
-            ParentCategoryName = parentCategoryName;
+        public string CategoryName { get; set; } = string.Empty;
+        public int? ParentCategoryId { get; set; }
+        public Category? ParentCategory { get; set; }
+        public override string ToString()
+        {
+            return CategoryName;
         }
 
-
         [NotMapped]
-        public CategoryViewModel ViewModel { get; internal set; }
-
+        public string? ParentCategoryName
+        {
+            get
+            {
+                return ParentCategory != null ? ParentCategory.CategoryName : null;
+            }
+        }
     }
 }

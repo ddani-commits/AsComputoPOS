@@ -6,61 +6,64 @@
              xmlns:local="clr-namespace:TamoPOS.Controls"
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             d:DesignHeight="450" d:DesignWidth="800">
+             >
+
+
     <Grid>
-        <StackPanel Margin="20" MaxWidth="400">
-            <StackPanel>
-                <TextBlock 
-                    Text="AsComputo" 
+        <StackPanel VerticalAlignment="Center" Width="350" Grid.Column="1"   >
+            <TextBlock 
+                    Text="Tamos" 
                     FontSize="36"
                     FontWeight="Bold"
                     Foreground="Black"
                     HorizontalAlignment="Center"
-                    Margin="0,0,0,20"/>
-                <TextBlock 
-                    Text="Bienvenido a AsComputo PoS. Registrese para empezar a usar el software." 
+                    Margin="0,0,0,20"
+                />
+            <TextBlock 
+                    Text="Gracias por adquirir este programa. Para empezar, registre una cuenta adminitrador" 
                     FontSize="16"
                     Foreground="Black"
                     HorizontalAlignment="Left"
+                    TextAlignment="Center"
                     TextWrapping="Wrap"
                     Margin="0,0,0,20"/>
-            </StackPanel>
-                <ui:TextBlock Text="Nombre:" Margin="0,0,0,5"/>
-                <ui:TextBox 
+            
+            <ui:TextBlock Text="Nombre:" Margin="0,0,0,5"/>
+            <ui:TextBox 
                     PlaceholderText="Juan" 
                     Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Name="FirstNameText" 
                     Margin="0,0,0,20"/>
-            
-                <ui:TextBlock Text="Apellido:" Margin="0,0,0,5"/>
-                <ui:TextBox 
+
+            <ui:TextBlock Text="Apellido:" Margin="0,0,0,5"/>
+            <ui:TextBox 
                     PlaceholderText="Perez" 
                     Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Name="LastNameText" 
                     Margin="0,0,0,20"/>
-                
-                <ui:TextBlock Text="Correo Electronico:" Margin="0,0,0,5"/>
-                <ui:TextBox 
+
+            <ui:TextBlock Text="Correo electronico:" Margin="0,0,0,5"/>
+            <ui:TextBox 
                     PlaceholderText="ejemplo@correo.com" 
                     Name="EmailText"
                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0,0,0,20"/>
-                
-                <ui:TextBlock Text="Contraseña:" Margin="0,0,0,5"/>
-                <ui:PasswordBox 
-                    PlaceholderText="Escribe una contrasena" 
+
+            <ui:TextBlock Text="Contraseña:" Margin="0,0,0,5"/>
+            <ui:PasswordBox 
+                    PlaceholderText="Escribe una contraseña" 
                     Name="PasswordBox"
                     Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0,0,0,20"/>
-                
-                <ui:TextBlock Text="Confirmar contraseña:" Margin="0,0,0,5"/>
-                <ui:PasswordBox 
-                    PlaceholderText="Repite tu contrasena" 
+
+            <ui:TextBlock Text="Confirmar contraseña:" Margin="0,0,0,5"/>
+            <ui:PasswordBox 
+                    PlaceholderText="Repite tu contraseña" 
                     Text="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Name="ConfirmPasswordBox" 
                     Margin="0,0,0,20"/>
-            
-                <ui:Button 
+
+            <ui:Button 
                     Appearance="Primary"
                     Content="Registrarme"
                     Name="RegisterButton"  
