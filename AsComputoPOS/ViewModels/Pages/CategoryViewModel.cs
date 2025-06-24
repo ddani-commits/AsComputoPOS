@@ -33,7 +33,7 @@ namespace TamoPOS.ViewModels.Pages
         } 
         private void LoadCategories()
         {
-            CategoriesList.Clear(); // for convenience
+            CategoriesList.Clear();
             foreach(var category in _dbContext.Categories)
             {
                 CategoriesList.Add(category);
@@ -94,16 +94,7 @@ namespace TamoPOS.ViewModels.Pages
                 Debug.WriteLine("Category not found.");
             }        
         }
-        //Recargar
-        private void ReloadCategories()
-        {
-            CategoriesList.Clear();
-            using var db = new ApplicationDbContext();
-            foreach(var category in db.Categories.Include(cc => cc.ParentCategory))
-            {
-                CategoriesList.Add(category);
-            }
-        }
+
         [RelayCommand]
         public void SelectFolder()
         {
