@@ -43,8 +43,8 @@ namespace TamoPOS.Controls
         }   
         
         public NewCategoryContentDialog(
-            ContentPresenter? contentPresenter, 
-            ApplicationDbContext dbContext, 
+            ContentPresenter? contentPresenter,
+            ApplicationDbContext dbContext,
             Action<Category>? saveCategories = null
         ) : base(contentPresenter)
         {
@@ -54,7 +54,6 @@ namespace TamoPOS.Controls
             _saveCategories = saveCategories;
             DataContext = this;
         }    
-        
         
         protected override void OnButtonClick(ContentDialogButton button)
         {
@@ -76,7 +75,7 @@ namespace TamoPOS.Controls
             }
             else if (button == ContentDialogButton.Close)
             {
-                base.OnButtonClick(button);       
+                base.OnButtonClick(button);
             }
         }
         private void CategoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -89,8 +88,8 @@ namespace TamoPOS.Controls
                 CategoryAutoSuggestBox.OriginalItemsSource = categories;
             }
         }
-      public event PropertyChangedEventHandler? PropertyChanged;  
-      private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void CategoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             if (args.SelectedItem is Category) _selectedCategory = args.SelectedItem as Category;
         }
