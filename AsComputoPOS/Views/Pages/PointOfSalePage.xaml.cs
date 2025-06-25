@@ -23,7 +23,7 @@ namespace TamoPOS.Views.Pages
         public PointOfSalePage(PointOfSaleViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
+            DataContext = ViewModel;
             InitializeComponent();
         }
 

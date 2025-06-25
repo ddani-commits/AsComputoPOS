@@ -15,7 +15,7 @@
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 SizeChanged="ItemsControl_SizeChanged"
-                ItemsSource="{Binding ViewModel.ProductsInStock}">
+                ItemsSource="{Binding ProductsInStock}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" Focusable="False" ItemHeight="Auto" Margin="-8, 0, 0, 0" />
@@ -25,6 +25,8 @@
                 <DataTemplate>
                     <controls:ProductControl 
                             Data="{Binding}"
+                            Command="{Binding DataContext.AddProductToCartCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                            CommandParameter="{Binding Product}"
                             Padding="8, 8, 0, 0"
                             Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}" />
                 </DataTemplate>

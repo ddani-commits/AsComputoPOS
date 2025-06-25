@@ -18,5 +18,12 @@ namespace TamoPOS.ViewModels.Pages
             _contentDialogService = contentDialogService;
             _posPanelService.LoadProductsInStock();
         }
+
+        [RelayCommand]
+        public void AddProductToCart(Product product)
+        {
+            if (product == null) return;
+            _posPanelService.AddToCart(product);
+        }
     }
 }
