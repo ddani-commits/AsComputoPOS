@@ -52,6 +52,7 @@
                     IsBackButtonVisible="Collapsed"
                     IsPaneToggleVisible="True"
                     OpenPaneLength="175"
+                    Navigated="RootNavigation_Navigated"
                     PaneDisplayMode="Left">
                 <ui:NavigationView.Header>
                     <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />

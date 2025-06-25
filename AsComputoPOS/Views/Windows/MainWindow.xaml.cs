@@ -1,9 +1,6 @@
-﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
-using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Windows.Controls.Ribbon.Primitives;
-using TamoPOS.Services;
+﻿using TamoPOS.Services;
 using TamoPOS.ViewModels.Windows;
+using TamoPOS.Views.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
@@ -14,15 +11,21 @@ namespace TamoPOS.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
+        private IPoSPanelService _posPanelService;
+        private IServiceProvider _serviceProvider;
 
         public MainWindow(
             MainWindowViewModel viewModel,
             INavigationViewPageProvider navigationViewPageProvider,
             INavigationService navigationService,
-            IContentDialogService contentDialogService
+            IContentDialogService contentDialogService,
+            IPoSPanelService posPanelService,
+            IServiceProvider serviceProvider
         )
         {
             ViewModel = viewModel;
+            _posPanelService = posPanelService;
+            _serviceProvider = serviceProvider;
             DataContext = this;
 
             SystemThemeWatcher.Watch(this);
@@ -32,8 +35,6 @@ namespace TamoPOS.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
-
-            //Loaded += MainWindow_Loaded;
         }
 
         #region INavigationWindow methods
@@ -69,20 +70,15 @@ namespace TamoPOS.Views.Windows
             throw new NotImplementedException();
         }
 
-        private void NavigationViewItem_Click(object sender, RoutedEventArgs e)
+        private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            CloseWindow();
+            if(args.Page is PointOfSalePage)
+            {
+                _posPanelService.ExpandSidePanel(_serviceProvider);
+            } else
+            {
+                _posPanelService.CollapseSidePanel(_serviceProvider);
+            }
         }
-
-        private void MinimizeWindowButton(object sender, RoutedEventArgs e)
-        {
-            WindowState= WindowState.Minimized;
-        }
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Maximized;
-        }
-     
     }
 }
