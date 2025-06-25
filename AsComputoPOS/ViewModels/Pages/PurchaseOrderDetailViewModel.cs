@@ -4,6 +4,7 @@ using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Services;
 using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
@@ -11,6 +12,9 @@ namespace TamoPOS.ViewModels.Pages
     public partial class PurchaseOrderDetailViewModel: ViewModel
     {
         private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
+        private IContentDialogService _contentDialogService;
+        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
+        private readonly IPoSPanelService _posPanelService;
 
         [ObservableProperty]
         private string? _idText;
@@ -24,12 +28,12 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string? _subtotal;
 
-        private IContentDialogService _contentDialogService;
-
-        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
-
-        public PurchaseOrderDetailViewModel(IContentDialogService contentDialogService) 
+        public PurchaseOrderDetailViewModel(
+            IContentDialogService contentDialogService,
+            IPoSPanelService poSPanelService
+        ) 
         {
+            _posPanelService = poSPanelService;
             _contentDialogService = contentDialogService;
         }
 
@@ -38,7 +42,12 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(_applicationDbContext, _contentDialogService.GetDialogHost(), AddProductPurchase);
+                var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(
+                    _applicationDbContext, 
+                    _contentDialogService.GetDialogHost(), 
+                    AddProductPurchase,
+                    _posPanelService
+                 );
                 _ = await newProductPurchaseContentDialog.ShowAsync();
             }
         }
