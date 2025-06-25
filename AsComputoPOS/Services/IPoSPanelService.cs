@@ -10,5 +10,6 @@ namespace TamoPOS.Services
         bool IsSidePanelExpanded { get; set; }
         ObservableCollection<ProductPurchase> ProductsInStock { get; set; }
         void LoadProductsInStock();
+        void AddToCart(Product product);
     }
 }
