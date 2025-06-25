@@ -8,7 +8,7 @@ namespace TamoPOS.Views.Pages
     public partial class PointOfSalePage : INavigableView<PointOfSaleViewModel>, INotifyPropertyChanged
     {
         public PointOfSaleViewModel ViewModel { get; }
-        public int Columns { get; set; } = 3;
+        public int Columns { get; set; } = 1;
         public double _productControlWidth;
         public double ProductControlWidth
         {
@@ -32,11 +32,12 @@ namespace TamoPOS.Views.Pages
             double availableWidth = e.NewSize.Width;
             if (availableWidth > 581) Columns = 2;
             if (availableWidth > 870) Columns = 3;
+            if (availableWidth < 549) Columns = 1;
 
-            int padding = 8 * 2; // Assuming 8px padding on each side
+            //int padding = 8 * 2; // Assuming 8px padding on each side
 
             ProductControlWidth = (availableWidth / Columns);
-            Debug.WriteLine($"Available Width: {availableWidth}, ProductControlWidth: {ProductControlWidth}, Padding: {0}");
+            //Debug.WriteLine($"Available Width: {availableWidth}, ProductControlWidth: {ProductControlWidth}, Padding: {0}");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
