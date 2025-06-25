@@ -7,25 +7,24 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ui:Card>
+    <ui:Card Padding="8">
         <StackPanel Orientation="Horizontal" >
             <Rectangle 
                 x:Name="ProductImage" 
-                Width="100" 
-                Height="100" 
+                Width="90" 
+                Height="90"
                 Fill="Gray" />
-            <StackPanel Margin="10, 0">
-                <TextBlock 
-                    FontSize="22"
-                    Text="{Binding Name}" 
-                    FontWeight="Bold"/>
-                <ui:TextBlock Text="$9,999.99" />
-                <ui:TextBlock Text="33 existencias" />
+            <StackPanel Margin="6, 0">
+                <ui:TextBlock 
+                    FontTypography="BodyStrong"
+                    Text="{Binding Product.Name}" />
+                <ui:TextBlock FontTypography="Body" Text="{Binding SalePrice, StringFormat={}{0:C2} }" />
+                <ui:TextBlock FontTypography="Caption" Text="{Binding QuantityRemaining, StringFormat={}{0} existencias }" />
                 <ui:Button 
                     Appearance="Dark"
                     Content="Agregar al carrito" />
             </StackPanel>
-            <TextBlock Text="{Binding SKU}" />
+            <TextBlock Text="{Binding Product.SKU}" />
         </StackPanel>
     </ui:Card>
 </UserControl>

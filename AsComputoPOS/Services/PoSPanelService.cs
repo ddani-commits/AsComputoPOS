@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -11,7 +12,7 @@ namespace TamoPOS.Services
     {
         private INavigationWindow? _navigationWindow;
         private MainWindow? _mainWindow;
-        public ObservableCollection<Product> ProductsInStock { get; set; } = new();
+        public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
         private readonly ApplicationDbContext _appDbContext = new();
 
         public PoSPanelService(){}
@@ -30,9 +31,10 @@ namespace TamoPOS.Services
         {
             ProductsInStock.Clear();
             var productPurchases = _appDbContext.ProductPurchases
+                .Include(pp => pp.Product)
                 .Where(productPurchase => productPurchase.QuantityRemaining > 0)
                 .GroupBy(productPurchase => productPurchase.ProductId)
-                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First().Product)
+                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First())
                 .ToList();
 
             foreach (var productPurchase in productPurchases)

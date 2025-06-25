@@ -8,7 +8,7 @@ namespace TamoPOS.Services
         void CollapseSidePanel(IServiceProvider serviceProvider);
         void ExpandSidePanel(IServiceProvider serviceProvider);
         bool IsSidePanelExpanded { get; set; }
-        ObservableCollection<Product> ProductsInStock { get; set; }
+        ObservableCollection<ProductPurchase> ProductsInStock { get; set; }
         void LoadProductsInStock();
     }
 }

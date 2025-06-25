@@ -10,7 +10,7 @@ namespace TamoPOS.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
         public ObservableCollection<Product> ProductsList { get; } = new();
         private readonly IPoSPanelService _posPanelService;
-        public ObservableCollection<Product> ProductsInStock => _posPanelService.ProductsInStock;
+        public ObservableCollection<ProductPurchase> ProductsInStock => _posPanelService.ProductsInStock;
 
         public PointOfSaleViewModel(IContentDialogService contentDialogService, IPoSPanelService posPanelService)
         {
