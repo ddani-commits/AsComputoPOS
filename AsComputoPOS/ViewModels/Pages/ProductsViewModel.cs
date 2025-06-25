@@ -19,8 +19,7 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         private void LoadProducts()
-        {
-            // Only show products with stock
+        {   
             var productPurchases = _appDbContext.Products
                 .ToList();
 
