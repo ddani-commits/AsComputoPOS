@@ -13,6 +13,23 @@
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Window" x:Key="DefaultWindowStyle">
+                <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+                <Setter Property="Foreground" Value="{DynamicResource WindowForeground}" />
+                <Setter Property="Height" Value="600" />
+                <Setter Property="MinHeight" Value="320" />
+                <Setter Property="Width" Value="1100" />
+                <Setter Property="MinWidth" Value="460" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+                <Setter Property="AllowsTransparency" Value="False" />
+                <Setter Property="ResizeMode" Value="CanResize" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
