@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
+using TamoPOS.Data;
+using TamoPOS.Models;
 using TamoPOS.Views.Windows;
 using Wpf.Ui;
 
@@ -7,9 +9,10 @@ namespace TamoPOS.Services
 {
     public class PoSPanelService : IPoSPanelService
     {
-        //private readonly MainWindow mainWindow = serviceProvider.GetService<INavigationWindow>() as MainWindow;
         private INavigationWindow? _navigationWindow;
         private MainWindow? _mainWindow;
+        public ObservableCollection<Product> ProductsInStock { get; set; } = new();
+        private readonly ApplicationDbContext _appDbContext = new();
 
         public PoSPanelService(){}
 
@@ -23,31 +26,37 @@ namespace TamoPOS.Services
             }
         }
 
+        public void LoadProductsInStock()
+        {
+            ProductsInStock.Clear();
+            var productPurchases = _appDbContext.ProductPurchases
+                .Where(productPurchase => productPurchase.QuantityRemaining > 0)
+                .GroupBy(productPurchase => productPurchase.ProductId)
+                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First().Product)
+                .ToList();
+
+            foreach (var productPurchase in productPurchases)
+            {
+                ProductsInStock.Add(productPurchase);
+            }
+        }
+
         public void CollapseSidePanel(IServiceProvider serviceProvider)
         {
-            // Logic to collapse the side panel
             _mainWindow = serviceProvider.GetService<MainWindow>();
-            if (_mainWindow == null)
-            {
-                Debug.WriteLine("SidePanelColumn is null, cannot collapse side panel.");
-                return;
-            }
+            if (_mainWindow == null) return;
             else
             {
                 _mainWindow.SidePanelColumn.Width = new GridLength(0);
                 IsSidePanelExpanded = false;
             }
-            Debug.WriteLine("Side panel collapsed.");
         }
 
         public void ExpandSidePanel(IServiceProvider serviceProvider)
         {
-            // Logic to expand the side panel
-            Debug.WriteLine("Side panel expanded.");
             _mainWindow = serviceProvider.GetService<MainWindow>();
             _mainWindow.SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
             IsSidePanelExpanded = true;
-
         }
     }
 }
