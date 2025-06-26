@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using TamoPOS.Views.Windows;
@@ -16,8 +17,6 @@ namespace TamoPOS.Services
         private readonly ApplicationDbContext _appDbContext = new();
         private ObservableCollection<Product> Cart { get; set; } = new();
 
-        public PoSPanelService(){}
-
         public bool _isSidePanelExpanded = false;
         public bool IsSidePanelExpanded
         {
@@ -27,7 +26,7 @@ namespace TamoPOS.Services
                 _isSidePanelExpanded = value;
             }
         }
-
+        public PoSPanelService(){}
         public void AddToCart(Product product)
         {
             Cart.Add(product);
@@ -47,24 +46,6 @@ namespace TamoPOS.Services
             {
                 ProductsInStock.Add(productPurchase);
             }
-        }
-
-        public void CollapseSidePanel(IServiceProvider serviceProvider)
-        {
-            _mainWindow = serviceProvider.GetService<MainWindow>();
-            if (_mainWindow == null) return;
-            else
-            {
-                _mainWindow.SidePanelColumn.Width = new GridLength(0);
-                IsSidePanelExpanded = false;
-            }
-        }
-
-        public void ExpandSidePanel(IServiceProvider serviceProvider)
-        {
-            _mainWindow = serviceProvider.GetService<MainWindow>();
-            _mainWindow.SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
-            IsSidePanelExpanded = true;
         }
     }
 }

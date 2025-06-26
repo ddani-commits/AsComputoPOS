@@ -11,7 +11,6 @@ namespace TamoPOS.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
-        private IPoSPanelService _posPanelService;
         private IServiceProvider _serviceProvider;
 
         public MainWindow(
@@ -19,12 +18,10 @@ namespace TamoPOS.Views.Windows
             INavigationViewPageProvider navigationViewPageProvider,
             INavigationService navigationService,
             IContentDialogService contentDialogService,
-            IPoSPanelService posPanelService,
             IServiceProvider serviceProvider
         )
         {
             ViewModel = viewModel;
-            _posPanelService = posPanelService;
             _serviceProvider = serviceProvider;
             DataContext = this;
 
@@ -52,7 +49,7 @@ namespace TamoPOS.Views.Windows
         #endregion INavigationWindow methods
 
         /// <summary>
-        /// Raises the closed event.
+        /// Raises the closed event, actually closing the application.
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
@@ -74,10 +71,10 @@ namespace TamoPOS.Views.Windows
         {
             if(args.Page is PointOfSalePage)
             {
-                _posPanelService.ExpandSidePanel(_serviceProvider);
+                SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
             } else
             {
-                _posPanelService.CollapseSidePanel(_serviceProvider);
+                SidePanelColumn.Width = new GridLength(0);
             }
         }
     }
