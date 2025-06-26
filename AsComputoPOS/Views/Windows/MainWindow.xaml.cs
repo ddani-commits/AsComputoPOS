@@ -1,4 +1,7 @@
-﻿using TamoPOS.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TamoPOS.Controls.PointOfSalePanel;
+using TamoPOS.Services;
+using TamoPOS.ViewModels.Controls;
 using TamoPOS.ViewModels.Windows;
 using TamoPOS.Views.Pages;
 using Wpf.Ui;
@@ -32,6 +35,8 @@ namespace TamoPOS.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
+
+            checkoutPanel.SetViewModel(_serviceProvider.GetRequiredService<CheckoutPanelViewModel>());
         }
 
         #region INavigationWindow methods

@@ -66,12 +66,10 @@
                 </ui:NavigationView.ContentOverlay>
                 
             </ui:NavigationView>
-            <!--</Grid>-->
-            <panel:CheckoutPanel Grid.Column="1" />
+            <panel:CheckoutPanel x:Name="checkoutPanel" Grid.Column="1" />
         </Grid>
 
-        <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles 
-        -->
+        <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->
         <ContentPresenter x:Name="RootContentDialog" Grid.Row="1" Panel.ZIndex="99" />
     </Grid>
 
