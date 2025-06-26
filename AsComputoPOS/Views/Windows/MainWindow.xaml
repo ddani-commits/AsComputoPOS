@@ -67,7 +67,7 @@
                 
             </ui:NavigationView>
             <!--</Grid>-->
-            <panel:PointOfSalePanel Grid.Column="1" />
+            <panel:CheckoutPanel Grid.Column="1" />
         </Grid>
 
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles 

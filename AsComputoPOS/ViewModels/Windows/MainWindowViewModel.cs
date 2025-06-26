@@ -18,7 +18,7 @@ namespace TamoPOS.ViewModels.Windows
             {
                 Content = "Punto de venta",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.BarcodeScanner20 },
-                TargetPageType = typeof(Views.Pages.PointOfSalePage)
+                TargetPageType = typeof(Views.Pages.POSPage)
             },
 
             new NavigationViewItemSeparator(),

@@ -5,9 +5,9 @@ using Wpf.Ui.Abstractions.Controls;
 
 namespace TamoPOS.Views.Pages
 {
-    public partial class PointOfSalePage : INavigableView<PointOfSaleViewModel>, INotifyPropertyChanged
+    public partial class POSPage : INavigableView<POSPageViewModel>, INotifyPropertyChanged
     {
-        public PointOfSaleViewModel ViewModel { get; }
+        public POSPageViewModel ViewModel { get; }
         public int Columns { get; set; } = 1;
         public double _productControlWidth;
         public double ProductControlWidth
@@ -20,7 +20,7 @@ namespace TamoPOS.Views.Pages
             }
         }
 
-        public PointOfSalePage(PointOfSaleViewModel viewModel)
+        public POSPage(POSPageViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = ViewModel;

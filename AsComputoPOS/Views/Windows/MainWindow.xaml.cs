@@ -69,7 +69,7 @@ namespace TamoPOS.Views.Windows
 
         private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            if(args.Page is PointOfSalePage)
+            if(args.Page is POSPage)
             {
                 SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
             } else

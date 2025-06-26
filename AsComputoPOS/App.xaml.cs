@@ -80,8 +80,8 @@ namespace TamoPOS
                 services.AddSingleton<InventoryPage>();
                 services.AddSingleton<InventoryViewModel>();
 
-                services.AddSingleton<PointOfSalePage>();
-                services.AddSingleton<PointOfSaleViewModel>();
+                services.AddSingleton<POSPage>();
+                services.AddSingleton<POSPageViewModel>();
 
                 services.AddSingleton<ProductsPage>();
                 services.AddSingleton<ProductsViewModel>();

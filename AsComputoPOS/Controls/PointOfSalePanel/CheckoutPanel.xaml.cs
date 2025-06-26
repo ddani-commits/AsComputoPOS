@@ -2,10 +2,10 @@
 
 namespace TamoPOS.Controls.PointOfSalePanel
 {
-    public partial class PointOfSalePanel : UserControl
+    public partial class CheckoutPanel : UserControl
     {
         public List<string> Colors { get; } = new() { "Efectivo", "Debito/Credito"};
-        public PointOfSalePanel()
+        public CheckoutPanel()
         {
             InitializeComponent();
             DataContext = this;

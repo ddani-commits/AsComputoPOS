@@ -5,14 +5,14 @@ using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
-    public partial class PointOfSaleViewModel: ViewModel
+    public partial class POSPageViewModel: ViewModel
     {
         private readonly IContentDialogService _contentDialogService;
         public ObservableCollection<Product> ProductsList { get; } = new();
         private readonly IPoSPanelService _posPanelService;
         public ObservableCollection<ProductPurchase> ProductsInStock => _posPanelService.ProductsInStock;
 
-        public PointOfSaleViewModel(IContentDialogService contentDialogService, IPoSPanelService posPanelService)
+        public POSPageViewModel(IContentDialogService contentDialogService, IPoSPanelService posPanelService)
         {
             _posPanelService = posPanelService;
             _contentDialogService = contentDialogService;
