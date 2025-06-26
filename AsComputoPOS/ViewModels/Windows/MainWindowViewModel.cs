@@ -1,13 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using TamoPOS.Helpers;
-using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
 namespace TamoPOS.ViewModels.Windows
 {
-    public partial class MainWindowViewModel(IPOSService panelService, IServiceProvider serviceProvider) : ViewModel
+    public partial class MainWindowViewModel : ViewModel
     {
-
         [ObservableProperty]
         private string _applicationTitle = "As Computo PoS";
 
