@@ -30,12 +30,36 @@
                         Unchecked="Edit_Unchecked"
                         DockPanel.Dock="Right" />
                 </DockPanel>
+                
+                <!--
                 <StackPanel Grid.Row="1" VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">El carrito esta vacio</TextBlock>
                 </StackPanel>
+                -->
+                    <ui:ListView Grid.Row="1" ItemsSource="{Binding Cart}" x:Name="CartTicket">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6.6*"/>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="1.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{Binding Product.Name}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="1" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="2" Orientation="Vertical" x:Name="Price" VerticalAlignment="Center">
+                                    <ui:TextBlock FontTypography="BodyStrong" Text="{Binding SalePrice, StringFormat={}{0:C2}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{Binding SalePrice, StringFormat={}{0:C2}}" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ui:ListView>
+
                 <StackPanel Grid.Row="2" >
                     <TextBlock FontSize="24" FontWeight="Bold">Metodo de pago</TextBlock>
-                    <ComboBox Margin="0, 8" ItemsSource="{Binding Colors}" MinWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0">
+                    <ComboBox Margin="0, 8" ItemsSource="{Binding PaymentMethods}" MinWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>

@@ -20,7 +20,7 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         [RelayCommand]
-        public void AddProductToCart(Product product)
+        public void AddProductToCart(ProductPurchase product)
         {
             if (product == null) return;
             _posPanelService.AddToCart(product);

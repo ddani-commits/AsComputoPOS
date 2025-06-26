@@ -15,7 +15,8 @@ namespace TamoPOS.Services
         private MainWindow? _mainWindow;
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
         private readonly ApplicationDbContext _appDbContext = new();
-        private ObservableCollection<Product> Cart { get; set; } = new();
+        public ObservableCollection<ProductPurchase> Cart { get; set; } = new();
+        public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
 
         public bool _isSidePanelExpanded = false;
         public bool IsSidePanelExpanded
@@ -27,10 +28,12 @@ namespace TamoPOS.Services
             }
         }
         public POSService(){}
-        public void AddToCart(Product product)
+        public void AddToCart(ProductPurchase product)
         {
             Cart.Add(product);
         }
+
+        public void ConfirmSale() { }
 
         public void LoadProductsInStock()
         {

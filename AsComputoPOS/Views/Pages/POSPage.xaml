@@ -26,7 +26,7 @@
                     <controls:ProductControl 
                             Data="{Binding}"
                             Command="{Binding DataContext.AddProductToCartCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                            CommandParameter="{Binding Product}"
+                            CommandParameter="{Binding}"
                             Padding="8, 8, 0, 0"
                             Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}" />
                 </DataTemplate>
