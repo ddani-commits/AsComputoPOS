@@ -5,7 +5,7 @@ using Wpf.Ui.Controls;
 
 namespace TamoPOS.ViewModels.Windows
 {
-    public partial class MainWindowViewModel(IPoSPanelService panelService, IServiceProvider serviceProvider) : ViewModel
+    public partial class MainWindowViewModel(IPOSService panelService, IServiceProvider serviceProvider) : ViewModel
     {
 
         [ObservableProperty]

@@ -16,7 +16,7 @@ namespace TamoPOS.Controls
         private readonly Action<ProductPurchase>? _saveProductPurchase;
         private readonly ContentPresenter? _contentPresenter;
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IPoSPanelService _posPanelService;
+        private readonly IPOSService _posPanelService;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -133,7 +133,7 @@ namespace TamoPOS.Controls
             ApplicationDbContext dbContext,
             ContentPresenter? contentPresenter, 
             Action<ProductPurchase> saveProductPurchase,
-            IPoSPanelService posPanelService
+            IPOSService posPanelService
         ) : base(contentPresenter)
         {
             _contentPresenter = contentPresenter;

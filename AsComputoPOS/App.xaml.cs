@@ -63,7 +63,7 @@ namespace TamoPOS
                 services.AddSingleton<MainWindowViewModel>();
 
                 services.AddSingleton<IAuthenticationService, AuthenticationService>();
-                services.AddSingleton<IPoSPanelService, PoSPanelService>();
+                services.AddSingleton<IPOSService, POSService>();
 
                 // App UI Pages
                 services.AddSingleton<AuthWindow>();

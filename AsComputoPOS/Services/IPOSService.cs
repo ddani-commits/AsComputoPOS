@@ -3,7 +3,7 @@ using TamoPOS.Models;
 
 namespace TamoPOS.Services
 {
-    public interface IPoSPanelService
+    public interface IPOSService
     {
         bool IsSidePanelExpanded { get; set; }
         ObservableCollection<ProductPurchase> ProductsInStock { get; set; }

@@ -9,7 +9,7 @@ using Wpf.Ui;
 
 namespace TamoPOS.Services
 {
-    public class PoSPanelService : IPoSPanelService
+    public class POSService : IPOSService
     {
         private INavigationWindow? _navigationWindow;
         private MainWindow? _mainWindow;
@@ -26,7 +26,7 @@ namespace TamoPOS.Services
                 _isSidePanelExpanded = value;
             }
         }
-        public PoSPanelService(){}
+        public POSService(){}
         public void AddToCart(Product product)
         {
             Cart.Add(product);
