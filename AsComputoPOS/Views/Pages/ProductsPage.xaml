@@ -36,8 +36,16 @@
                 <DataGridTextColumn Header="Precio" Binding="{Binding ProductPurchase[0].SalePrice}"/>
                 <DataGridTextColumn Header="Categoría"/>
                 <DataGridTextColumn Header="Existencias" Binding="{Binding TotalStockResumen}"/>
-                <DataGridTextColumn Header="Detalles"/>
-                
+                <DataGridTemplateColumn Header="Detalles">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.ViewModel.NavigateToProductDetailsCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                    CommandParameter="{Binding ProductId}">
+                                <ui:SymbolIcon Symbol="ArrowEnter20"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>

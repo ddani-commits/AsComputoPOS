@@ -8,6 +8,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:DesignHeight="450" d:DesignWidth="800"
+      ui:NavigationView.HeaderContent="{Binding Name}"
       Title="ProductDetailPage">
 
     <Grid>
@@ -26,7 +27,7 @@
             <Button Content="Cambiar"></Button>
         </StackPanel>
 
-        <ui:Card Grid.Column="1" Grid.Row="0">
+        <ui:Card Grid.Column="1" Grid.Row="0" Margin="10,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -35,32 +36,35 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--Title-->
                 <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
-                <ui:TextBlock Grid.Column="1" Grid.Row="0" FontTypography="BodyStrong" Text="{Binding CurrentProduct.Name}" Margin="10,10,0,0"/>
-                <ui:TextBox Grid.Column="2" Grid.Row="0"> Cambiar texto</ui:TextBox>
+                <ui:TextBlock Text="Nombre:" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
+                <ui:TextBlock Grid.Column="2" Grid.Row="0" FontTypography="Body" Text="{Binding CurrentProduct.Name}" VerticalAlignment="Center"/>
+                <ui:TextBox Grid.Column="3" Grid.Row="0"> Cambiar texto</ui:TextBox>
                 <!--Categoria-->
                 <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1"/>
                 <ui:TextBlock Grid.Column="1" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:TextBox  Grid.Column="2" Grid.Row="1"/>
+                <ui:TextBlock Text="Celular" Grid.Row="1" Grid.Column="2" FontTypography="Body" VerticalAlignment="Center"/>
+                <ui:TextBox  Grid.Column="3" Grid.Row="1"/>
                 <!--Activo-->
                 <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2"/>
                 <ui:TextBlock Text="Activar:" Grid.Row="2" Grid.Column="1" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:ToggleSwitch Grid.Column="2" Grid.Row="2" Margin="10,10,0,0" HorizontalAlignment="Right"/>
+                <ui:ToggleSwitch OnContent="Activado" OffContent="Desactivado" Grid.Column="3" Grid.Row="2" Margin="10,10,0,0" HorizontalAlignment="Right" IsChecked="{Binding CurrentProduct.IsActive, Mode=TwoWay}"/>
             </Grid>
         </ui:Card>
-        <ui:Card Grid.Column="1" Grid.Row="1">
+        <ui:Card Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">
             <StackPanel Orientation="Horizontal">
-                <!--Stack-->
+                <!--Stock-->
                 <StackPanel Margin="10">
                     <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Symbol="TextMore20" Margin="5,0" VerticalAlignment="Center"/>
                         <ui:TextBlock FontTypography="BodyStrong" Text="En stock:" />
                     </StackPanel>
-                    <ui:TextBlock FontTypography="Body" Text="200" Margin="10,0" HorizontalAlignment="Right"/>
+                    <ui:TextBlock FontTypography="Body" Text="{Binding CurrentProduct.TotalStockResumen}" Margin="10,0" HorizontalAlignment="Right"/>
                 </StackPanel>
                 <!--Vendidos al mes-->
                 <StackPanel Margin="10">
@@ -76,13 +80,13 @@
                         <ui:SymbolIcon Symbol="Money20" Margin="5,0" VerticalAlignment="Center"/>
                         <ui:TextBlock FontTypography="BodyStrong" Text="Precio actual:"/>
                     </StackPanel>
-                    <ui:TextBlock FontTypography="Body" Text=" $ 100.00" Margin="10,0" HorizontalAlignment="Right"/>
+                    <ui:TextBlock FontTypography="Body" Text="{Binding FirstSalePrice, StringFormat={}{0:C2}}" Margin="10,0" HorizontalAlignment="Right"/>
                 </StackPanel>
             </StackPanel>
         </ui:Card>
         
         <!--Historial-->
-        <StackPanel Grid.Row="2" Grid.Column="2">
+        <StackPanel Grid.Row="2" Grid.Column="2" Margin="10">
             <ui:TextBlock FontTypography="Subtitle" Text="Historial"/>
         <ui:DataGrid CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
                 <ui:DataGrid.Columns>
@@ -91,7 +95,7 @@
                     <DataGridTextColumn Header="Subtotal" Width="*"/>
                     <DataGridTextColumn Header="Transacción" Width="*"/>
                     <DataGridTextColumn Header="Referencia" Width="*"/>
-                    <DataGridTextColumn Header="Stock" Width="*"/>
+                    <DataGridTextColumn Header="Stock" Binding="{Binding QuantityRemaining}" Width="*"/>
                 </ui:DataGrid.Columns>
             </ui:DataGrid>
         </StackPanel>

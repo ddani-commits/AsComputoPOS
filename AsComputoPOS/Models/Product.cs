@@ -30,14 +30,13 @@ namespace TamoPOS.Models
             return Name;
         }
         [NotMapped]
-        public (decimal TotalStockQuantity, decimal TotalStockAvalable) TotalStockResumen
+        public decimal TotalStockResumen
         {
             get
             {
-                decimal TotalStockQuantity = ProductPurchase?.Sum(pp => pp.Quantity) ?? 0;
-                decimal totalStockAvalable = ProductPurchase?.Sum(pp => pp.QuantityRemaining) ?? 0;
-                return (TotalStockQuantity, totalStockAvalable);
+                return(ProductPurchase?.Sum(pp => pp.Quantity) ?? 0) + (ProductPurchase?.Sum(pp => pp.QuantityRemaining) ?? 0);
             }
+        
         }
 
     }

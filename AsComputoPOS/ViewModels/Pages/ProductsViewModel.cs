@@ -3,20 +3,26 @@ using System.Collections.ObjectModel;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Views.Pages;
 using Wpf.Ui;
 using static TamoPOS.Models.Product;
+using CommunityToolkit.Mvvm.Input;
 
 namespace TamoPOS.ViewModels.Pages
 {
     public partial class ProductsViewModel : ViewModel
     {
         private readonly IContentDialogService _contentDialogService;
-        public ObservableCollection<Product> ProductsList { get; } = new();
+        private readonly INavigationService _navigationService;
+        public ObservableCollection<Models.Product> ProductsList { get; } = new();
         private ApplicationDbContext _appDbContext = new();
+        private readonly ProductDetailViewModel _productDetailViewModel;
 
-        public ProductsViewModel(IContentDialogService contentDialogService)
+        public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
         {
             _contentDialogService = contentDialogService;
+            _navigationService = navigationService;
+            _productDetailViewModel = productDetailViewModel;
             LoadProducts();
         }
 
@@ -42,7 +48,7 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         [RelayCommand]
-        public void AddProduct(Product product)
+        public void AddProduct(Models.Product product)
         {
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
@@ -66,13 +72,21 @@ namespace TamoPOS.ViewModels.Pages
                 .ToList();
             if (productsUnit != null)
             {
-                
+
                 ProductsList.Clear();
                 foreach (var product in productsUnit)
                 {
                     ProductsList.Add(product);
                 }
             }
+        }
+        [RelayCommand]
+        public void NavigateToProductDetails(int ProductId)
+        {
+            _productDetailViewModel.LoadProductDetails(ProductId);
+            _productDetailViewModel.LoadProductPurchases();
+            _navigationService.NavigateWithHierarchy(typeof(ProductDetailPage));
+
         }
     }
 }
