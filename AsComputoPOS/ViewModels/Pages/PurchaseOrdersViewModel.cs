@@ -63,7 +63,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _purchaseOrderDetailViewModel.LoadDetails(Id);
             _purchaseOrderDetailViewModel.LoadProductPurchases();
-            _navigationService.Navigate(typeof(PurchaseOrderDetailPage));
+            _navigationService.NavigateWithHierarchy(typeof(PurchaseOrderDetailPage));
         }
 
         [RelayCommand]

@@ -62,7 +62,7 @@ namespace TamoPOS.Services
 
                 _navigationWindow!.ShowWindow();
 
-                _navigationWindow.Navigate(typeof(Views.Pages.ProductsPage));
+                _navigationWindow.Navigate(typeof(Views.Pages.PointOfSalePage));
             }
 
             await Task.CompletedTask;

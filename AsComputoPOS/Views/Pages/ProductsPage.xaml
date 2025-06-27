@@ -10,39 +10,43 @@
       xmlns:controls="clr-namespace:TamoPOS.Controls"
       Title="ProductsPage">
 
-    <Grid>
+    <Grid Width="auto" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
+ 
+                <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <Button 
-            Grid.Row="0"
-            x:Name="OpenDialogButton"
-            Content="Nuevo producto" 
-            Command="{Binding ViewModel.ShowDialogCommand}" 
-            Margin="10" />
+            <Button 
+                Grid.Row="0"
+                x:Name="OpenDialogButton"
+                Content="Nuevo producto" 
+                Command="{Binding ViewModel.ShowDialogCommand}"/>
+                
+        <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-            <ItemsControl 
-                Grid.Row="1" 
-                SizeChanged="ItemsControl_SizeChanged"
-                ItemsSource="{Binding ViewModel.ProductsList}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel 
-                            Orientation="Horizontal"  
-                           ItemHeight="Auto" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <controls:ProductControl 
-                            Data="{Binding}"
-                            Margin="0, 10, 10, 0"
-                            Width="{Binding ProductControlWidth,RelativeSource={RelativeSource AncestorType=Page}}"
-                            />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ViewModel.ProductsList}" AutoGenerateColumns="False">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding ProductPurchase[0].SalePrice}"/>
+                <DataGridTextColumn Header="Categoría"/>
+                <DataGridTextColumn Header="Existencias" Binding="{Binding TotalStockResumen}"/>
+                <DataGridTemplateColumn Header="Detalles">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.ViewModel.NavigateToProductDetailsCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                    CommandParameter="{Binding ProductId}">
+                                <ui:SymbolIcon Symbol="ArrowEnter20"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
     </Grid>
 </Page>

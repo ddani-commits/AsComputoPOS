@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using TamoPOS.Models;
+using TamoPOS.Services;
+using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
-    public class PointOfSaleViewModel: ObservableObject
+    public partial class PointOfSaleViewModel: ViewModel
     {
+        private readonly IContentDialogService _contentDialogService;
+        public ObservableCollection<Product> ProductsList { get; } = new();
+        private readonly IPoSPanelService _posPanelService;
+        public ObservableCollection<ProductPurchase> ProductsInStock => _posPanelService.ProductsInStock;
+
+        public PointOfSaleViewModel(IContentDialogService contentDialogService, IPoSPanelService posPanelService)
+        {
+            _posPanelService = posPanelService;
+            _contentDialogService = contentDialogService;
+            _posPanelService.LoadProductsInStock();
+        }
     }
 }

@@ -35,12 +35,14 @@
         public decimal? FlatProfitMargin { get; set; }    // e.g. add $5 to the unit price
         public decimal? PercentProfitMargin { get; set; } // e.g. add 10% to the unit price
         public decimal SalePrice {get; set;} // represents the price of the product after adding the markup/profit marginS
-        public ICollection<StockBatch> StockBatches { get; set; } // there might be multiple batches for the same product purchase, each with its own stock left
+        public decimal? QuantityRemaining { get; set; }
+        //public ICollection<StockBatch> StockBatches { get; set; } // there might be multiple batches for the same product purchase, each with its own stock left
     }
 
     // what in spanish would be called "lote"
     // allows to track stock of products within the same price, so the user can restock before the stock runs out,
     // and still keep the old pricing
+    // feeling like this is overkill
     public class StockBatch {
         public int Id { get; set; }
         public Product Product { get; set; }
