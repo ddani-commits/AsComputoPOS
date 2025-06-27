@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui;
+using static TamoPOS.Models.Product;
 
 namespace TamoPOS.ViewModels.Pages
 {
@@ -19,13 +21,13 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         private void LoadProducts()
-        {   
-            var productPurchases = _appDbContext.Products
-                .ToList();
-
-            foreach (var productPurchase in productPurchases)
-            {
-                ProductsList.Add(productPurchase);
+        {
+            var products = _appDbContext.Products.ToList(); 
+            ProductsList.Clear();
+            foreach (var product in products)
+            { 
+                product.ProductPurchase = _appDbContext.Set<ProductPurchase>().ToList();
+                ProductsList.Add(product);
             }
         }
 
@@ -55,6 +57,22 @@ namespace TamoPOS.ViewModels.Pages
                 _appDbContext.Products.Update(product);
             }
             _appDbContext.SaveChanges();
+        }
+
+        public void LoadUnits()
+        {
+            var productsUnit = _appDbContext.Products
+                .Include(p => p.ProductPurchase)
+                .ToList();
+            if (productsUnit != null)
+            {
+                
+                ProductsList.Clear();
+                foreach (var product in productsUnit)
+                {
+                    ProductsList.Add(product);
+                }
+            }
         }
     }
 }

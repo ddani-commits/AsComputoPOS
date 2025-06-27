@@ -13,31 +13,32 @@
     <Grid Width="auto" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
+ 
+                <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
 
-        <Button 
-            Grid.Row="0"
-            x:Name="OpenDialogButton"
-            Content="Nuevo producto" 
-            Command="{Binding ViewModel.ShowDialogCommand}"/>
-
+            <Button 
+                Grid.Row="0"
+                x:Name="OpenDialogButton"
+                Content="Nuevo producto" 
+                Command="{Binding ViewModel.ShowDialogCommand}"/>
+                
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-        <DataGrid
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            ItemsSource="{Binding ViewModel.ProductsList}"
-            AutoGenerateColumns="True"
-            CanUserAddRows="False"
-            Margin="0,8,0,0"
-            IsReadOnly="True"
-            SelectionMode="Single"
-            SelectionUnit="FullRow" />
+        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ViewModel.ProductsList}" AutoGenerateColumns="False">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding ProductPurchase[0].SalePrice}"/>
+                <DataGridTextColumn Header="Categoría"/>
+                <DataGridTextColumn Header="Existencias" Binding="{Binding TotalStockResumen}"/>
+                <DataGridTextColumn Header="Detalles"/>
+                
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
     </Grid>
 </Page>
