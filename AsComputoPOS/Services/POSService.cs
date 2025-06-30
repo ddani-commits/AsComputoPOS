@@ -50,5 +50,6 @@ namespace TamoPOS.Services
                 ProductsInStock.Add(productPurchase);
             }
         }
+        public string PrintTicket() { return "Ticket generated successfully!"; }
     }
 }

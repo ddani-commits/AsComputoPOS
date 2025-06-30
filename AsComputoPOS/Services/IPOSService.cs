@@ -14,5 +14,6 @@ namespace TamoPOS.Services
         void ConfirmSale();
         void AddToCart(ProductPurchase product);
         ObservableCollection<ProductPurchase> Cart { get; set; }
+        string PrintTicket();
     }
 }

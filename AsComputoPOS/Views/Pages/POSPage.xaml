@@ -6,13 +6,24 @@
       xmlns:local="clr-namespace:TamoPOS.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:TamoPOS.Controls"
       Title="PointOfSalePage">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Buscar" />
+        <ui:TextBox 
+            Grid.Row="1" 
+            TextChanged="TextBox_TextChanged"
+            PlaceholderText="Nombre o codigo de barras"/>
         <ItemsControl 
                 Focusable="False"
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.ColumnSpan="2"
                 SizeChanged="ItemsControl_SizeChanged"
                 ItemsSource="{Binding ProductsInStock}">
