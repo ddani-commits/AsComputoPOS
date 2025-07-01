@@ -20,6 +20,7 @@
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                
                 <DockPanel Grid.Row="0" LastChildFill="False">
                     <TextBlock Text="Ticket" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" DockPanel.Dock="Left" />
                     <ToggleButton 
@@ -47,10 +48,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Text="{Binding Product.Name}" FontWeight="Bold" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="1" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Quantity}" VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="2" Orientation="Vertical" x:Name="Price" VerticalAlignment="Center">
-                                    <ui:TextBlock FontTypography="BodyStrong" Text="{Binding SalePrice, StringFormat={}{0:C2}}" />
-                                    <ui:TextBlock FontTypography="Caption" Text="{Binding SalePrice, StringFormat={}{0:C2}}" />
+                                    <ui:TextBlock FontTypography="BodyStrong" Text="{Binding Total, StringFormat={}{0:C2}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{Binding UnitPrice, StringFormat={}{0:C2}}" />
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
