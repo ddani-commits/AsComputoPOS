@@ -38,39 +38,6 @@ namespace TamoPOS.Views.Windows
 
             checkoutPanel.SetViewModel(_serviceProvider.GetRequiredService<CheckoutPanelViewModel>());
 
-            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
-        }
-
-        private DateTime? _lastKeystrokeTime = null;
-        private char? _lastKeystrokeValue = null;
-
-        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            var focusedElement = Keyboard.FocusedElement;
-            var now = DateTime.Now;
-
-            // Ignore keystrokes in text inputs
-            if (focusedElement is TextBox || focusedElement is PasswordBox) return;
-
-            // Letras (A-Z)
-            //if (e.Key >= Key.A && e.Key <= Key.Z) Debug.Write($"Letra: {e.Key}");
-
-            // Números (0-9, parte superior del teclado)
-            else if (e.Key >= Key.D0 && e.Key <= Key.D9)
-            {
-                if(_lastKeystrokeTime != null)
-                {
-                    var timeSinceLastKeyStroke = now - _lastKeystrokeTime.Value;
-                    Debug.WriteLine("Time since last keystroke: " + timeSinceLastKeyStroke.TotalMilliseconds + "ms");
-                    Debug.WriteLine($"{e.Key - Key.D0}");
-                    //Debug.WriteLine(e.Key);
-                    //Debug.WriteLine(Key.D0);
-                }
-            }
-            // Números (teclado numérico)
-            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) { }
-
-            _lastKeystrokeTime = now;
         }
 
         #region INavigationWindow methods

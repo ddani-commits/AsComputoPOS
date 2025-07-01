@@ -23,6 +23,10 @@ namespace TamoPOS.Views.Pages
             }
         }
 
+
+        Stopwatch keyTimer = new Stopwatch();
+        List<long> keyIntervals = new List<long>();
+
         public POSPage(POSPageViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -59,10 +63,32 @@ namespace TamoPOS.Views.Pages
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
+            bool isHuman = true;
+            if (keyTimer.IsRunning)
+            {
+                keyTimer.Stop();
+                keyIntervals.Add(keyTimer.ElapsedMilliseconds);
+
+                // The minimun lenght a barcode can be is 8
+                if (keyIntervals.Count > 8)
+                    keyIntervals.RemoveAt(0);
+
+                double average = keyIntervals.Average();
+                if (average < 15) isHuman = false;
+                if (average > 15) isHuman = true;
+            }
+
+            keyTimer.Restart();
+
             if (e.Key == Key.Return && ViewModel.DisplayProducts.Cast<object>().Count() == 1)
             {
                 var pp = ViewModel.DisplayProducts.Cast<ProductPurchase>().First();
                 ViewModel.AddProductToCart(pp);
+                if (!isHuman) 
+                {
+                    ProductViewSearch.Clear();
+                }
+                
             }
         }
     }

@@ -18,6 +18,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Buscar" />
         <ui:TextBox 
+            x:Name="ProductViewSearch"
             Grid.Row="1" 
             TextChanged="TextBox_TextChanged"
             KeyDown="TextBox_KeyDown"
