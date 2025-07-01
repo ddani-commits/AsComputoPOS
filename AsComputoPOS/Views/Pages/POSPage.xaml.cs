@@ -11,6 +11,8 @@ namespace TamoPOS.Views.Pages
     public partial class POSPage : INavigableView<POSPageViewModel>, INotifyPropertyChanged
     {
         public POSPageViewModel ViewModel { get; }
+        Stopwatch keyTimer = new Stopwatch();
+        List<long> keyIntervals = new List<long>();
         public int Columns { get; set; } = 2;
         public double _productControlWidth;
         public double ProductControlWidth
@@ -23,15 +25,12 @@ namespace TamoPOS.Views.Pages
             }
         }
 
-
-        Stopwatch keyTimer = new Stopwatch();
-        List<long> keyIntervals = new List<long>();
-
         public POSPage(POSPageViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
+            Loaded += (s, e) => ProductViewSearch.Focus();
         }
 
         private void ItemsControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -49,13 +48,6 @@ namespace TamoPOS.Views.Pages
             ProductControlWidth = (availableWidth / Columns) + space; // add the padding or something idk
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ViewModel.Filter(((TextBox)sender).Text);
@@ -70,8 +62,7 @@ namespace TamoPOS.Views.Pages
                 keyIntervals.Add(keyTimer.ElapsedMilliseconds);
 
                 // The minimun lenght a barcode can be is 8
-                if (keyIntervals.Count > 8)
-                    keyIntervals.RemoveAt(0);
+                if (keyIntervals.Count > 8) keyIntervals.RemoveAt(0);
 
                 double average = keyIntervals.Average();
                 if (average < 15) isHuman = false;
@@ -84,12 +75,14 @@ namespace TamoPOS.Views.Pages
             {
                 var pp = ViewModel.DisplayProducts.Cast<ProductPurchase>().First();
                 ViewModel.AddProductToCart(pp);
-                if (!isHuman) 
-                {
-                    ProductViewSearch.Clear();
-                }
-                
+                if (!isHuman) ProductViewSearch.Clear();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
