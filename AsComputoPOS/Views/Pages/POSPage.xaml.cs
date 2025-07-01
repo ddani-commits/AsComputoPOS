@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Controls;
 using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
@@ -52,8 +51,7 @@ namespace TamoPOS.Views.Pages
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Debug.WriteLine(((TextBox)sender).Text);
-            ViewModel.SearchProductByName(((TextBox)sender).Text);
+            ViewModel.Filter(((TextBox)sender).Text);
         }
     }
 }
