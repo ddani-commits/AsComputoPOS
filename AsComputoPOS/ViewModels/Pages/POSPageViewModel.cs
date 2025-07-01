@@ -43,7 +43,8 @@ namespace TamoPOS.ViewModels.Pages
             {
                 if (item is ProductPurchase productPurchase)
                 {
-                    return productPurchase.Product.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                    return productPurchase.Product.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                   || productPurchase.Product.Barcode.Contains(searchText, StringComparison.OrdinalIgnoreCase) ;
                 }
                 return false;
             };
