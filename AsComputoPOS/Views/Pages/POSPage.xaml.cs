@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
+using System.Windows.Input;
+using TamoPOS.Models;
 
 namespace TamoPOS.Views.Pages
 {
@@ -52,6 +55,15 @@ namespace TamoPOS.Views.Pages
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ViewModel.Filter(((TextBox)sender).Text);
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return && ViewModel.DisplayProducts.Cast<object>().Count() == 1)
+            {
+                var pp = ViewModel.DisplayProducts.Cast<ProductPurchase>().First();
+                ViewModel.AddProductToCart(pp);
+            }
         }
     }
 }
