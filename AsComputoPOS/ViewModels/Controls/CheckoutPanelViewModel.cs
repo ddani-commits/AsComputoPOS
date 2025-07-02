@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using TamoPOS.Controls.PointOfSalePanel;
+using System.Diagnostics;
 using TamoPOS.Models;
 using TamoPOS.Services;
 
@@ -10,20 +10,20 @@ namespace TamoPOS.ViewModels.Controls
     {
         public ObservableCollection<string> PaymentMethods => _posService.PaymentMethods;
         public ObservableCollection<CartItem> Cart => _posService.Cart;
-
-        public string Total => $"Cobra {Cart.Sum(item => item.Total).ToString("C2")}";
-
+        public string CheckoutButtonText => Total == 0 ? "Carrito Vacío" : $"Cobrar {Total:C2}";
+        public decimal Total => _posService.Total;
         private IPOSService _posService;
 
         public CheckoutPanelViewModel(IPOSService posService)
         {
             _posService = posService;
 
-
             // Subscribe to collection changes
             Cart.CollectionChanged += (s, e) =>
             {
                 OnPropertyChanged(nameof(Total));
+                OnPropertyChanged(nameof(CheckoutButtonText));
+
                 if (e.NewItems != null)
                 {
                     foreach (CartItem item in e.NewItems)
@@ -45,6 +45,14 @@ namespace TamoPOS.ViewModels.Controls
         {
             if (e.PropertyName == nameof(CartItem.Quantity) || e.PropertyName == nameof(CartItem.UnitPrice))
                 OnPropertyChanged(nameof(Total));
+                OnPropertyChanged(nameof(CheckoutButtonText));
+        }
+
+        [RelayCommand]
+        public void StartCheckout()
+        {
+            if (Cart.Count == 0) return;
+            Debug.WriteLine("starting checkout");
         }
     }
 }

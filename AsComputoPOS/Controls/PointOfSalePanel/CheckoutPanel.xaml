@@ -59,7 +59,7 @@
                 </ui:ListView>
 
                 <StackPanel Grid.Row="2" >
-                    <TextBlock FontSize="24" FontWeight="Bold">Metodo de pago</TextBlock>
+                    <ui:TextBlock FontTypography="Subtitle" >Método de pago</ui:TextBlock>
                     <ComboBox Margin="0, 8" ItemsSource="{Binding PaymentMethods}" MinWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -74,11 +74,34 @@
             </Grid>
 
             <ui:Button 
+                x:Name="CheckoutButton"
+                Command="{Binding StartCheckoutCommand}"
                 Appearance="Primary"
                 Height="100" 
                 HorizontalAlignment="Stretch" 
                 Grid.Row="1">
-                <ui:TextBlock FontTypography="Subtitle" FontWeight="Black" Text="{Binding Total}" />
+                    <ui:TextBlock 
+                        x:Name="CheckoutButtonText"
+                        FontTypography="Subtitle" 
+                        Text="{Binding CheckoutButtonText}" />
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Total}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="Foreground" Value="Gray" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Total}" Value="{x:Null}">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Total}" Value="0.00">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
             </ui:Button>
         </Grid>
     </Border>

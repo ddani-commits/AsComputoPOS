@@ -5,13 +5,10 @@ namespace TamoPOS.Controls.PointOfSalePanel
 {
     public partial class CheckoutPanel : UserControl
     {
-        
         public CheckoutPanelViewModel? ViewModel;
-        
         public CheckoutPanel()
         {
             InitializeComponent();
-            //DataContext = this;
         }
 
         public void SetViewModel(CheckoutPanelViewModel viewModel)
