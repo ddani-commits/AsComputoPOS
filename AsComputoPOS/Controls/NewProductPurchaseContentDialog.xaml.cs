@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
 namespace TamoPOS.Controls
@@ -15,6 +16,7 @@ namespace TamoPOS.Controls
         private readonly Action<ProductPurchase>? _saveProductPurchase;
         private readonly ContentPresenter? _contentPresenter;
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IPOSService _posPanelService;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -98,6 +100,16 @@ namespace TamoPOS.Controls
             } 
         }
 
+        private decimal _quantityRemaining;
+        public decimal QuantityRemaining
+        {
+            get => _quantityRemaining;
+            set
+            {
+                _quantityRemaining = value;
+            }
+        }
+
         public string SubtotalString => "$ " + _subtotal.ToString("N2");
              
         private void RecalculateFromPurchasePrice()
@@ -120,12 +132,14 @@ namespace TamoPOS.Controls
         public NewProductPurchaseContentDialog(
             ApplicationDbContext dbContext,
             ContentPresenter? contentPresenter, 
-            Action<ProductPurchase> saveProductPurchase
+            Action<ProductPurchase> saveProductPurchase,
+            IPOSService posPanelService
         ) : base(contentPresenter)
         {
             _contentPresenter = contentPresenter;
             _applicationDbContext = dbContext;
             _saveProductPurchase = saveProductPurchase;
+            _posPanelService = posPanelService;
             InitializeComponent();
             DataContext = this;
         }
@@ -134,8 +148,9 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
+                // todo: show feedback to tell the user to pick a product
                 if (_selectedProduct is null) return;
-                // Perform save operation
+
                 ProductPurchase productPurchase = new ProductPurchase
                 {
                     Product = _selectedProduct,
@@ -144,10 +159,16 @@ namespace TamoPOS.Controls
                     Subtotal = Subtotal,
                     Total = Subtotal,   
                     FlatProfitMargin = FlatMargin,
-                    PercentProfitMargin = PercentageMargin,
-                    SalePrice = PublicPrice
+                    PercentProfitMargin = PercentageMargin / 100,
+                    SalePrice = PublicPrice,
+                    QuantityRemaining = QuantityRemaining
                 };
+
                 _saveProductPurchase?.Invoke(productPurchase);
+
+                // just update the whole list, might hurt performance on long product lists
+                if (productPurchase.QuantityRemaining > 0) _posPanelService.LoadProductsInStock();
+
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");
             }

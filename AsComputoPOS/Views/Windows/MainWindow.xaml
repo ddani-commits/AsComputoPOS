@@ -44,7 +44,7 @@
             <!-- Contenedor de navegación y contenido <Grid Grid.Column="0">-->
             <ui:NavigationView Grid.Column="0"
                     x:Name="RootNavigation"
-                    Padding="42,0,42,0"
+                    Padding="42,0,35,0"
                     BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
                     MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
@@ -52,19 +52,21 @@
                     IsBackButtonVisible="Collapsed"
                     IsPaneToggleVisible="True"
                     OpenPaneLength="175"
+                    Navigated="RootNavigation_Navigated"
                     PaneDisplayMode="Left">
                 <ui:NavigationView.Header>
                     <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
                 </ui:NavigationView.Header>
 
+                
                 <ui:NavigationView.ContentOverlay>
                     <Grid>
                         <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
                     </Grid>
                 </ui:NavigationView.ContentOverlay>
+                
             </ui:NavigationView>
-            <!--</Grid>-->
-            <panel:PointOfSalePanel Grid.Column="1" x:Name="SidePanel"/>
+            <panel:CheckoutPanel x:Name="checkoutPanel" Grid.Column="1" />
         </Grid>
 
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->

@@ -1,47 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Diagnostics;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TamoPOS.Models;
 
 namespace TamoPOS.Controls
 {
-    /// <summary>
-    /// Lógica de interacción para ProductControl.xaml
-    /// </summary>
     public partial class ProductControl : UserControl
     {
-                // Define the DependencyProperty 'Data'
+        // Cambia el tipo de la DependencyProperty 'Data' a ProductPurchase
         public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register("Data", typeof(Product), typeof(ProductControl),
+            DependencyProperty.Register("Data", typeof(ProductPurchase), typeof(ProductControl),
                 new PropertyMetadata(null, OnDataChanged));
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(
+                nameof(Command),
+                typeof(ICommand),
+                typeof(ProductControl),
+                new PropertyMetadata(null)
+            );
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(
+                nameof(CommandParameter),
+                typeof(object),
+                typeof(ProductControl),
+                new PropertyMetadata(null)
+            );
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
 
         private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ProductControl control && e.NewValue is Product product)
+            if (d is ProductControl control && e.NewValue is ProductPurchase productPurchase)
             {
-                control.DataContext = product;
+                control.DataContext = productPurchase;
             }
         }
 
-        public Product Data
+        public ProductPurchase Data
         {
-            get => (Product)GetValue(DataProperty);
+            get => (ProductPurchase)GetValue(DataProperty);
             set => SetValue(DataProperty, value);
         }
+
         public ProductControl()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Command != null && Command.CanExecute(CommandParameter))
+            {
+                Command.Execute(CommandParameter);
+            } else
+            {
+                Debug.WriteLine("cannot execute");
+            }
         }
     }
 }

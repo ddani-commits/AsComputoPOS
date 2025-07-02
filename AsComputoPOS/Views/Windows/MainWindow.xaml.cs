@@ -1,9 +1,9 @@
-﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using System.Windows.Controls.Ribbon.Primitives;
-using TamoPOS.Services;
+using System.Windows.Input;
+using TamoPOS.ViewModels.Controls;
 using TamoPOS.ViewModels.Windows;
+using TamoPOS.Views.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
@@ -14,15 +14,18 @@ namespace TamoPOS.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
+        private IServiceProvider _serviceProvider;
 
         public MainWindow(
             MainWindowViewModel viewModel,
             INavigationViewPageProvider navigationViewPageProvider,
             INavigationService navigationService,
-            IContentDialogService contentDialogService
+            IContentDialogService contentDialogService,
+            IServiceProvider serviceProvider
         )
         {
             ViewModel = viewModel;
+            _serviceProvider = serviceProvider;
             DataContext = this;
 
             SystemThemeWatcher.Watch(this);
@@ -33,7 +36,8 @@ namespace TamoPOS.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
 
-            //Loaded += MainWindow_Loaded;
+            checkoutPanel.SetViewModel(_serviceProvider.GetRequiredService<CheckoutPanelViewModel>());
+
         }
 
         #region INavigationWindow methods
@@ -51,7 +55,7 @@ namespace TamoPOS.Views.Windows
         #endregion INavigationWindow methods
 
         /// <summary>
-        /// Raises the closed event.
+        /// Raises the closed event, actually closing the application.
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
@@ -69,20 +73,15 @@ namespace TamoPOS.Views.Windows
             throw new NotImplementedException();
         }
 
-        private void NavigationViewItem_Click(object sender, RoutedEventArgs e)
+        private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            CloseWindow();
+            if(args.Page is POSPage)
+            {
+                SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
+            } else
+            {
+                SidePanelColumn.Width = new GridLength(0);
+            }
         }
-
-        private void MinimizeWindowButton(object sender, RoutedEventArgs e)
-        {
-            WindowState= WindowState.Minimized;
-        }
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Maximized;
-        }
-     
     }
 }

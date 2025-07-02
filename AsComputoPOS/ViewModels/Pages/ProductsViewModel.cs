@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -7,20 +6,12 @@ using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
-    public partial class ProductsViewModel: ViewModel
+    public partial class ProductsViewModel : ViewModel
     {
-        [ObservableProperty]
-        private string _productName = "";
-        [ObservableProperty]
-        private bool _isActive = true;
-        [ObservableProperty]
-        private string _barcode = "";
-        [ObservableProperty]
-        private string _SKU = "";
-        
         private readonly IContentDialogService _contentDialogService;
         public ObservableCollection<Product> ProductsList { get; } = new();
-        
+        private ApplicationDbContext _appDbContext = new();
+
         public ProductsViewModel(IContentDialogService contentDialogService)
         {
             _contentDialogService = contentDialogService;
@@ -28,21 +19,22 @@ namespace TamoPOS.ViewModels.Pages
         }
 
         private void LoadProducts()
-        {
-            using var db = new ApplicationDbContext();
-            foreach (var product in db.Products)
+        {   
+            var productPurchases = _appDbContext.Products
+                .ToList();
+
+            foreach (var productPurchase in productPurchases)
             {
-                ProductsList.Add(product);
+                ProductsList.Add(productPurchase);
             }
         }
 
         [RelayCommand]
         private async Task OnShowDialog()
         {
-            Debug.WriteLine("Show dialog button Clicked");
             if (_contentDialogService.GetDialogHost() is not null)
             {   // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
-                var newProductDialog = new NewProductContentDialog(_contentDialogService.GetDialogHost(), AddProduct);
+                var newProductDialog = new NewProductContentDialog(_appDbContext, _contentDialogService.GetDialogHost(), AddProduct);
                 _ = await newProductDialog.ShowAsync();
             }
         }
@@ -50,26 +42,19 @@ namespace TamoPOS.ViewModels.Pages
         [RelayCommand]
         public void AddProduct(Product product)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Products.Add(product);
-                context.SaveChanges();
-                ProductsList.Add(product);
-            }
-            Console.WriteLine("Add Product command executed.");
+            _appDbContext.Products.Add(product);
+            _appDbContext.SaveChanges();
+            ProductsList.Add(product);
         }
 
         [RelayCommand]
         public void SaveProducts()
         {
-            using (var context = new ApplicationDbContext())
+            foreach (var product in ProductsList)
             {
-                foreach (var product in ProductsList)
-                {
-                    context.Products.Update(product);
-                }
-                context.SaveChanges();
+                _appDbContext.Products.Update(product);
             }
+            _appDbContext.SaveChanges();
         }
     }
 }
