@@ -15,5 +15,6 @@ namespace TamoPOS.Services
         void AddToCart(CartItem product);
         ObservableCollection<CartItem> Cart { get; set; }
         string PrintTicket();
+        decimal Total { get; }
     }
 }

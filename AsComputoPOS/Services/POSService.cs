@@ -11,22 +11,14 @@ namespace TamoPOS.Services
 {
     public class POSService : IPOSService
     {
-        private INavigationWindow? _navigationWindow;
-        private MainWindow? _mainWindow;
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
         private readonly ApplicationDbContext _appDbContext = new();
         public ObservableCollection<CartItem> Cart { get; set; } = new();
         public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
+        public bool IsSidePanelExpanded { get; set; } = false;
 
-        public bool _isSidePanelExpanded = false;
-        public bool IsSidePanelExpanded
-        {
-            get => _isSidePanelExpanded;
-            set
-            {
-                _isSidePanelExpanded = value;
-            }
-        }
+        public decimal Total => Cart.Sum(item => item.Total);
+
         public POSService(){}
         public void AddToCart(CartItem product)
         {
