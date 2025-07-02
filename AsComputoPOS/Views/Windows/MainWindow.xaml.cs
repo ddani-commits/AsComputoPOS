@@ -1,4 +1,7 @@
-﻿using TamoPOS.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using System.Windows.Input;
+using TamoPOS.ViewModels.Controls;
 using TamoPOS.ViewModels.Windows;
 using TamoPOS.Views.Pages;
 using Wpf.Ui;
@@ -11,7 +14,6 @@ namespace TamoPOS.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
-        private IPoSPanelService _posPanelService;
         private IServiceProvider _serviceProvider;
 
         public MainWindow(
@@ -19,12 +21,10 @@ namespace TamoPOS.Views.Windows
             INavigationViewPageProvider navigationViewPageProvider,
             INavigationService navigationService,
             IContentDialogService contentDialogService,
-            IPoSPanelService posPanelService,
             IServiceProvider serviceProvider
         )
         {
             ViewModel = viewModel;
-            _posPanelService = posPanelService;
             _serviceProvider = serviceProvider;
             DataContext = this;
 
@@ -35,6 +35,9 @@ namespace TamoPOS.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
+
+            checkoutPanel.SetViewModel(_serviceProvider.GetRequiredService<CheckoutPanelViewModel>());
+
         }
 
         #region INavigationWindow methods
@@ -52,7 +55,7 @@ namespace TamoPOS.Views.Windows
         #endregion INavigationWindow methods
 
         /// <summary>
-        /// Raises the closed event.
+        /// Raises the closed event, actually closing the application.
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
@@ -72,12 +75,12 @@ namespace TamoPOS.Views.Windows
 
         private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            if(args.Page is PointOfSalePage)
+            if(args.Page is POSPage)
             {
-                _posPanelService.ExpandSidePanel(_serviceProvider);
+                SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
             } else
             {
-                _posPanelService.CollapseSidePanel(_serviceProvider);
+                SidePanelColumn.Width = new GridLength(0);
             }
         }
     }

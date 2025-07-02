@@ -22,6 +22,7 @@
                 <ui:TextBlock FontTypography="Caption" Text="{Binding QuantityRemaining, StringFormat={}{0} existencias }" />
                 <ui:Button 
                     Appearance="Dark"
+                    Click="Button_Click"
                     Content="Agregar al carrito" />
             </StackPanel>
             <TextBlock Text="{Binding Product.SKU}" />

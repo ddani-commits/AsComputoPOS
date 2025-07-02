@@ -12,6 +12,7 @@ using TamoPOS.Views.Pages;
 using TamoPOS.Views.Windows;
 using Wpf.Ui;
 using Wpf.Ui.DependencyInjection;
+using TamoPOS.ViewModels.Controls;
 
 namespace TamoPOS
 {
@@ -62,7 +63,7 @@ namespace TamoPOS
                 services.AddSingleton<MainWindowViewModel>();
 
                 services.AddSingleton<IAuthenticationService, AuthenticationService>();
-                services.AddSingleton<IPoSPanelService, PoSPanelService>();
+                services.AddSingleton<IPOSService, POSService>();
 
                 // App UI Pages
                 services.AddSingleton<AuthWindow>();
@@ -80,8 +81,8 @@ namespace TamoPOS
                 services.AddSingleton<InventoryPage>();
                 services.AddSingleton<InventoryViewModel>();
 
-                services.AddSingleton<PointOfSalePage>();
-                services.AddSingleton<PointOfSaleViewModel>();
+                services.AddSingleton<POSPage>();
+                services.AddSingleton<POSPageViewModel>();
 
                 services.AddSingleton<ProductsPage>();
                 services.AddSingleton<ProductsViewModel>();
@@ -97,6 +98,8 @@ namespace TamoPOS
 
                 services.AddSingleton<PurchaseOrderDetailPage>();
                 services.AddSingleton<PurchaseOrderDetailViewModel>();
+
+                services.AddSingleton<CheckoutPanelViewModel>();
 
                 services.AddSingleton<ProductDetailPage>();
                 services.AddSingleton<ProductDetailViewModel>();

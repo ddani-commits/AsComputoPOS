@@ -14,7 +14,7 @@ namespace TamoPOS.ViewModels.Pages
         private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
         private IContentDialogService _contentDialogService;
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
-        private readonly IPoSPanelService _posPanelService;
+        private readonly IPOSService _posPanelService;
 
         [ObservableProperty]
         private string? _idText;
@@ -30,7 +30,7 @@ namespace TamoPOS.ViewModels.Pages
 
         public PurchaseOrderDetailViewModel(
             IContentDialogService contentDialogService,
-            IPoSPanelService poSPanelService
+            IPOSService poSPanelService
         ) 
         {
             _posPanelService = poSPanelService;

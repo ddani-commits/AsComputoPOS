@@ -1,14 +1,23 @@
 ﻿using System.Windows.Controls;
+using TamoPOS.ViewModels.Controls;
 
 namespace TamoPOS.Controls.PointOfSalePanel
 {
-    public partial class PointOfSalePanel : UserControl
+    public partial class CheckoutPanel : UserControl
     {
-        public List<string> Colors { get; } = new() { "Efectivo", "Debito/Credito"};
-        public PointOfSalePanel()
+        
+        public CheckoutPanelViewModel? ViewModel;
+        
+        public CheckoutPanel()
         {
             InitializeComponent();
-            DataContext = this;
+            //DataContext = this;
+        }
+
+        public void SetViewModel(CheckoutPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
         }
 
         private void Edit_Checked(object sender, RoutedEventArgs e)
