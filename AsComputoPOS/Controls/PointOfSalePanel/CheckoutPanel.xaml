@@ -20,7 +20,7 @@
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <DockPanel Grid.Row="0" LastChildFill="False">
                     <TextBlock Text="Ticket" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" DockPanel.Dock="Left" />
                     <ToggleButton 
@@ -31,13 +31,13 @@
                         Unchecked="Edit_Unchecked"
                         DockPanel.Dock="Right" />
                 </DockPanel>
-                
+
                 <!--
                 <StackPanel Grid.Row="1" VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">El carrito esta vacio</TextBlock>
                 </StackPanel>
                 -->
-                    <ui:ListView Grid.Row="1" ItemsSource="{Binding Cart}" x:Name="CartTicket">
+                <ui:ListView Grid.Row="1" ItemsSource="{Binding Cart}" x:Name="CartTicket">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="4">
@@ -73,15 +73,13 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Height="100">
-                <Rectangle Fill="Black" Stroke="Black"/>
-                <TextBlock Text="Accept"
-                           Foreground="White"
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Center" 
-                           FontSize="32" 
-                           FontWeight="Bold"/>
-            </Grid>
+            <ui:Button 
+                Appearance="Primary"
+                Height="100" 
+                HorizontalAlignment="Stretch" 
+                Grid.Row="1">
+                <ui:TextBlock FontTypography="Subtitle" FontWeight="Black" Text="{Binding Total}" />
+            </ui:Button>
         </Grid>
     </Border>
 </UserControl>
