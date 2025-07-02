@@ -61,9 +61,6 @@ namespace TamoPOS.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("clicked " + Data.Product.Name);
-            Debug.WriteLine(CommandParameter.GetType());
-            Debug.WriteLine(Command is null);
             if (Command != null && Command.CanExecute(CommandParameter))
             {
                 Command.Execute(CommandParameter);

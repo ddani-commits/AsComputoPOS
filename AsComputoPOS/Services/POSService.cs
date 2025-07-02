@@ -33,14 +33,30 @@ namespace TamoPOS.Services
             Cart.Add(product);
         }
 
+        // Todo: Create a class specific for POS Product Display
         public void LoadProductsInStock()
         {
             ProductsInStock.Clear();
             var productPurchases = _appDbContext.ProductPurchases
                 .Include(pp => pp.Product)
-                .Where(productPurchase => productPurchase.QuantityRemaining > 0)
+                .Where(pp => pp.QuantityRemaining > 0)
+                .AsEnumerable()
                 .GroupBy(productPurchase => productPurchase.ProductId)
-                .Select(g => g.OrderBy(pp => (double)pp.QuantityRemaining!).First())
+                .Select(g =>
+                {
+                    var oldest = g.OrderBy(pp => pp.PurchaseOrderId).First(); // find the oldest by using the smallest id
+                    var totalRemaining = g.Sum(pp => pp.QuantityRemaining ?? 0); // sum every one's Quantity Remaining
+
+                    // Return new instance with the needed data
+                    return new ProductPurchase
+                    {
+                        Id = oldest.Id,
+                        ProductId = oldest.ProductId,
+                        Product = oldest.Product,
+                        SalePrice = oldest.SalePrice,
+                        QuantityRemaining = totalRemaining
+                    };
+                })
                 .ToList();
 
             foreach (var productPurchase in productPurchases)
