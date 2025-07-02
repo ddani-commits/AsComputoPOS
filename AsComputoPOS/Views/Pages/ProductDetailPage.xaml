@@ -64,7 +64,7 @@
                         <ui:SymbolIcon Symbol="TextMore20" Margin="5,0" VerticalAlignment="Center"/>
                         <ui:TextBlock FontTypography="BodyStrong" Text="En stock:" />
                     </StackPanel>
-                    <ui:TextBlock FontTypography="Body" Text="{Binding CurrentProduct.TotalStockResumen}" Margin="10,0" HorizontalAlignment="Right"/>
+                    <ui:TextBlock FontTypography="Body" Text="{Binding QuantityRemaining}" Margin="10,0" HorizontalAlignment="Right"/>
                 </StackPanel>
                 <!--Vendidos al mes-->
                 <StackPanel Margin="10">
@@ -80,7 +80,7 @@
                         <ui:SymbolIcon Symbol="Money20" Margin="5,0" VerticalAlignment="Center"/>
                         <ui:TextBlock FontTypography="BodyStrong" Text="Precio actual:"/>
                     </StackPanel>
-                    <ui:TextBlock FontTypography="Body" Text="{Binding FirstSalePrice, StringFormat={}{0:C2}}" Margin="10,0" HorizontalAlignment="Right"/>
+                    <ui:TextBlock FontTypography="Body" Text="{Binding SalePrice, StringFormat={}{0:C2}}" Margin="10,0" HorizontalAlignment="Right"/>
                 </StackPanel>
             </StackPanel>
         </ui:Card>

@@ -29,13 +29,13 @@
                 
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ProductsList}" AutoGenerateColumns="False">
+        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ProductsInStock}" AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Precio" Binding="{Binding ProductPurchase[0].SalePrice}"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice}"/>
                 <DataGridTextColumn Header="Categoría"/>
-                <DataGridTextColumn Header="Existencias" Binding="{Binding TotalStockResumen}"/>
+                <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

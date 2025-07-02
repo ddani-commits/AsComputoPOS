@@ -26,14 +26,13 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string? _salePrice;
         [ObservableProperty]
-        private string? _stock;
+        private string? _quantityRemaining;
         [ObservableProperty]
         private string? _name;
         [ObservableProperty]
         private bool? _isActive;
         [ObservableProperty]
         private string? _currentPurchaseOrder;
-        public decimal? FirstSalePrice => CurrentProduct?.ProductPurchase?.FirstOrDefault()?.SalePrice;
         public ProductDetailViewModel() { }
         [RelayCommand]
         public void LoadProductDetails(int productId)
@@ -48,7 +47,7 @@ namespace TamoPOS.ViewModels.Pages
                 IdText = product.ProductId.ToString();
                 Name = product.Name;
                 SalePrice = product.ProductPurchase?.FirstOrDefault()?.SalePrice.ToString("C") ?? "0.00";
-               // Stock = product.ProductPurchase?.FirstOrDefault()?.QuantityRemaining?.ToString("C") ?? "0";
+                QuantityRemaining = product.ProductPurchase?.FirstOrDefault()?.QuantityRemaining?.ToString();
                 IsActive = product.IsActive;
                 Debug.WriteLine($"Product ID: {product.ProductId}");
             }

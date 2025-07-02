@@ -28,6 +28,7 @@ namespace TamoPOS.ViewModels.Pages
             _navigationService = navigationService;
             _productDetailViewModel = productDetailViewModel;
             LoadProducts();
+            LoadProductsInStock();
         }
 
         private void LoadProducts()
@@ -102,7 +103,8 @@ namespace TamoPOS.ViewModels.Pages
             {
                 _appDbContext.Products.Remove(productToDelete);
                 _appDbContext.SaveChanges();
-                ProductsList.Remove(product);        
+                ProductsList.Remove(product);
+                LoadProducts();
             }
             else
             {
@@ -115,7 +117,6 @@ namespace TamoPOS.ViewModels.Pages
             ProductsInStock.Clear();
             var productPurchases = _appDbContext.ProductPurchases
                 .Include(pp => pp.Product)
-                .Where(pp => pp.QuantityRemaining > 0)
                 .AsEnumerable()
                 .GroupBy(productPurchase => productPurchase.ProductId)
                 .Select(g =>
@@ -132,7 +133,6 @@ namespace TamoPOS.ViewModels.Pages
                         QuantityRemaining = totalRemaining
                     };
                 }).ToList();
-
             foreach (var productPurchase in productPurchases)
             {
                 ProductsInStock.Add(productPurchase);
