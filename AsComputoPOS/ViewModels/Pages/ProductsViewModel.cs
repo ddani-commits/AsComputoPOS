@@ -102,16 +102,12 @@ namespace TamoPOS.ViewModels.Pages
             {
                 _appDbContext.Products.Remove(productToDelete);
                 _appDbContext.SaveChanges();
-                ProductsList.Remove(product);
-
-                if (SelectedProduct?.ProductId == product.ProductId)
-                    SelectedProduct = null;         
+                ProductsList.Remove(product);        
             }
             else
             {
                 Debug.WriteLine("Producto no encontrado");
             }
-
         }
 
         public void LoadProductsInStock()
@@ -120,7 +116,7 @@ namespace TamoPOS.ViewModels.Pages
             var productPurchases = _appDbContext.ProductPurchases
                 .Include(pp => pp.Product)
                 .Where(pp => pp.QuantityRemaining > 0)
-                .AsAsyncEnumerable()
+                .AsEnumerable()
                 .GroupBy(productPurchase => productPurchase.ProductId)
                 .Select(g =>
                 {
@@ -135,8 +131,7 @@ namespace TamoPOS.ViewModels.Pages
                         SalePrice = oldest.SalePrice,
                         QuantityRemaining = totalRemaining
                     };
-                })
-            .Tolist();
+                }).ToList();
 
             foreach (var productPurchase in productPurchases)
             {
