@@ -12,7 +12,7 @@ namespace TamoPOS.Views.Pages
         public ProductsPage(ProductsViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
+            DataContext = ViewModel;
             InitializeComponent();
         }
 
@@ -22,15 +22,5 @@ namespace TamoPOS.Views.Pages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class Product
-    {
-        public Product()
-        {
-            ProductPurchase = new List<ProductPurchase>();
-        }
-
-        public List<ProductPurchase> ProductPurchase { get; set; }
-    }
+    }  
 }

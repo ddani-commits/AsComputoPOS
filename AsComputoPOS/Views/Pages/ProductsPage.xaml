@@ -25,11 +25,11 @@
                 Grid.Row="0"
                 x:Name="OpenDialogButton"
                 Content="Nuevo producto" 
-                Command="{Binding ViewModel.ShowDialogCommand}"/>
+                Command="{Binding ShowDialogCommand}"/>
                 
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ViewModel.ProductsList}" AutoGenerateColumns="False">
+        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ProductsList}" AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Name}"/>
@@ -39,13 +39,23 @@
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.ViewModel.NavigateToProductDetailsCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.NavigateToProductDetailsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                     CommandParameter="{Binding ProductId}">
                                 <ui:SymbolIcon Symbol="ArrowEnter20"/>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Acción">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}">
+                                <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>

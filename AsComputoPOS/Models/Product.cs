@@ -13,7 +13,6 @@ namespace TamoPOS.Models
         public string? SKU { get; set; }    
         public byte[]? ImageData { get; set; }
         public ICollection<ProductPurchase> ProductPurchase { get; set; }
-
         public Product() { }
         public Product(string productName, bool isActive, string barcode, string SKU, byte[]? imageData)
         {
@@ -29,15 +28,5 @@ namespace TamoPOS.Models
         {
             return Name;
         }
-        [NotMapped]
-        public decimal TotalStockResumen
-        {
-            get
-            {
-                return(ProductPurchase?.Sum(pp => pp.Quantity) ?? 0) + (ProductPurchase?.Sum(pp => pp.QuantityRemaining) ?? 0);
-            }
-        
-        }
-
     }
 }

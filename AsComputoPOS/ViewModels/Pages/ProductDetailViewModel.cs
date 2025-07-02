@@ -16,7 +16,7 @@ namespace TamoPOS.ViewModels.Pages
     {
         private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
         public ObservableCollection<Product> Products { get; } = new();
-        public ObservableCollection<ProductPurchase> ProductPurchase { get; } = new();
+        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
 
 
         [ObservableProperty]
@@ -62,13 +62,13 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (int.TryParse(CurrentPurchaseOrder, out int purchaseOrderId))
             {
-                ProductPurchase.Clear();
+                ProductPurchases.Clear();
                 _applicationDbContext.ProductPurchases
                     .Include(pp => pp.Product)
                     .Where(pp => pp.PurchaseOrderId == purchaseOrderId)
                     .ToList()
-                    .ForEach(pp => ProductPurchase.Add(pp));
-                foreach (ProductPurchase pr in ProductPurchase)
+                    .ForEach(pp => ProductPurchases.Add(pp));
+                foreach (ProductPurchase pr in ProductPurchases)
                 {
                     Debug.WriteLine(pr.Id);
                 }
