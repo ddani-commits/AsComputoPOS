@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Data;
-using System.Windows.Input;
 using TamoPOS.Models;
 using TamoPOS.Services;
 using Wpf.Ui;
@@ -45,9 +44,7 @@ namespace TamoPOS.ViewModels.Pages
             {
                 if(ps.Quantity >= product.QuantityRemaining) return;
                 ps.Quantity++;
-                Debug.WriteLine(ps.Quantity);
             }
-
         }
 
         [RelayCommand]
@@ -69,7 +66,5 @@ namespace TamoPOS.ViewModels.Pages
                 return false;
             };
         }
-
-
     }
 }

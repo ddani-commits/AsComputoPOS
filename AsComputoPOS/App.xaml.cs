@@ -13,6 +13,7 @@ using TamoPOS.Views.Windows;
 using Wpf.Ui;
 using Wpf.Ui.DependencyInjection;
 using TamoPOS.ViewModels.Controls;
+using TamoPOS.Controls.PointOfSalePanel;
 
 namespace TamoPOS
 {
@@ -99,6 +100,7 @@ namespace TamoPOS
                 services.AddSingleton<PurchaseOrderDetailPage>();
                 services.AddSingleton<PurchaseOrderDetailViewModel>();
 
+                services.AddSingleton<CheckoutPanel>();
                 services.AddSingleton<CheckoutPanelViewModel>();
             }).Build();
 
