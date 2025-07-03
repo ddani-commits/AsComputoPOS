@@ -75,7 +75,7 @@
 
             <ui:Button 
                 x:Name="CheckoutButton"
-                Command="{Binding StartCheckoutCommand}"
+                Command="{Binding ShowCheckoutContentDialogCommand}"
                 Appearance="Primary"
                 Height="100" 
                 HorizontalAlignment="Stretch" 
