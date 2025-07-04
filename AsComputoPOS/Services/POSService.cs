@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TamoPOS.Data;
 using TamoPOS.Models;
-using TamoPOS.Views.Windows;
-using Wpf.Ui;
 
 namespace TamoPOS.Services
 {
@@ -57,7 +54,18 @@ namespace TamoPOS.Services
             }
         }
 
-        public void ConfirmSale() { }
+        public void ConfirmSale() 
+        {
+            Ticket ticket = new Ticket()
+            {
+                Date = DateTime.Now,
+                Products = Cart,
+                Total = Total
+            };
+
+            _appDbContext.Add(ticket);
+            _appDbContext.SaveChanges();
+        }
         public string PrintTicket() { return "Ticket generated successfully!"; }
     }
 }

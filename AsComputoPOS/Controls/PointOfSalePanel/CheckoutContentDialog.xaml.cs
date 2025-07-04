@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
+using TamoPOS.Models;
 using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
@@ -39,6 +40,19 @@ namespace TamoPOS.Controls.PointOfSalePanel
             _posPanelService = posPanelService;
             Title = "Introduce el pago del cliente";
             Loaded += (s, e) => MoneyInput.Focus();
+        }
+
+        protected override void OnButtonClick(ContentDialogButton button)
+        {
+            if (button == ContentDialogButton.Primary)  
+            {
+                _posPanelService.ConfirmSale();
+                base.OnButtonClick(button);
+            }
+            else if (button == ContentDialogButton.Close)
+            {
+                base.OnButtonClick(button);
+            }
         }
 
         private void MoneyInput_TextChanged(object sender, TextChangedEventArgs e)
