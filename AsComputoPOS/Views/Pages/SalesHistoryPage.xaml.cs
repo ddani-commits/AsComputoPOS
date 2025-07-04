@@ -12,6 +12,5 @@ namespace TamoPOS.Views.Pages
             DataContext = ViewModel;
             InitializeComponent();
         }
-
     }
 }
