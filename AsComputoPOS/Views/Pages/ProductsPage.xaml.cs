@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using TamoPOS.Models;
 using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
 
@@ -11,7 +12,7 @@ namespace TamoPOS.Views.Pages
         public ProductsPage(ProductsViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
+            DataContext = ViewModel;
             InitializeComponent();
         }
 
@@ -21,5 +22,5 @@ namespace TamoPOS.Views.Pages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
+    }  
 }

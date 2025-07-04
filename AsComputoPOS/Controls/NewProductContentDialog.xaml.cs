@@ -39,10 +39,13 @@ namespace TamoPOS.Controls
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
-        
+        public Category SelectedCategory;
+
         private string _imagePath = string.Empty;
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
+        public List<string> CategoryList = new();
+        private Category? _selectedCategory;
 
         public NewProductContentDialog(
             ApplicationDbContext dbContext, 
@@ -88,7 +91,7 @@ namespace TamoPOS.Controls
                     Name = ProductName,
                     IsActive = IsActive,
                     Barcode = Barcode,
-                    //Category = SelectedCategory,
+                    Category = SelectedCategory,
                     SKU = SKU,
                     ImageData = ImageBytes,
                 };
@@ -107,7 +110,7 @@ namespace TamoPOS.Controls
                 Debug.WriteLine("Cancel button clicked");
             }
         }
-
+        
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Notify property changes for data binding
