@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using TamoPOS.ViewModels.Pages;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace TamoPOS.Views.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para SalesHistoryPage.xaml
-    /// </summary>
-    public partial class SalesHistoryPage : Page
+    public partial class SalesHistoryPage : INavigableView<SalesHistoryViewModel>
     {
-        public SalesHistoryPage()
+        public SalesHistoryViewModel ViewModel { get; }
+        public SalesHistoryPage(SalesHistoryViewModel viewModel)   
         {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
             InitializeComponent();
         }
+
     }
 }
