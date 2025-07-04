@@ -7,12 +7,63 @@
              mc:Ignorable="d" 
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
              xmlns:pages="clr-namespace:TamoPOS.ViewModels.Pages" 
+             PrimaryButtonText="Confirmar"
+             CloseButtonText="Volver"
              d:DesignHeight="450" d:DesignWidth="800">
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:CheckoutContentDialog}" />
     </ui:ContentDialog.Resources>
 
     <Grid>
-        <ui:TextBlock Text="Checkout" FontSize="24" Margin="0, 0, 0, 20" HorizontalAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" >Total</Label>
+        <ui:TextBlock
+            Grid.Column="1" 
+            Grid.Row="0" 
+            VerticalAlignment="Center"
+            Text="{Binding Total, StringFormat={}{0:C2}}" 
+            x:Name="TotalTextBlock"/>
+
+        <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" >Pago</Label>
+        <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="$" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <ui:NumberBox
+                Grid.Column="1"
+                Padding="3, 5,5, 0"
+                ClearButtonEnabled="False"
+                Background="White"
+                BorderThickness="0"
+                PreviewTextInput="ChangeDueTextBlock_PreviewTextInput"
+                DataObject.Pasting="MoneyInput_Pasting"
+                TextChanged="MoneyInput_TextChanged"
+                HorizontalAlignment="Stretch"
+                PlaceholderText="0.00" x:Name="MoneyInput" />
+        </Grid>
+
+        <Border 
+            Grid.Row="2" Grid.ColumnSpan="2"  BorderBrush="LightSlateGray" Margin="0, 10, 0, 10" BorderThickness="0,0,0,1" 
+            VerticalAlignment="Center" HorizontalAlignment="Stretch"/> 
+
+        <Label Grid.Column="0" Grid.Row="3" >Cambio</Label>
+        <ui:TextBlock 
+            Grid.Column="1" 
+            Grid.Row="3" 
+            Text="{Binding ChangeDue, StringFormat={}{0:C2}}" 
+            x:Name="ChangeDueTextBlock"/>
     </Grid>
 </ui:ContentDialog>
