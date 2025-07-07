@@ -44,11 +44,11 @@
                 <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
                 <ui:TextBlock Text="Nombre:" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
                 <ui:TextBlock Grid.Column="2" Grid.Row="0" FontTypography="Body" Text="{Binding Name}" VerticalAlignment="Center"/>
-                <ui:TextBox Grid.Column="3" Grid.Row="0"> Cambiar texto</ui:TextBox>
+                <ui:TextBox Grid.Column="3" Grid.Row="0"> </ui:TextBox>
                 <!--Categoria-->
                 <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1"/>
                 <ui:TextBlock Grid.Column="1" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:TextBlock Text="Celular" Grid.Row="1" Grid.Column="2" FontTypography="Body" VerticalAlignment="Center"/>
+                <ui:TextBlock Text="{Binding CurrentProduct.Category.CategoryName}" Grid.Row="1" Grid.Column="2" FontTypography="Body" VerticalAlignment="Center"/>
                 <ui:TextBox  Grid.Column="3" Grid.Row="1"/>
                 <!--Activo-->
                 <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2"/>

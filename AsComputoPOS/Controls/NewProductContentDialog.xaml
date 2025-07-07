@@ -38,7 +38,7 @@
                 x:Name="SKUField" Margin="0, 5" />
 
         <Label Content="Categoría" Grid.Row="6"/>
-        <ui:AutoSuggestBox PlaceholderText="Buscar" Grid.Row="7"/>
+        <ui:AutoSuggestBox x:Name="CategoryBox" PlaceholderText="Buscar" Grid.Row="7" TextChanged="CategoryBox_TextChanged"/>
 
         <Grid >
             <Grid.ColumnDefinitions>

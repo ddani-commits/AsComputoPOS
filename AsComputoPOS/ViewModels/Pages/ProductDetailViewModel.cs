@@ -38,9 +38,10 @@ namespace TamoPOS.ViewModels.Pages
         public void LoadProductDetails(int productId)
         {
             var product = _applicationDbContext.Products
+                .Include(p => p.Category) // Fix: Use 'p.Category' instead of 'Category'
                 .Include(p => p.ProductPurchase)
                 .Single(p => p.ProductId == productId);
-                CurrentProduct = product;
+            CurrentProduct = product;
             if (product != null)
             {
                 var totalRemaining = product.ProductPurchase

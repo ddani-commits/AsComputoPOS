@@ -34,7 +34,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}"/>
                 <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice, StringFormat={}{0:C2}}"/>
-                <DataGridTextColumn Header="Categoría"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category.CategoryName}"/>
                 <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>

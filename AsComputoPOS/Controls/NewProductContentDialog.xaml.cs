@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
+using Microsoft.EntityFrameworkCore;
 
 namespace TamoPOS.Controls
 {
@@ -46,17 +47,19 @@ namespace TamoPOS.Controls
         private readonly Action<Product>? _createProduct;
         public List<string> CategoryList = new();
         private Category? _selectedCategory;
+        private readonly ApplicationDbContext _appDbContext;
 
         public NewProductContentDialog(
-            ApplicationDbContext dbContext, 
+            ApplicationDbContext appDbContext, 
             ContentPresenter? contentPresenter, 
             Action<Product>? createProduct = null
         ) : base(contentPresenter)
         {
+            InitializeComponent();
             _createProduct = createProduct;
+            _appDbContext = appDbContext;
             DataContext = this;
             Title = "Crear un producto";
-            InitializeComponent();
         }
 
         public void OnOpenPicture()
@@ -86,12 +89,13 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
+                Category category = _appDbContext.Categories.Where(c => c.CategoryName == CategoryBox.Text).First();
                 var product = new Product()
                 {
                     Name = ProductName,
                     IsActive = IsActive,
                     Barcode = Barcode,
-                    Category = SelectedCategory,
+                    Category = category,
                     SKU = SKU,
                     ImageData = ImageBytes,
                 };
@@ -110,7 +114,25 @@ namespace TamoPOS.Controls
                 Debug.WriteLine("Cancel button clicked");
             }
         }
-        
+
+        private void CategoryBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var categories = _appDbContext
+                    .Categories
+                    .Where(c => c.CategoryName.Contains(sender.Text)).ToList();
+                foreach (Category category in categories)
+                {
+                    if (!CategoryList.Contains(category.CategoryName))
+                    {
+                        CategoryList.Add(category.CategoryName);
+                    }
+                }
+                CategoryBox.OriginalItemsSource = CategoryList;
+                Debug.WriteLine($"CategoryBox TextChanged: {sender.Text}");
+            }
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Notify property changes for data binding
