@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Navigation;
 using TamoPOS.Models;
 using TamoPOS.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
@@ -22,5 +23,10 @@ namespace TamoPOS.Views.Pages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }  
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.LoadProductsInStock(); // Llamamos a LoadProductsInStock para recargar los productos cuando la página se cargue
+        }
+    }
 }

@@ -8,7 +8,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       d:DesignHeight="450" d:DesignWidth="800"
       xmlns:controls="clr-namespace:TamoPOS.Controls"
-      Title="ProductsPage">
+      Title="ProductsPage" Loaded="Page_Loaded">
 
     <Grid Width="auto" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}"/>
-                <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice}"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice, StringFormat={}{0:C2}}"/>
                 <DataGridTextColumn Header="Categoría"/>
                 <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">

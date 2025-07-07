@@ -17,7 +17,7 @@ namespace TamoPOS.ViewModels.Pages
         private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
         public ObservableCollection<Product> Products { get; } = new();
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
-
+        public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
 
         [ObservableProperty]
         private string? _idText;
@@ -43,11 +43,15 @@ namespace TamoPOS.ViewModels.Pages
                 CurrentProduct = product;
             if (product != null)
             {
+                var totalRemaining = product.ProductPurchase
+                    .Where(pp => pp.QuantityRemaining >= 0)
+                    .Sum(pp => pp.QuantityRemaining ?? 0);
+
                 CurrentProduct = product;
                 IdText = product.ProductId.ToString();
                 Name = product.Name;
                 SalePrice = product.ProductPurchase?.FirstOrDefault()?.SalePrice.ToString("C") ?? "0.00";
-                QuantityRemaining = product.ProductPurchase?.FirstOrDefault()?.QuantityRemaining?.ToString();
+                QuantityRemaining = totalRemaining.ToString();
                 IsActive = product.IsActive;
                 Debug.WriteLine($"Product ID: {product.ProductId}");
             }
@@ -72,6 +76,6 @@ namespace TamoPOS.ViewModels.Pages
                     Debug.WriteLine(pr.Id);
                 }
             }
-        }
+        }   
     }
 }
