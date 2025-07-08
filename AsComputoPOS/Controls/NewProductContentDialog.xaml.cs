@@ -1,7 +1,7 @@
-﻿using DocumentFormat.OpenXml.Vml;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using TamoPOS.Data;
@@ -39,8 +39,13 @@ namespace TamoPOS.Controls
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
-        
         private string _imagePath = string.Empty;
+        public string ImagePath
+        {
+            get => _imagePath;
+            set { _imagePath = value; OnPropertyChanged(); }
+        }
+
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
 
@@ -50,33 +55,35 @@ namespace TamoPOS.Controls
             Action<Product>? createProduct = null
         ) : base(contentPresenter)
         {
+            InitializeComponent();
             _createProduct = createProduct;
             DataContext = this;
             Title = "Crear un producto";
-            InitializeComponent();
         }
 
         public void OnOpenPicture()
         {
-            //OpenedPicturePathVisibility = Visibility.Collapsed;
             OpenFileDialog openFileDialog = new()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
                 Filter = "Image files (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png|All files (*.*)|*.*",
             };
 
-            if (openFileDialog.ShowDialog() != true)
+            if (openFileDialog.ShowDialog() == true)
             {
+                FileNameLabel.Content = Path.GetFileName(openFileDialog.FileName);
+                try
+                {
+                    ImageBytes = File.ReadAllBytes(openFileDialog.FileName);
+                    Debug.WriteLine("Image read");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error reading image file: {ex.Message}");
+                    ImageBytes = null;
+                }
                 return;
             }
-
-            //if (!File.Exists(openFileDialog.FileName))
-            //{
-            //    return;
-            //}
-
-            //OpenedPicturePath = openFileDialog.FileName;
-            //OpenedPicturePathVisibility = Visibility.Visible;
         }
 
         protected override void OnButtonClick(ContentDialogButton button)
@@ -114,6 +121,11 @@ namespace TamoPOS.Controls
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OnOpenPicture();
         }
     }
 }
