@@ -89,13 +89,12 @@ namespace TamoPOS.Controls
         {
             if (button == ContentDialogButton.Primary)
             {
-                Category category = _appDbContext.Categories.Where(c => c.CategoryName == CategoryBox.Text).First();
                 var product = new Product()
                 {
                     Name = ProductName,
                     IsActive = IsActive,
                     Barcode = Barcode,
-                    Category = category,
+                    Category = SelectedCategory ?? null,
                     SKU = SKU,
                     ImageData = ImageBytes,
                 };
