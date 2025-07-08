@@ -13,14 +13,8 @@ namespace TamoPOS.Services
         public ObservableCollection<CartItem> Cart { get; set; } = new();
         public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
         public bool IsSidePanelExpanded { get; set; } = false;
-
         public decimal Total => Cart.Sum(item => item.Total);
-
         public POSService(){}
-        public void AddToCart(CartItem product)
-        {
-            Cart.Add(product);
-        }
 
         // Todo: Create a class specific for POS Product Display
         public void LoadProductsInStock()
@@ -54,18 +48,31 @@ namespace TamoPOS.Services
             }
         }
 
-        public void ConfirmSale() 
+        public void ConfirmSale(decimal ChangeDue, decimal CashPayment)
         {
             Ticket ticket = new Ticket()
             {
                 Date = DateTime.Now,
                 Products = Cart,
-                Total = Total
+                Total = Total,
+                ChangeDue = ChangeDue,
+                Paid = CashPayment
             };
+
+            foreach(ProductPurchase pp in _appDbContext.ProductPurchases.ToList())
+            {
+                var cartItem = Cart.FirstOrDefault(p => p.Product.ProductId == pp.ProductId);
+
+                if(cartItem is not null)
+                    pp.QuantityRemaining = pp.QuantityRemaining - cartItem.Quantity;
+            }
 
             _appDbContext.Add(ticket);
             _appDbContext.SaveChanges();
+            Cart.Clear();
+            LoadProductsInStock(); // Not ideal but working
         }
         public string PrintTicket() { return "Ticket generated successfully!"; }
+        public void AddToCart(CartItem product) {Cart.Add(product);}
     }
 }

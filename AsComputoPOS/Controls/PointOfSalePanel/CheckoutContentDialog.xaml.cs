@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
-using TamoPOS.Models;
 using TamoPOS.Services;
 using Wpf.Ui.Controls;
 
@@ -46,7 +45,7 @@ namespace TamoPOS.Controls.PointOfSalePanel
         {
             if (button == ContentDialogButton.Primary)  
             {
-                _posPanelService.ConfirmSale();
+                _posPanelService.ConfirmSale(ChangeDue, CashPayment);
                 base.OnButtonClick(button);
             }
             else if (button == ContentDialogButton.Close)
