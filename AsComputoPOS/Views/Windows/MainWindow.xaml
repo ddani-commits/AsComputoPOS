@@ -38,7 +38,7 @@
         <Grid Grid.Row="1" x:Name="MainContainer">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="0*" x:Name="SidePanelColumn" />
+                <ColumnDefinition Width="0*" x:Name="SidePanelColumn" /> <!-- set checkout panel here -->
             </Grid.ColumnDefinitions>
 
             <!-- Contenedor de navegación y contenido <Grid Grid.Column="0">-->
@@ -58,7 +58,6 @@
                     <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
                 </ui:NavigationView.Header>
 
-                
                 <ui:NavigationView.ContentOverlay>
                     <Grid>
                         <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
@@ -66,7 +65,9 @@
                 </ui:NavigationView.ContentOverlay>
                 
             </ui:NavigationView>
+            <!-- 
             <panel:CheckoutPanel x:Name="checkoutPanel" Grid.Column="1" />
+            -->
         </Grid>
 
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->

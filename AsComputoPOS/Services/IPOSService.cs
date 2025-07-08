@@ -11,9 +11,10 @@ namespace TamoPOS.Services
         ObservableCollection<ProductPurchase> ProductsInStock { get; set; }
         void LoadProductsInStock();
 
-        void ConfirmSale();
+        void ConfirmSale(decimal ChangeDue, decimal CashPayment);
         void AddToCart(CartItem product);
         ObservableCollection<CartItem> Cart { get; set; }
         string PrintTicket();
+        decimal Total { get; }
     }
 }
