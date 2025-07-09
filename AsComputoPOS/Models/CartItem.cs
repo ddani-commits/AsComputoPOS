@@ -9,6 +9,11 @@ namespace TamoPOS.Models
         private decimal _unitPrice;
         private decimal _quantity;
 
+        public int TicketId { get; set; }
+        public Ticket? Ticket { get; set; }
+
+        public int CartItemId { get; set; }
+
         public int ProductId
         {
             get => _productId;

@@ -8,6 +8,9 @@ using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using TamoPOS.Controls.PointOfSalePanel;
+using System.Windows.Controls;
+using TamoPOS.Services;
 
 namespace TamoPOS.Views.Windows
 {
@@ -36,8 +39,18 @@ namespace TamoPOS.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
 
-            checkoutPanel.SetViewModel(_serviceProvider.GetRequiredService<CheckoutPanelViewModel>());
+            var checkoutPanel = _serviceProvider.GetRequiredService<CheckoutPanel>();
+            var checkoutPanelViewModel = _serviceProvider.GetRequiredService<CheckoutPanelViewModel>();
 
+            // manually set content dialog service, otherwise it is null
+            // if required from IServiceProvider null, is passed as dependency is null
+            checkoutPanelViewModel.SetContentDialogService(contentDialogService);
+
+            checkoutPanel.SetViewModel(checkoutPanelViewModel);
+
+            // Set in the View because it needs an empty constructor
+            MainContainer.Children.Add(checkoutPanel);
+            Grid.SetColumn(checkoutPanel, 1);
         }
 
         #region INavigationWindow methods
@@ -75,10 +88,13 @@ namespace TamoPOS.Views.Windows
 
         private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            if(args.Page is POSPage)
+            //SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
+
+            if (args.Page is POSPage)
             {
                 SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
-            } else
+            }
+            else
             {
                 SidePanelColumn.Width = new GridLength(0);
             }
