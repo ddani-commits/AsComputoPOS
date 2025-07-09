@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TamoPOS.Models
 {
@@ -67,6 +68,9 @@ namespace TamoPOS.Models
                 }
             }
         }
+
+        [NotMapped]
+        public decimal? MaxQuantity { get; set; }
 
         public decimal Total => Quantity * UnitPrice;
 

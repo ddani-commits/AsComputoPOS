@@ -32,7 +32,9 @@ namespace TamoPOS.ViewModels.Pages
                     Product = product.Product,
                     ProductId = product.ProductId,
                     Quantity = 1,
+                    MaxQuantity = product.QuantityRemaining,
                     UnitPrice = product.SalePrice,
+
                 };
                _posPanelService.AddToCart(cartItem);
             }
