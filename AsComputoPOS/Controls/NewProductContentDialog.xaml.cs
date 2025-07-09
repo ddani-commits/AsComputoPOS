@@ -8,6 +8,8 @@ using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
+using System.Linq;
 
 namespace TamoPOS.Controls
 {
@@ -40,8 +42,11 @@ namespace TamoPOS.Controls
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
-        public Category SelectedCategory;
-
+        public Category? SelectedCategory
+        {
+            get => _selectedCategory;
+            set { _selectedCategory = value; OnPropertyChanged(); }
+        }
         private string _imagePath = string.Empty;
         public string ImagePath
         {
@@ -51,7 +56,8 @@ namespace TamoPOS.Controls
 
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
-        public List<string> CategoryList = new();
+        public List<Category> CategoryList { get; set; } = new(); // Esta lista se llena con las categorías de la base de datos al abrir el diálogo contiene tanto el ID como el nombre de la categoría. 
+                                                                  //Anteriormente estaba como <string> y solo accedía al nombre pero ahora es <Category> para poder acceder al ID y al nombre para la correcta relación con el producto.
         private Category? _selectedCategory;
         private readonly ApplicationDbContext _appDbContext;
 
@@ -66,6 +72,7 @@ namespace TamoPOS.Controls
             _appDbContext = appDbContext;
             DataContext = this;
             Title = "Crear un producto";
+            CategoryList = _appDbContext.Categories.ToList();
         }
 
         public void OnOpenPicture()
@@ -107,6 +114,7 @@ namespace TamoPOS.Controls
                     ImageData = ImageBytes,
                 };
                 _createProduct?.Invoke(product);
+                Debug.WriteLine($"Product created: {product.Name}, Category ID: {product.CategoryId}");
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");
             }
@@ -126,18 +134,26 @@ namespace TamoPOS.Controls
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _appDbContext
-                    .Categories
-                    .Where(c => c.CategoryName.Contains(sender.Text)).ToList();
-                foreach (Category category in categories)
-                {
-                    if (!CategoryList.Contains(category.CategoryName))
-                    {
-                        CategoryList.Add(category.CategoryName);
-                    }
-                }
-                CategoryBox.OriginalItemsSource = CategoryList;
-                Debug.WriteLine($"CategoryBox TextChanged: {sender.Text}");
+                var filtered = CategoryList
+                    .Where(c => c.CategoryName.Contains(sender.Text))
+                    .ToList();
+                
+                CategoryBox.OriginalItemsSource = filtered;
+                Debug.WriteLine($"Categories found: {filtered.Count}");
+                Debug.WriteLine($"CategoryBox TextChanged: {sender.Text}"); 
+            }
+        }
+        private void CategoryBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if (args.SelectedItem is Category selectedCategory)
+            {
+                SelectedCategory = selectedCategory;
+                Debug.WriteLine($"Selected category: {selectedCategory.CategoryName}");
+            }
+            else
+            {
+                SelectedCategory = null;
+                Debug.WriteLine("No category selected");
             }
         }
         public event PropertyChangedEventHandler? PropertyChanged;

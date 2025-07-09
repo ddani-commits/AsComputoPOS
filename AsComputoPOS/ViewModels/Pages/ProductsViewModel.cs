@@ -37,13 +37,12 @@ namespace TamoPOS.ViewModels.Pages
             _productDetailViewModel = productDetailViewModel;
             LoadProductsInStock();
         }
-        [RelayCommand]
         public void LoadProductsInStock()
         {
             ProductsInStock.Clear();
             var productPurchases = _appDbContext.ProductPurchases
                 .Include(pp => pp.Product)
-                .ThenInclude(p => p.Category)
+                .Include(p => p.Product.Category)
                 .Where(pp => pp.QuantityRemaining >= 0)
                 .AsEnumerable()
                 .GroupBy(pp => pp.ProductId)
@@ -59,10 +58,10 @@ namespace TamoPOS.ViewModels.Pages
                         SalePrice = salePrice,
                         QuantityRemaining = totalRemaining
                     };
-                }).ToList();
+                }).ToList();          
             var allProductsIds = productPurchases.Select(pp => pp.ProductId).ToList();
             var allProducts = _appDbContext.Products
-                .Include(p => p.Category)
+                .Include(p => p.Category) 
                 .Where(p => !allProductsIds.Contains(p.ProductId)).ToList();
             ProductsInStock.Clear();
             foreach (var product in allProducts)
