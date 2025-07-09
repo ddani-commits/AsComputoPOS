@@ -74,5 +74,6 @@ namespace TamoPOS.Services
         }
         public string PrintTicket() { return "Ticket generated successfully!"; }
         public void AddToCart(CartItem product) {Cart.Add(product);}
+        public void ClearCart() {Cart.Clear();}
     }
 }

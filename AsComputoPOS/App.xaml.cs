@@ -102,6 +102,9 @@ namespace TamoPOS
 
                 services.AddSingleton<CheckoutPanel>();
                 services.AddSingleton<CheckoutPanelViewModel>();
+
+                services.AddSingleton<ProductDetailPage>();
+                services.AddSingleton<ProductDetailViewModel>();
             }).Build();
 
         /// <summary>

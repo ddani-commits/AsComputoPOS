@@ -1,4 +1,6 @@
-﻿namespace TamoPOS.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TamoPOS.Models
 {
     public class Product
     {
@@ -10,15 +12,15 @@
         public int? CategoryId { get; set; }
         public string? SKU { get; set; }    
         public byte[]? ImageData { get; set; }
-
+        public ICollection<ProductPurchase> ProductPurchase { get; set; }
         public Product() { }
-        public Product(string productName, bool isActive, string barcode, string SKU, byte[]? imageData)
+        public Product(string productName, bool isActive, string barcode, string SKU, byte[]? imageData, Category category)
         {
             Name = productName;
             IsActive = isActive;
             Barcode = barcode;
             ImageData = imageData;
-            //Category = category;
+            Category = category;
             this.SKU = SKU;
         }
 

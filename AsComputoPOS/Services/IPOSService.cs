@@ -13,6 +13,7 @@ namespace TamoPOS.Services
 
         void ConfirmSale(decimal ChangeDue, decimal CashPayment);
         void AddToCart(CartItem product);
+        void ClearCart();
         ObservableCollection<CartItem> Cart { get; set; }
         string PrintTicket();
         decimal Total { get; }
