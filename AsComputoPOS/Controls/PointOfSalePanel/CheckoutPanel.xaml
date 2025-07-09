@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TamoPOS.Controls.PointOfSalePanel"
              mc:Ignorable="d" 
-                          xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             d:DesignHeight="650" d:DesignWidth="400">
+             d:DesignHeight="650" d:DesignWidth="400"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Border Padding="10" BorderBrush="{StaticResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1, 0, 0, 0">
         <Grid>
             <Grid.RowDefinitions>
@@ -23,13 +28,26 @@
 
                 <DockPanel Grid.Row="0" LastChildFill="False">
                     <TextBlock Text="Ticket" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" DockPanel.Dock="Left" />
+
                     <ToggleButton 
                         Name="Edit" 
-                        Content="Editar" 
+                        Content="Editar"    
                         Width="75"
                         Checked="Edit_Checked"
                         Unchecked="Edit_Unchecked"
+                        IsVisibleChanged="Edit_IsVisibleChanged"
+                        Visibility="{Binding CartHasItems, Converter={StaticResource BooleanToVisibilityConverter}}"                        
                         DockPanel.Dock="Right" />
+
+                    <ui:Button 
+                        x:Name="ClearCartButton"
+                        Appearance="Danger"
+                        Foreground="White"
+                        Content="Borrar"
+                        Command="{Binding ClearCartCommand}"
+                        Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        DockPanel.Dock="Right" />
+
                 </DockPanel>
 
                 <!--

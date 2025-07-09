@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection.Emit;
 using TamoPOS.Controls.PointOfSalePanel;
 using TamoPOS.Models;
 using TamoPOS.Services;
@@ -8,7 +9,7 @@ using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Controls
 {
-    public partial class CheckoutPanelViewModel: ViewModel
+    public partial class CheckoutPanelViewModel : ViewModel
     {
         private IPOSService _posService;
         private IContentDialogService? _contentDialogService;
@@ -17,15 +18,42 @@ namespace TamoPOS.ViewModels.Controls
         public decimal Total => _posService.Total;
         public string CheckoutButtonText => Total == 0 ? "Carrito Vacío" : $"Cobrar {Total:C2}";
 
+        public string EditButtonText = "Editar";
+
+        private bool _isEditing = false;
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set
+            {
+                _isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
+        private bool _cartHasItems;
+        public bool CartHasItems
+        {
+            get => _cartHasItems;
+            private set
+            {
+                _cartHasItems = value;
+                OnPropertyChanged(nameof(CartHasItems));
+            }
+        }
+
         public CheckoutPanelViewModel(IPOSService posService)
         {
             _posService = posService;
+
+            CartHasItems = Cart.Any();
 
             // Subscribe to collection changes
             Cart.CollectionChanged += (s, e) =>
             {
                 OnPropertyChanged(nameof(Total));
                 OnPropertyChanged(nameof(CheckoutButtonText));
+                CartHasItems = Cart.Any();
 
                 if (e.NewItems != null)
                 {
@@ -52,8 +80,17 @@ namespace TamoPOS.ViewModels.Controls
         private void CartItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(CartItem.Quantity) || e.PropertyName == nameof(CartItem.UnitPrice))
+            {
                 OnPropertyChanged(nameof(Total));
                 OnPropertyChanged(nameof(CheckoutButtonText));
+            }
+        }
+
+        [RelayCommand]
+        private void ClearCart()
+        {
+            IsEditing = false;
+            _posService.ClearCart();
         }
 
         [RelayCommand]
@@ -63,7 +100,8 @@ namespace TamoPOS.ViewModels.Controls
             {
                 var paymentContentDialog = new CheckoutContentDialog(_contentDialogService.GetDialogHost(), _posService);
                 _ = await paymentContentDialog.ShowAsync();
-            } else
+            }
+            else
             {
                 Debug.WriteLine("Dialog host error");
             }
