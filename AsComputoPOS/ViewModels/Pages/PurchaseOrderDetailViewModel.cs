@@ -9,7 +9,7 @@ using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
-    public partial class PurchaseOrderDetailViewModel: ViewModel
+    public partial class PurchaseOrderDetailViewModel : ViewModel
     {
         private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
         private IContentDialogService _contentDialogService;
@@ -31,7 +31,7 @@ namespace TamoPOS.ViewModels.Pages
         public PurchaseOrderDetailViewModel(
             IContentDialogService contentDialogService,
             IPOSService poSPanelService
-        ) 
+        )
         {
             _posPanelService = poSPanelService;
             _contentDialogService = contentDialogService;
@@ -43,8 +43,8 @@ namespace TamoPOS.ViewModels.Pages
             if (_contentDialogService.GetDialogHost() is not null)
             {
                 var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(
-                    _applicationDbContext, 
-                    _contentDialogService.GetDialogHost(), 
+                    _applicationDbContext,
+                    _contentDialogService.GetDialogHost(),
                     AddProductPurchase,
                     _posPanelService
                  );
@@ -61,10 +61,6 @@ namespace TamoPOS.ViewModels.Pages
                 .Where(pp => pp.PurchaseOrderId == CurrentPurchaseOrder!.Id)
                 .ToList()
                 .ForEach(pp => ProductPurchases.Add(pp));
-            foreach(ProductPurchase pr in ProductPurchases)
-            {
-                Debug.WriteLine(pr.Id);
-            }
         }
 
         [RelayCommand]
@@ -78,15 +74,12 @@ namespace TamoPOS.ViewModels.Pages
 
         public void LoadDetails(int Id)
         {
-            using (var appDbContext = new ApplicationDbContext())
-            {
-                var purchaseOrder = appDbContext.PurchaseOrders
-                    .Include(po => po.Supplier)
-                    .Single(p => p.Id == Id);
-                CurrentPurchaseOrder = purchaseOrder;
-            }
+            CurrentPurchaseOrder = _applicationDbContext.PurchaseOrders
+                .Include(po => po.Supplier)
+                .Single(p => p.Id == Id);
+
             IdText = $"#{CurrentPurchaseOrder.Id}";
-            Subtotal = $"${CurrentPurchaseOrder.Subtotal.ToString()}"; 
+            Subtotal = $"${CurrentPurchaseOrder.Subtotal.ToString()}";
             Total = $"${CurrentPurchaseOrder.Total.ToString()}";
         }
     }
