@@ -56,6 +56,7 @@ namespace TamoPOS.ViewModels.Pages
             _dbContext.PurchaseOrders.Add(purchaseOrder);
             _dbContext.SaveChanges();
             PurchaseOrders.Add(purchaseOrder);
+            NavigateToPurchaseOrderDetails(purchaseOrder.Id);
         }
 
         [RelayCommand]
