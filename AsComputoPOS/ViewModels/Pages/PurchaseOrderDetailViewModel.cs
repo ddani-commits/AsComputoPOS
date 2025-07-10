@@ -67,9 +67,18 @@ namespace TamoPOS.ViewModels.Pages
         public void AddProductPurchase(ProductPurchase productPurchase)
         {
             productPurchase.PurchaseOrderId = CurrentPurchaseOrder!.Id;
+
             _applicationDbContext.ProductPurchases.Add(productPurchase);
+            
+            CurrentPurchaseOrder.Total = CurrentPurchaseOrder.Total + productPurchase.Total;
+            CurrentPurchaseOrder.Subtotal = CurrentPurchaseOrder.Subtotal + productPurchase.Total;
+            
+            _applicationDbContext.PurchaseOrders.Update(CurrentPurchaseOrder);
+
             _applicationDbContext.SaveChanges();
+            
             ProductPurchases.Add(productPurchase);
+            LoadDetails(CurrentPurchaseOrder.Id);
         }
 
         public void LoadDetails(int Id)
@@ -81,6 +90,7 @@ namespace TamoPOS.ViewModels.Pages
             IdText = $"#{CurrentPurchaseOrder.Id}";
             Subtotal = $"${CurrentPurchaseOrder.Subtotal.ToString()}";
             Total = $"${CurrentPurchaseOrder.Total.ToString()}";
+            Debug.WriteLine(CurrentPurchaseOrder.Total);
         }
     }
 }
