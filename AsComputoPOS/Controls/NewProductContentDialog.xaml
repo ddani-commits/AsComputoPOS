@@ -42,8 +42,7 @@
                            PlaceholderText="Buscar"
                            Grid.Row="7"
                            TextChanged="CategoryBox_TextChanged"
-                           SuggestionChosen="CategoryBox_SuggestionChosen"
-                           DisplayMemberPath="CategoryName"/>
+                           SuggestionChosen="CategoryBox_SuggestionChosen"/>
 
         <Grid >
             <Grid.ColumnDefinitions>
