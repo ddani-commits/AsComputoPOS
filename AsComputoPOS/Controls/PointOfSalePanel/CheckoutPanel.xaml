@@ -12,8 +12,13 @@
     <UserControl.Resources>
         <helpers:BooleanToVisibilityConverterInv x:Key="BooleanToVisibilityConverterInv" />
     </UserControl.Resources>
-    
-    <Border Padding="10" BorderBrush="{StaticResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1, 0, 0, 0">
+
+    <Border 
+        Background="{StaticResource LayerOnMicaBaseAltFillColorDefaultBrush}"  
+        Padding="10" 
+        BorderBrush="{StaticResource CardStrokeColorDefaultSolidBrush}" 
+        CornerRadius="0"
+        BorderThickness="1, 1, 0, 0">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

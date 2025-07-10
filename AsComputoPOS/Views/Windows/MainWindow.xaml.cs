@@ -39,7 +39,7 @@ namespace TamoPOS.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
 
-            var checkoutPanel = _serviceProvider.GetRequiredService<CheckoutPanel>();
+            //var checkoutPanel = _serviceProvider.GetRequiredService<CheckoutPanel>();
             var checkoutPanelViewModel = _serviceProvider.GetRequiredService<CheckoutPanelViewModel>();
 
             // manually set content dialog service, otherwise it is null
@@ -49,8 +49,8 @@ namespace TamoPOS.Views.Windows
             checkoutPanel.SetViewModel(checkoutPanelViewModel);
 
             // Set in the View because it needs an empty constructor
-            MainContainer.Children.Add(checkoutPanel);
-            Grid.SetColumn(checkoutPanel, 1);
+            //MainContainer.Children.Add(checkoutPanel);
+            //Grid.SetColumn(checkoutPanel, 1);
         }
 
         #region INavigationWindow methods
