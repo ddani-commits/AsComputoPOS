@@ -10,7 +10,24 @@
       Title="SalesHistoryPage">
 
     <Grid>
-        <ui:DataGrid ItemsSource="{Binding Sales}" AutoGenerateColumns="True" Margin="5">
+        <ui:DataGrid ItemsSource="{Binding Sales}" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" Margin="10">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="#" Binding="{Binding TicketId}" Width="auto"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Date, StringFormat=dd/MM/yyyy HH:mm}" Width="auto"/>
+                <DataGridTextColumn Header="Empleado" Binding="{Binding Employee.Name}" Width="auto"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=C}" Width="auto"/>
+                <DataGridTextColumn Header="Cobrado" Binding="{Binding Paid, StringFormat=C}" Width="auto"/>
+                <DataGridTextColumn Header="Cambio" Binding="{Binding ChangeDue, StringFormat=C}" Width="auto"/>
+                <DataGridTextColumn Header="Productos" Binding="{Binding ProductsCount}" Width="auto"/>
+                <DataGridTemplateColumn Header="Detalles" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Ir" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </ui:DataGrid.Columns>
         </ui:DataGrid>
+
     </Grid>
 </Page>
