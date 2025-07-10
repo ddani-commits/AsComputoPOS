@@ -1,15 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using DocumentFormat.OpenXml.VariantTypes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows.Data;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using TamoPOS.Views.Pages;
 using Wpf.Ui;
-using static TamoPOS.Models.Product;
 
 namespace TamoPOS.ViewModels.Pages
 {

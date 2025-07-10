@@ -7,9 +7,6 @@ using System.Windows.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using Wpf.Ui.Controls;
-using Microsoft.EntityFrameworkCore;
-using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
-using System.Linq;
 
 namespace TamoPOS.Controls
 {
