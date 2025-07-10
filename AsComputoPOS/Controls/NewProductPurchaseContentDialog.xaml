@@ -126,5 +126,17 @@
             Margin="0, 0, 0, 4"
             Grid.Row="9" 
             Grid.Column="1" />
+
+        <TextBlock 
+            Grid.Row="10" 
+            Grid.Column="0" 
+            Text="Unidades restantes" 
+            HorizontalAlignment="Left" />
+        <ui:NumberBox 
+            x:Name="Remaining"
+            Value="{Binding QuantityRemaining, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Margin="0, 0, 0, 4"
+            Grid.Row="10" 
+            Grid.Column="1" />
     </Grid>
 </ui:ContentDialog>

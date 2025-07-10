@@ -12,16 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TamoPOS.ViewModels.Pages;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace TamoPOS.Views.Pages
 {
     /// <summary>
-    /// Lógica de interacción para PointOfSalePage.xaml
+    /// Lógica de interacción para ProductDetailPage.xaml
     /// </summary>
-    public partial class PointOfSalePage : Page
+    public partial class ProductDetailPage : Page
     {
-        public PointOfSalePage()
+        public ProductDetailViewModel ViewModel { get; }
+        public ProductDetailPage(ProductDetailViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
             InitializeComponent();
         }
     }

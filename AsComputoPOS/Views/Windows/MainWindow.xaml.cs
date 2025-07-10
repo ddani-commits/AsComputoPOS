@@ -1,28 +1,34 @@
-﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using System.Windows.Controls.Ribbon.Primitives;
-using TamoPOS.Services;
+using System.Windows.Input;
+using TamoPOS.ViewModels.Controls;
 using TamoPOS.ViewModels.Windows;
+using TamoPOS.Views.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using TamoPOS.Controls.PointOfSalePanel;
+using System.Windows.Controls;
+using TamoPOS.Services;
 
 namespace TamoPOS.Views.Windows
 {
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
+        private IServiceProvider _serviceProvider;
 
         public MainWindow(
             MainWindowViewModel viewModel,
             INavigationViewPageProvider navigationViewPageProvider,
             INavigationService navigationService,
-            IContentDialogService contentDialogService
+            IContentDialogService contentDialogService,
+            IServiceProvider serviceProvider
         )
         {
             ViewModel = viewModel;
+            _serviceProvider = serviceProvider;
             DataContext = this;
 
             SystemThemeWatcher.Watch(this);
@@ -33,7 +39,18 @@ namespace TamoPOS.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
             contentDialogService.SetDialogHost(RootContentDialog); //This references the element with the x:Name "RootContentDialog" in MainWindow.xaml
 
-            //Loaded += MainWindow_Loaded;
+            var checkoutPanel = _serviceProvider.GetRequiredService<CheckoutPanel>();
+            var checkoutPanelViewModel = _serviceProvider.GetRequiredService<CheckoutPanelViewModel>();
+
+            // manually set content dialog service, otherwise it is null
+            // if required from IServiceProvider null, is passed as dependency is null
+            checkoutPanelViewModel.SetContentDialogService(contentDialogService);
+
+            checkoutPanel.SetViewModel(checkoutPanelViewModel);
+
+            // Set in the View because it needs an empty constructor
+            MainContainer.Children.Add(checkoutPanel);
+            Grid.SetColumn(checkoutPanel, 1);
         }
 
         #region INavigationWindow methods
@@ -51,7 +68,7 @@ namespace TamoPOS.Views.Windows
         #endregion INavigationWindow methods
 
         /// <summary>
-        /// Raises the closed event.
+        /// Raises the closed event, actually closing the application.
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
@@ -69,20 +86,18 @@ namespace TamoPOS.Views.Windows
             throw new NotImplementedException();
         }
 
-        private void NavigationViewItem_Click(object sender, RoutedEventArgs e)
+        private void RootNavigation_Navigated(NavigationView sender, NavigatedEventArgs args)
         {
-            CloseWindow();
-        }
+            //SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
 
-        private void MinimizeWindowButton(object sender, RoutedEventArgs e)
-        {
-            WindowState= WindowState.Minimized;
+            if (args.Page is POSPage)
+            {
+                SidePanelColumn.Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                SidePanelColumn.Width = new GridLength(0);
+            }
         }
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Maximized;
-        }
-     
     }
 }

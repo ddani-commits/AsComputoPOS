@@ -8,6 +8,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:DesignHeight="450" d:DesignWidth="800"
+      ui:NavigationView.HeaderContent="Detalles de la compra"
       Title="PurchaseOrderDetailPage">
 
     <Grid>
@@ -119,10 +120,11 @@
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}" Width="auto"/>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Quantity}" Width="auto"/>
                 <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat={}{0:C2}}" Width="auto"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="auto"/>
-                <DataGridTextColumn Header="Precio al publico" Binding="{Binding SalePrice}" Width="auto"/>
-                <DataGridTextColumn Header="Margen absoluto" Binding="{Binding FlatProfitMargin}" Width="auto"/>
-                <DataGridTextColumn Header="Margen relativo" Binding="{Binding PercentProfitMargin}" Width="auto"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:C2}}" Width="auto"/>
+                <DataGridTextColumn Header="Precio al publico" Binding="{Binding SalePrice, StringFormat={}{0:C2}}" Width="auto"/>
+                <DataGridTextColumn Header="Margen en $" Binding="{Binding FlatProfitMargin, StringFormat={}{0:C2}}" Width="auto"/>
+                <DataGridTextColumn Header="Margen en %" Binding="{Binding PercentProfitMargin, StringFormat={}{0:P2}}" Width="auto"/>
+                <DataGridTextColumn Header="Restantes" Binding="{Binding QuantityRemaining}" Width="auto"/>
                 <!--
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
