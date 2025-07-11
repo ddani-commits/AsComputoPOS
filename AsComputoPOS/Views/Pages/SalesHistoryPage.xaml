@@ -14,7 +14,7 @@
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="#" Binding="{Binding TicketId}" Width="auto"/>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Date, StringFormat=dd/MM/yyyy HH:mm}" Width="auto"/>
-                <DataGridTextColumn Header="Empleado" Binding="{Binding Employee.Name}" Width="auto"/>
+                <DataGridTextColumn Header="Vendedor" Binding="{Binding Employee.FullName}" Width="auto"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=C}" Width="auto"/>
                 <DataGridTextColumn Header="Cobrado" Binding="{Binding Paid, StringFormat=C}" Width="auto"/>
                 <DataGridTextColumn Header="Cambio" Binding="{Binding ChangeDue, StringFormat=C}" Width="auto"/>
@@ -22,7 +22,10 @@
                 <DataGridTemplateColumn Header="Detalles" Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Ir" />
+                            <Button 
+                                Content="Ir" 
+        Command="{Binding DataContext.PrintDetailsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                CommandParameter="{Binding TicketId}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

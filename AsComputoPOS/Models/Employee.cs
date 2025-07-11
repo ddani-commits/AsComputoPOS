@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace TamoPOS.Models
 {
     // EF Base model for Employee
@@ -10,6 +11,9 @@ namespace TamoPOS.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; } = true;
+
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}";
 
         //public Role Role {get; set;}  
         
