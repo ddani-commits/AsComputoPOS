@@ -24,22 +24,24 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar
-            x:Name="TitleBar"
-            Title="{Binding ViewModel.ApplicationTitle}"
-            Grid.Row="0"
-            CloseWindowByDoubleClickOnIcon="False">
-            <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
-            </ui:TitleBar.Icon>
-        </ui:TitleBar>
-
         <!-- CONTENIDO PRINCIPAL CON DOS COLUMNAS -->
         <Grid Grid.Row="1" x:Name="MainContainer">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="0*" x:Name="SidePanelColumn" /> <!-- set checkout panel here -->
+                <ColumnDefinition Width="0*" x:Name="SidePanelColumn" />
+                <!-- set checkout panel here -->
             </Grid.ColumnDefinitions>
+
+            <ui:TitleBar
+            x:Name="TitleBar"
+            Title="{Binding ViewModel.ApplicationTitle}"
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            CloseWindowByDoubleClickOnIcon="False">
+                <ui:TitleBar.Icon>
+                    <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
+                </ui:TitleBar.Icon>
+            </ui:TitleBar>
 
             <!-- Contenedor de navegación y contenido <Grid Grid.Column="0">-->
             <ui:NavigationView Grid.Column="0"
@@ -49,7 +51,8 @@
                     MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
                     FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
                     FrameMargin="0"
-                    IsBackButtonVisible="Collapsed"
+                    IsBackButtonVisible="Visible"
+                    TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
                     IsPaneToggleVisible="True"
                     OpenPaneLength="175"
                     Navigated="RootNavigation_Navigated"
@@ -63,13 +66,12 @@
                         <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
                     </Grid>
                 </ui:NavigationView.ContentOverlay>
-                
+
             </ui:NavigationView>
+            <panel:CheckoutPanel x:Name="checkoutPanel" Grid.Column="1" Margin="0, 50, 0, 0" />
             <!-- 
-            <panel:CheckoutPanel x:Name="checkoutPanel" Grid.Column="1" />
             -->
         </Grid>
-
         <!-- ContentPresenter encima de todo, para que los diálogos cubran ambos paneles -->
         <ContentPresenter x:Name="RootContentDialog" Grid.Row="1" Panel.ZIndex="99" />
     </Grid>

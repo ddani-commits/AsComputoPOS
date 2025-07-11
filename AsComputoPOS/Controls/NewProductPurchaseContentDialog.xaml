@@ -13,7 +13,7 @@
              PrimaryButtonText = "Guardar y cerrar"
              SecondaryButtonText="Guardar y agregar otro"
              CloseButtonText="Cancelar">
-    
+
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:NewProductPurchaseContentDialog}" />
     </ui:ContentDialog.Resources>
@@ -23,6 +23,7 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -78,11 +79,25 @@
             Grid.Row="3" 
             Grid.Column="1" />
 
-        <TextBlock Text="Subtotal" 
+
+        <TextBlock 
             Grid.Row="4" 
             Grid.Column="0" 
+            Text="Unidades restantes" 
             HorizontalAlignment="Left" />
-        <ui:TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SubtotalString, UpdateSourceTrigger=PropertyChanged}" />
+        <ui:NumberBox 
+            x:Name="Remaining"
+            Value="{Binding QuantityRemaining, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Margin="0, 0, 0, 4"
+            Grid.Row="4" 
+            Grid.Column="1" />
+
+
+        <TextBlock Text="Subtotal" 
+            Grid.Row="5" 
+            Grid.Column="0" 
+            HorizontalAlignment="Left" />
+        <ui:TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding SubtotalString, UpdateSourceTrigger=PropertyChanged}" />
 
         <ui:TextBlock 
             Grid.Row="6" 
@@ -130,13 +145,12 @@
         <TextBlock 
             Grid.Row="10" 
             Grid.Column="0" 
-            Text="Unidades restantes" 
+            Text="Utilidad bruta" 
             HorizontalAlignment="Left" />
-        <ui:NumberBox 
-            x:Name="Remaining"
-            Value="{Binding QuantityRemaining, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Margin="0, 0, 0, 4"
+        <ui:TextBlock 
             Grid.Row="10" 
-            Grid.Column="1" />
+            Grid.Column="1" 
+            Text="{Binding Profit, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:C2}}" />
+
     </Grid>
 </ui:ContentDialog>

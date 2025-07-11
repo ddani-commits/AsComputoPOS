@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.ViewModels.Pages;
 
 namespace TamoPOS.Services
 {
@@ -14,7 +16,16 @@ namespace TamoPOS.Services
         public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
         public bool IsSidePanelExpanded { get; set; } = false;
         public decimal Total => Cart.Sum(item => item.Total);
-        public POSService(){}
+        private IServiceProvider _serviceProvider;
+        private SalesHistoryViewModel _salesHistoryViewModel;
+        private IAuthenticationService _authenticationService;
+
+        public POSService(IServiceProvider serviceProvider) 
+        {
+            _serviceProvider = serviceProvider;
+            _authenticationService = _serviceProvider.GetRequiredService<IAuthenticationService>();
+            _salesHistoryViewModel = _serviceProvider.GetRequiredService<SalesHistoryViewModel>();
+        }
 
         // Todo: Create a class specific for POS Product Display
         public void LoadProductsInStock()
@@ -56,7 +67,8 @@ namespace TamoPOS.Services
                 Products = Cart,
                 Total = Total,
                 ChangeDue = ChangeDue,
-                Paid = CashPayment
+                Paid = CashPayment,
+                EmployeeId = _authenticationService.CurrentEmployee.EmployeeId
             };
 
             foreach(ProductPurchase pp in _appDbContext.ProductPurchases.ToList())
@@ -71,6 +83,7 @@ namespace TamoPOS.Services
             _appDbContext.SaveChanges();
             Cart.Clear();
             LoadProductsInStock(); // Not ideal but working
+            _salesHistoryViewModel.LoadSalesHistoryAsync();
         }
         public string PrintTicket() { return "Ticket generated successfully!"; }
         public void AddToCart(CartItem product) {Cart.Add(product);}

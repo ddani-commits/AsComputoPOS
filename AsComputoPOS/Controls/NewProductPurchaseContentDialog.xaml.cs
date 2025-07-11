@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Controls;
@@ -14,7 +15,6 @@ namespace TamoPOS.Controls
     public partial class NewProductPurchaseContentDialog : ContentDialog, INotifyPropertyChanged
     {
         private readonly Action<ProductPurchase>? _saveProductPurchase;
-        private readonly ContentPresenter? _contentPresenter;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IPOSService _posPanelService;
 
@@ -30,7 +30,9 @@ namespace TamoPOS.Controls
                 _publicPrice = value;
                 _flatMargin = _publicPrice - _purchasePrice;
                 _percentageMargin = _purchasePrice == 0 ? 0 : (_flatMargin / _purchasePrice) * 100m;
+                _profit = _flatMargin * Quantity;
                 OnPropertyChanged(nameof(PublicPrice));
+                OnPropertyChanged(nameof(Profit));
                 OnPropertyChanged(nameof(FlatMargin));
                 OnPropertyChanged(nameof(PercentageMargin));
             }
@@ -57,7 +59,9 @@ namespace TamoPOS.Controls
                 _flatMargin = value;
                 _percentageMargin = _purchasePrice == 0 ? 0 : (_flatMargin / _purchasePrice) * 100m;
                 _publicPrice = _purchasePrice + _flatMargin;
+                _profit = _flatMargin * Quantity;
                 OnPropertyChanged(nameof(FlatMargin));
+                OnPropertyChanged(nameof(Profit));
                 OnPropertyChanged(nameof(PercentageMargin));
                 OnPropertyChanged(nameof(PublicPrice));
             }
@@ -72,9 +76,11 @@ namespace TamoPOS.Controls
                 _percentageMargin = value;
                 _flatMargin = _purchasePrice * _percentageMargin / 100m;
                 _publicPrice = _purchasePrice + _flatMargin;
+                _profit = _flatMargin * Quantity;
                 OnPropertyChanged(nameof(PercentageMargin));
                 OnPropertyChanged(nameof(FlatMargin));
                 OnPropertyChanged(nameof(PublicPrice));
+                OnPropertyChanged(nameof(Profit));
             }
         }
 
@@ -93,9 +99,11 @@ namespace TamoPOS.Controls
             set
             {
                 _quantity = value;
+                QuantityRemaining = value;
                 decimal sub = _quantity * _purchasePrice;
                 Subtotal = sub;
                 OnPropertyChanged(nameof(Subtotal));
+                OnPropertyChanged(nameof(QuantityRemaining));
                 OnPropertyChanged(nameof(SubtotalString));
             } 
         }
@@ -106,7 +114,28 @@ namespace TamoPOS.Controls
             get => _quantityRemaining;
             set
             {
-                _quantityRemaining = value;
+                if(value <= Quantity)
+                    _quantityRemaining = value;
+            }
+        }
+
+        private decimal _revenue;
+        public decimal Revenue
+        {
+            get => _revenue;
+            set
+            {
+                _revenue = value;
+            }
+        }
+
+        private decimal _profit;
+        public decimal Profit
+        {
+            get => _profit;
+            set
+            {
+                _profit = value;
             }
         }
 
@@ -120,6 +149,7 @@ namespace TamoPOS.Controls
             OnPropertyChanged(nameof(FlatMargin));
             OnPropertyChanged(nameof(PublicPrice));
             OnPropertyChanged(nameof(SubtotalString));
+            OnPropertyChanged(nameof(Profit));
         }
 
         private void OnPropertyChanged(string name)
@@ -136,7 +166,6 @@ namespace TamoPOS.Controls
             IPOSService posPanelService
         ) : base(contentPresenter)
         {
-            _contentPresenter = contentPresenter;
             _applicationDbContext = dbContext;
             _saveProductPurchase = saveProductPurchase;
             _posPanelService = posPanelService;

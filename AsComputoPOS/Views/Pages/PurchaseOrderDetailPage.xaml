@@ -33,8 +33,6 @@
 
         <ui:Card Grid.Row="1" Margin="0, 4">
             <StackPanel Orientation="Horizontal">
-
-
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="16, 0" >
                     <ui:SymbolIcon Symbol="BuildingShop24" VerticalAlignment="Top" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" />
                     <StackPanel>

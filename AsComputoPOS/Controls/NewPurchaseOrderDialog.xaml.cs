@@ -35,7 +35,6 @@ namespace TamoPOS.Controls
                     Debug.WriteLine("Supplier not found");
                     return;
                 }
-                Debug.WriteLine($"Selected Supplier: {supplier.Name}");
 
                 var purchaseOrder = new PurchaseOrder(supplier, DatePickerField.SelectedDate.Value);
                 _savePurchaseOrder?.Invoke(purchaseOrder);

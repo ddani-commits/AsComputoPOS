@@ -7,8 +7,8 @@
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public decimal? Total { get; set; }
-        public decimal? Subtotal { get; set; }
+        public decimal? Total { get; set; } = 0;
+        public decimal? Subtotal { get; set; } = 0;
         public ICollection<ProductPurchase>? ProductPurchases { get; set; }
         public PurchaseOrder() { }
         public PurchaseOrder(Supplier supplier, DateTime purchaseDate)

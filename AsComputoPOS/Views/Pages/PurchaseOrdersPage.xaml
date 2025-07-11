@@ -20,14 +20,13 @@
         <ui:DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseOrders}" AutoGenerateColumns="False" Margin="5">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate}" Width="*"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
-                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal}" Width="*"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate, StringFormat='{}{0:dddd, MMMM dd yyyy}'}" Width="*"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:C2}}" Width="*"/>
                 <DataGridTextColumn Header="Proveedor" Binding="{Binding Supplier.Name}" Width="*"/>
+                
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
                                 <Button 
                                     Command="{Binding DataContext.NavigateToPurchaseOrderDetailsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                     CommandParameter="{Binding Id}">
@@ -36,13 +35,20 @@
                                         <ui:SymbolIcon Symbol="ArrowUp24" Foreground="Gray"/>
                                     </StackPanel>
                                 </Button>
-                                <Button HorizontalAlignment="Center">
-                                    <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
-                                </Button>
-                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Eliminar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                                <Button HorizontalAlignment="Center">
+                                    <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
+                                </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>
