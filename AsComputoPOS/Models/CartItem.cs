@@ -5,16 +5,12 @@ namespace TamoPOS.Models
 {
     public class CartItem : INotifyPropertyChanged
     {
-        private int _productId;
-        private Product _product;
-        private decimal _unitPrice;
-        private decimal _quantity;
-
         public int TicketId { get; set; }
         public Ticket? Ticket { get; set; }
 
         public int CartItemId { get; set; }
 
+        private int _productId;
         public int ProductId
         {
             get => _productId;
@@ -28,6 +24,7 @@ namespace TamoPOS.Models
             }
         }
 
+        private Product _product;
         public Product Product
         {
             get => _product;
@@ -41,6 +38,7 @@ namespace TamoPOS.Models
             }
         }
 
+        private decimal _unitPrice;
         public decimal UnitPrice
         {
             get => _unitPrice;
@@ -55,6 +53,7 @@ namespace TamoPOS.Models
             }
         }
 
+        private decimal _quantity;
         public decimal Quantity
         {
             get => _quantity;
@@ -69,10 +68,10 @@ namespace TamoPOS.Models
             }
         }
 
+        public decimal Total => Quantity * UnitPrice;
+        
         [NotMapped]
         public decimal? MaxQuantity { get; set; }
-
-        public decimal Total => Quantity * UnitPrice;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
