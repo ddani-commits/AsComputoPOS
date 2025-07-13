@@ -10,14 +10,14 @@
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
              PrimaryButtonText = "Guardar"
              CloseButtonText="Cancelar"
-             DialogMaxWidth="650"   
+             DialogMaxWidth="500"   
              DialogWidth="650"
-             d:DesignHeight="450" d:DesignWidth="650">
+             d:DesignHeight="450" d:DesignWidth="500">
     
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:NewSupplierContentDialog}" />
     </ui:ContentDialog.Resources>
-    <Grid>
+    <Grid Width="500">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

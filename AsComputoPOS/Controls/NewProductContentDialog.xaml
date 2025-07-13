@@ -11,13 +11,13 @@
              PrimaryButtonText="Guardar"
              SecondaryButtonText="Guardar y crear otro"
              CloseButtonText="Cancelar"
-             DialogWidth="400"
-             d:DesignHeight="450" d:DesignWidth="650">
+             DialogWidth="500"
+             d:DesignHeight="450" d:DesignWidth="500">
     <ui:ContentDialog.Resources>
         <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:NewProductContentDialog}" />
     </ui:ContentDialog.Resources>
 
-    <StackPanel>
+    <StackPanel Width="500">
         <Label Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Stretch" Content="Nombre del producto"/>
             <ui:TextBox 
                 Grid.ColumnSpan="2" Grid.Row="1"
