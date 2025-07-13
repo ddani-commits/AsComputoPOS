@@ -115,7 +115,7 @@
             AutoGenerateColumns="False" 
             Margin="0, 4">
             <ui:DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}" Width="auto"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}" Width="auto" MaxWidth="300"/>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Quantity}" Width="auto"/>
                 <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat={}{0:C2}}" Width="auto"/>
                 <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:C2}}" Width="auto"/>

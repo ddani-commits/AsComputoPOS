@@ -25,9 +25,9 @@
             Margin="5">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate, StringFormat='{}{0:dddd, MMMM dd yyyy}'}" Width="*"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:C2}}" Width="*"/>
-                <DataGridTextColumn Header="Proveedor" Binding="{Binding Supplier.Name}" Width="*"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate, StringFormat='{}{0:dddd, MMMM dd yyyy}'}" Width="auto"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:C2}}" Width="auto"/>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Supplier.Name}" Width="auto"/>
                 
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
