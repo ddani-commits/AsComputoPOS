@@ -29,7 +29,12 @@
                 
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
 
-        <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ProductsInStock}" AutoGenerateColumns="False">
+        <ui:DataGrid 
+            Grid.Row="1" 
+            Grid.ColumnSpan="2" 
+            ItemsSource="{Binding ProductsInStock}"
+            CanUserAddRows="False"
+            AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged}"/>

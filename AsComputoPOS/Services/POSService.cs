@@ -81,6 +81,12 @@ namespace TamoPOS.Services
 
             _appDbContext.Add(ticket);
             _appDbContext.SaveChanges();
+
+            // Without this, when creating multiple tickets in the same session, the CartItems
+            // from the last session would be deleted, presumably entity framework would
+            // just update the variables instead of creating new instances
+            _appDbContext.Entry(ticket).State = EntityState.Detached;
+
             Cart.Clear();
             LoadProductsInStock(); // Not ideal but working
             _salesHistoryViewModel.LoadSalesHistoryAsync();
