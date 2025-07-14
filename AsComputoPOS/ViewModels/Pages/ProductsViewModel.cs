@@ -21,11 +21,15 @@ namespace TamoPOS.ViewModels.Pages
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
 
         [ObservableProperty]
+        private string? _name;
+        [ObservableProperty]
         private Product? _currentProduct;
         [ObservableProperty]
         private string? _salePrice;
         [ObservableProperty]
         private string? _quantityRemaining;
+        [ObservableProperty]
+        private Category? _category;
         public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
         {
             _contentDialogService = contentDialogService;
@@ -69,6 +73,11 @@ namespace TamoPOS.ViewModels.Pages
                     SalePrice = 0,
                     QuantityRemaining = 0
                 };
+                if(product.Category != null)
+                {
+                    productInStock.Product.Name = product.Name;
+                    productInStock.Product.Category = product.Category;
+                }
                 ProductsInStock.Add(productInStock);
             }
             foreach (var productPurchase in productPurchases)
@@ -117,6 +126,7 @@ namespace TamoPOS.ViewModels.Pages
             _appDbContext.SaveChanges();
         }
 
+
         [RelayCommand]
         public void NavigateToProductDetails(int ProductId)
         {
@@ -134,19 +144,8 @@ namespace TamoPOS.ViewModels.Pages
             var productToDelete = _appDbContext.Products.Find(product.ProductId);
             if (productToDelete != null)
             {
-                var productPurchasesToDelete = _appDbContext.ProductPurchases
-                    .Where(pp => pp.ProductId == productToDelete.ProductId).ToList();
-                foreach (var purchase in productPurchasesToDelete)
-                {
-                    _appDbContext.ProductPurchases.Remove(purchase);
-                }
                 _appDbContext.Products.Remove(productToDelete);
-                _appDbContext.SaveChanges();
-                var productToRemove = ProductsInStock.FirstOrDefault(p => p.ProductId == product.ProductId); //Si encontramos un producto con el mismo ProductId en ProductsList, lo eliminamos
-                if (productToRemove != null)
-                {
-                    ProductsInStock.Remove(productToRemove);  // Eliminar el producto correctamente de la lista
-                }
+                _appDbContext.SaveChanges(); //Si encontramos un producto con el mismo ProductId en ProductsList, lo eliminamos
                 LoadProductsInStock();
             }
             else

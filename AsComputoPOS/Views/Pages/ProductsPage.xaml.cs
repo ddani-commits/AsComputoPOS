@@ -26,7 +26,7 @@ namespace TamoPOS.Views.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadProductsInStock(); // Llamamos a LoadProductsInStock para recargar los productos cuando la página se cargue
+            ViewModel.LoadProductsInStock();
         }
     }
 }

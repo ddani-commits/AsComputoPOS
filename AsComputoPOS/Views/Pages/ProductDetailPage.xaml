@@ -9,7 +9,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:DesignHeight="450" d:DesignWidth="800"
-      ui:NavigationView.HeaderContent="{Binding Name}"
+      ui:NavigationView.HeaderContent="{Binding CurrentProduct.Name, UpdateSourceTrigger=PropertyChanged}"
       Title="ProductDetailPage">
     <Page.Resources>
         <helpers:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
@@ -30,9 +30,9 @@
             <Image 
             x:Name="ProductImageB"
             Stretch="UniformToFill"
-            Source="{Binding CurrentProduct.ImageData, Converter={StaticResource ByteArrayToImageConverter}}" />
+            Source="{Binding CurrentProduct.ImageData, Converter={StaticResource ByteArrayToImageConverter}, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button Content="Cambiar"></Button>
+            <Button Content="Cambiar imagen" Click="Button_Click"></Button>
         </StackPanel>
 
         <ui:Card Grid.Column="1" Grid.Row="0" Margin="10,0,0,0">
@@ -51,13 +51,11 @@
                 <!--Title-->
                 <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
                 <ui:TextBlock Text="Nombre:" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
-                <ui:TextBlock Grid.Column="2" Grid.Row="0" FontTypography="Body" Text="{Binding Name}" VerticalAlignment="Center"/>
-                <ui:TextBox Grid.Column="3" Grid.Row="0"> </ui:TextBox>
+                <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="0" KeyDown="ProductNameTextBox_KeyDown"> </ui:TextBox>
                 <!--Categoria-->
                 <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1"/>
                 <ui:TextBlock Grid.Column="1" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:TextBlock Text="{Binding CurrentProduct.Category.CategoryName}" Grid.Row="1" Grid.Column="2" FontTypography="Body" VerticalAlignment="Center"/>
-                <ui:TextBox  Grid.Column="3" Grid.Row="1"/>
+                <ui:AutoSuggestBox x:Name="CategoryBox" PlaceholderText="{Binding CurrentProduct.Category}" TextChanged="CategoryBox_TextChanged" SuggestionChosen="CategoryBox_SuggestionChosen" Grid.Column="3" Grid.Row="1"/>
                 <!--Activo-->
                 <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2"/>
                 <ui:TextBlock Text="Activar:" Grid.Row="2" Grid.Column="1" FontTypography="BodyStrong" Margin="10,10"/>
