@@ -17,7 +17,12 @@
         </Grid.RowDefinitions>
 
         <ui:Button Grid.Row="0" Content="Registrar orden de compra" Command="{Binding ShowNewPurchaseOrderDialogCommand}" />
-        <ui:DataGrid Grid.Row="1" ItemsSource="{Binding PurchaseOrders}" AutoGenerateColumns="False" Margin="5">
+        <ui:DataGrid 
+            Grid.Row="1" 
+            ItemsSource="{Binding PurchaseOrders}" 
+            AutoGenerateColumns="False" 
+            CanUserAddRows="False"
+            Margin="5">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding PurchaseDate, StringFormat='{}{0:dddd, MMMM dd yyyy}'}" Width="*"/>
