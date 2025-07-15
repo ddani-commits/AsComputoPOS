@@ -15,19 +15,21 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
- 
-                <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-            <Button 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button 
                 Grid.Row="0"
                 x:Name="OpenDialogButton"
                 Content="Nuevo producto" 
                 Command="{Binding ShowDialogCommand}"/>
-                
+
+        <!--
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
+        -->
 
         <ui:DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding ProductsInStock}" AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
@@ -46,6 +48,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <!-- Command does not work
                 <DataGridTemplateColumn Header="Acción">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -55,7 +58,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
+                -->
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>

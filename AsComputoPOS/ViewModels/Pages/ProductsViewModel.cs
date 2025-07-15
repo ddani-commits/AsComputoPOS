@@ -58,10 +58,10 @@ namespace TamoPOS.ViewModels.Pages
                         SalePrice = salePrice,
                         QuantityRemaining = totalRemaining
                     };
-                }).ToList();          
+                }).ToList();
             var allProductsIds = productPurchases.Select(pp => pp.ProductId).ToList();
             var allProducts = _appDbContext.Products
-                .Include(p => p.Category) 
+                .Include(p => p.Category)
                 .Where(p => !allProductsIds.Contains(p.ProductId)).ToList();
             ProductsInStock.Clear();
             foreach (var product in allProducts)
@@ -130,6 +130,7 @@ namespace TamoPOS.ViewModels.Pages
 
         }
 
+        // This command doesnt work
         [RelayCommand]
         public void DeleteProduct(object parameter)
         {
