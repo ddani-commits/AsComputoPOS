@@ -39,7 +39,12 @@ namespace TamoPOS.Controls
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
-        public Category SelectedCategory;     
+        public Category? SelectedCategory
+        {
+            get => _selectedCategory;
+            set { _selectedCategory = value; OnPropertyChanged(); }
+        }
+
         private string _imagePath = string.Empty;
         public string ImagePath
         {
@@ -48,7 +53,7 @@ namespace TamoPOS.Controls
         }
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
-        public List<string> CategoryList = new();
+        public List<Category> CategoryList = new();
         private Category? _selectedCategory;
         private readonly ApplicationDbContext _appDbContext;
 
@@ -63,6 +68,8 @@ namespace TamoPOS.Controls
             _appDbContext = appDbContext;
             DataContext = this;
             Title = "Crear un producto";
+            CategoryList = _appDbContext.Categories.ToList();
+
         }
 
         public void OnOpenPicture()
@@ -89,7 +96,6 @@ namespace TamoPOS.Controls
                 return;
             }
         }
-
         protected override void OnButtonClick(ContentDialogButton button)
         {
             if (button == ContentDialogButton.Primary)
@@ -118,30 +124,20 @@ namespace TamoPOS.Controls
                 Debug.WriteLine("Cancel button clicked");
             }
         }
-
         private void CategoryBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var categories = _appDbContext
-                    .Categories
-                    .Where(c => c.CategoryName.Contains(sender.Text)).ToList();
-                foreach (Category category in categories)
-                {
-                    if (!CategoryList.Contains(category.CategoryName))
-                    {
-                        CategoryList.Add(category.CategoryName);
-                    }
-                }
-                CategoryBox.OriginalItemsSource = CategoryList;
+                var filtered = CategoryList.
+                    Where(c => c.CategoryName.Contains(sender.Text))
+                    .ToList();
+                CategoryBox.OriginalItemsSource = filtered;
             }
         }
         private void CategoryBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (args.SelectedItem is string selectedCategoryName)
+            if (args.SelectedItem is Category selectedCategory)
             {
-                var selectedCategory = _appDbContext.Categories
-                    .FirstOrDefault(c => c.CategoryName == selectedCategoryName);
                 SelectedCategory = selectedCategory;
             }
             else
@@ -149,17 +145,14 @@ namespace TamoPOS.Controls
                 SelectedCategory = null;
             }
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        // Notify property changes for data binding
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OnOpenPicture();
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
