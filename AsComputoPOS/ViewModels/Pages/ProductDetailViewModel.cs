@@ -115,7 +115,7 @@ namespace TamoPOS.ViewModels.Pages
             posService.LoadProductsInStock();
         }
 
-
+        [RelayCommand]
         public void OnOpenPicture()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()

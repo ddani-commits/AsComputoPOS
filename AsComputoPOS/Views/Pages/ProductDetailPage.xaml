@@ -32,7 +32,7 @@
             Stretch="UniformToFill"
             Source="{Binding CurrentProduct.ImageData, Converter={StaticResource ByteArrayToImageConverter}, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button Content="Cambiar imagen" Click="Button_Click"></Button>
+            <ui:Button Content="Cambiar imagen" Command="{Binding OpenPictureCommand}" />
         </StackPanel>
 
         <ui:Card Grid.Column="1" Grid.Row="0" Margin="10,0,0,0">
