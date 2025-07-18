@@ -39,6 +39,8 @@ namespace TamoPOS.Controls
             get => _SKU;
             set { _SKU = value; OnPropertyChanged(); }
         }
+        
+        private Category? _selectedCategory;
         public Category? SelectedCategory
         {
             get => _selectedCategory;
@@ -54,7 +56,6 @@ namespace TamoPOS.Controls
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
         public List<Category> CategoryList = new();
-        private Category? _selectedCategory;
         private readonly ApplicationDbContext _appDbContext;
 
         public NewProductContentDialog(
@@ -69,7 +70,6 @@ namespace TamoPOS.Controls
             DataContext = this;
             Title = "Crear un producto";
             CategoryList = _appDbContext.Categories.ToList();
-
         }
 
         public void OnOpenPicture()
@@ -128,8 +128,8 @@ namespace TamoPOS.Controls
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var filtered = CategoryList.
-                    Where(c => c.CategoryName.Contains(sender.Text))
+                var filtered = CategoryList
+                    .Where(c => c.CategoryName.Contains(sender.Text))
                     .ToList();
                 CategoryBox.OriginalItemsSource = filtered;
             }
@@ -139,10 +139,6 @@ namespace TamoPOS.Controls
             if (args.SelectedItem is Category selectedCategory)
             {
                 SelectedCategory = selectedCategory;
-            }
-            else
-            {
-                SelectedCategory = null;
             }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
