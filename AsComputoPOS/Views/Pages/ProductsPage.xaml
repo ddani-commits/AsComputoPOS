@@ -37,9 +37,9 @@
             AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300"/>
                 <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice, StringFormat={}{0:C2}}"/>
-                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category, UpdateSourceTrigger=PropertyChanged}" MaxWidth="150"/>\
                 <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>
