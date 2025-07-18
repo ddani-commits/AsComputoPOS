@@ -23,10 +23,5 @@ namespace TamoPOS.Views.Pages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.LoadProductsInStock();
-        }
     }
 }

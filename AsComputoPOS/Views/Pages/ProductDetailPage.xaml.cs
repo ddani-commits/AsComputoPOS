@@ -33,7 +33,7 @@ namespace TamoPOS.Views.Pages
             if(e.SelectedItem is Category selectedCategory)
             {
                 ViewModel.SelectedCategory = selectedCategory;
-                ViewModel.UpdateProductCategory(); 
+                ViewModel.UpdateProductDetails(); 
             }
             else
             {
@@ -44,7 +44,7 @@ namespace TamoPOS.Views.Pages
         {
             if (e.Key == Key.Enter)
             {
-                ViewModel.SaveProductNameCommand.Execute(null);
+                ViewModel.UpdateProductDetails();
             }
         }
 

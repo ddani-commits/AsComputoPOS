@@ -43,23 +43,29 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6.222"/>
+                    <ColumnDefinition Width="4.2"/>
+                    <ColumnDefinition Width="5.578"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--Title-->
-                <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
-                <ui:TextBlock Text="Nombre:" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
-                <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Grid.Row="0" KeyDown="ProductNameTextBox_KeyDown"> </ui:TextBox>
+                <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.ColumnSpan="3"/>
+                <ui:TextBlock Text="Nombre:" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
+                <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5" Grid.Row="0" KeyDown="ProductNameTextBox_KeyDown" Margin="0,0,0,40" Grid.RowSpan="2"></ui:TextBox>
+                <ui:Button Grid.Column="6">
+                    <ui:SymbolIcon Symbol="Save20" VerticalAlignment="Center"/>
+                </ui:Button>
                 <!--Categoria-->
-                <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1"/>
-                <ui:TextBlock Grid.Column="1" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:AutoSuggestBox x:Name="CategoryBox" PlaceholderText="{Binding CurrentProduct.Category}" TextChanged="CategoryBox_TextChanged" SuggestionChosen="CategoryBox_SuggestionChosen" Grid.Column="3" Grid.Row="1"/>
+                <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1" Grid.ColumnSpan="3"/>
+                <ui:TextBlock Grid.Column="3" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10,10,10"/>
+                <ui:AutoSuggestBox x:Name="CategoryBox" PlaceholderText="{Binding CurrentProduct.Category}" TextChanged="CategoryBox_TextChanged" SuggestionChosen="CategoryBox_SuggestionChosen" Grid.Column="5" Grid.Row="1"/>
                 <!--Activo-->
-                <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2"/>
-                <ui:TextBlock Text="Activar:" Grid.Row="2" Grid.Column="1" FontTypography="BodyStrong" Margin="10,10"/>
-                <ui:ToggleSwitch OnContent="Activado" OffContent="Desactivado" Grid.Column="3" Grid.Row="2" Margin="10,10,0,0" HorizontalAlignment="Right" IsChecked="{Binding CurrentProduct.IsActive, Mode=TwoWay}"/>
+                <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2" Grid.ColumnSpan="3"/>
+                <ui:TextBlock Text="Activar:" Grid.Row="2" Grid.Column="3" FontTypography="BodyStrong" Margin="10,10,10,10"/>
+                <ui:ToggleSwitch OnContent="Activado" OffContent="Desactivado" Grid.Column="5" Grid.Row="2" Margin="0,15,0,0" HorizontalAlignment="Right" IsChecked="{Binding CurrentProduct.IsActive, Mode=TwoWay}" VerticalAlignment="Top"/>
             </Grid>
         </ui:Card>
         <ui:Card Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">
@@ -90,11 +96,11 @@
                 </StackPanel>
             </StackPanel>
         </ui:Card>
-        
+
         <!--Historial-->
         <StackPanel Grid.Row="2" Grid.Column="2" Margin="10">
             <ui:TextBlock FontTypography="Subtitle" Text="Historial"/>
-        <ui:DataGrid CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+            <ui:DataGrid CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False">
                 <ui:DataGrid.Columns>
                     <DataGridTextColumn Header="Fecha"/>
                     <DataGridTextColumn Header="Total" Width="*"/>

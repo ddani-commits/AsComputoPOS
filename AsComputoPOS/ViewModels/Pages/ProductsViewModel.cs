@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -17,7 +16,7 @@ namespace TamoPOS.ViewModels.Pages
         private readonly INavigationService _navigationService;
         public ObservableCollection<Product> ProductsList { get; } = new();
         private ApplicationDbContext _appDbContext = new();
-        private readonly ProductDetailViewModel _productDetailViewModel;
+        private readonly ProductDetailViewModel _productDetailViewModel; 
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
 
         [ObservableProperty]
@@ -32,14 +31,14 @@ namespace TamoPOS.ViewModels.Pages
         private Category? _category;
         public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
         {
-            _contentDialogService = contentDialogService;
-            _navigationService = navigationService;
             _productDetailViewModel = productDetailViewModel;
-            LoadProductsInStock();
+            _navigationService = navigationService;
+            _contentDialogService = contentDialogService;
+            LoadAllProducts();
         }
-        public void LoadProductsInStock()
+
+        public void LoadAllProducts()
         {
-            ProductsInStock.Clear();
             var productPurchases = _appDbContext.ProductPurchases
                 .Include(pp => pp.Product)
                 .Include(p => p.Product.Category)
@@ -48,7 +47,7 @@ namespace TamoPOS.ViewModels.Pages
                 .GroupBy(pp => pp.ProductId)
                 .Select(g =>
                 {
-                    var oldest = g.OrderBy(pp => pp.PurchaseOrderId).First();
+                    var oldest = g.OrderBy(pp => pp.PurchaseOrderId).LastOrDefault();
                     var totalRemaining = g.Sum(pp => pp.QuantityRemaining ?? 0);
                     var salePrice = oldest?.SalePrice ?? 0;
                     return new ProductPurchase
@@ -58,10 +57,10 @@ namespace TamoPOS.ViewModels.Pages
                         SalePrice = salePrice,
                         QuantityRemaining = totalRemaining
                     };
-                }).ToList();          
+                }).ToList();
             var allProductsIds = productPurchases.Select(pp => pp.ProductId).ToList();
             var allProducts = _appDbContext.Products
-                .Include(p => p.Category) 
+                .Include(p => p.Category)
                 .Where(p => !allProductsIds.Contains(p.ProductId)).ToList();
             ProductsInStock.Clear();
             foreach (var product in allProducts)
@@ -73,7 +72,7 @@ namespace TamoPOS.ViewModels.Pages
                     SalePrice = 0,
                     QuantityRemaining = 0
                 };
-                if(product.Category != null)
+                if (product.Category != null)
                 {
                     productInStock.Product.Name = product.Name;
                     productInStock.Product.Category = product.Category;
@@ -82,17 +81,14 @@ namespace TamoPOS.ViewModels.Pages
             }
             foreach (var productPurchase in productPurchases)
             {
-                // Verificar si el producto ya está en ProductsInStock
                 var existingProduct = ProductsInStock.FirstOrDefault(pp => pp.ProductId == productPurchase.ProductId);
                 if (existingProduct != null)
                 {
-                    // Actualizar el producto existente con los nuevos valores
                     existingProduct.QuantityRemaining = productPurchase.QuantityRemaining;
                     existingProduct.SalePrice = productPurchase.SalePrice;
                 }
                 else
                 {
-                    // Si el producto no existe, agregarlo a la colección
                     ProductsInStock.Add(productPurchase);
                 }
             }
@@ -102,7 +98,7 @@ namespace TamoPOS.ViewModels.Pages
         private async Task OnShowDialog()
         {
             if (_contentDialogService.GetDialogHost() is not null)
-            {   // Example of how to open a content dialog, a dialog must be created. examples are in Controls folder
+            {
                 var newProductDialog = new NewProductContentDialog(_appDbContext, _contentDialogService.GetDialogHost(), AddProduct);
                 _ = await newProductDialog.ShowAsync();
             }
@@ -113,7 +109,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
-            LoadProductsInStock();
+            LoadAllProducts();
         }
 
         [RelayCommand]
@@ -126,32 +122,12 @@ namespace TamoPOS.ViewModels.Pages
             _appDbContext.SaveChanges();
         }
 
-
         [RelayCommand]
         public void NavigateToProductDetails(int ProductId)
         {
-            _productDetailViewModel.LoadProductDetails(ProductId);
+            _productDetailViewModel.LoadProductDetails(ProductId, _appDbContext);
             _productDetailViewModel.LoadProductPurchases();
             _navigationService.NavigateWithHierarchy(typeof(ProductDetailPage));
-
-        }
-
-        [RelayCommand]
-        public void DeleteProduct(object parameter)
-        {
-            Debug.WriteLine("Producto eliminado correctamente");
-            if (parameter is not Product product) return;
-            var productToDelete = _appDbContext.Products.Find(product.ProductId);
-            if (productToDelete != null)
-            {
-                _appDbContext.Products.Remove(productToDelete);
-                _appDbContext.SaveChanges(); //Si encontramos un producto con el mismo ProductId en ProductsList, lo eliminamos
-                LoadProductsInStock();
-            }
-            else
-            {
-                Debug.WriteLine("Producto no encontrado");
-            }
         }
     }
 }
