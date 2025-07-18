@@ -10,8 +10,6 @@ namespace TamoPOS.ViewModels.Pages
 {
     public partial class ProductsViewModel : ViewModel
     {
-        [ObservableProperty]
-        private Product selectedProduct;
         private readonly IContentDialogService _contentDialogService;
         private readonly INavigationService _navigationService;
         public ObservableCollection<Product> ProductsList { get; } = new();
@@ -19,16 +17,6 @@ namespace TamoPOS.ViewModels.Pages
         private readonly ProductDetailViewModel _productDetailViewModel; 
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
 
-        [ObservableProperty]
-        private string? _name;
-        [ObservableProperty]
-        private Product? _currentProduct;
-        [ObservableProperty]
-        private string? _salePrice;
-        [ObservableProperty]
-        private string? _quantityRemaining;
-        [ObservableProperty]
-        private Category? _category;
         public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
         {
             _productDetailViewModel = productDetailViewModel;
