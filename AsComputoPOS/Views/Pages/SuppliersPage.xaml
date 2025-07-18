@@ -35,11 +35,11 @@
             <ui:DataGrid ItemsSource="{Binding SuppliersList}" AutoGenerateColumns="False" Margin="5">
                 <ui:DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding SupplierId}" Width="Auto"/>
-                    <DataGridTextColumn Header="Nombre de la compañía" Binding="{Binding Name}" Width="*"/>
-                    <DataGridTextColumn Header="Nombre del contacto" Binding="{Binding ContactName}" Width="*"/>
-                    <DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="*"/>
-                    <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="*"/>
-                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="*"/>
+                    <DataGridTextColumn Header="Nombre de la compañía" Binding="{Binding Name}" Width="auto"/>
+                    <DataGridTextColumn Header="Nombre del contacto" Binding="{Binding ContactName}" Width="auto"/>
+                    <DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="auto"/>
+                    <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="auto"/>
+                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="auto"/>
                     <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTemplateColumn Header="Acción">
                         <DataGridTemplateColumn.CellTemplate>

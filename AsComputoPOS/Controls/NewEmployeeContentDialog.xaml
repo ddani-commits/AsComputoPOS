@@ -10,8 +10,9 @@
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
              PrimaryButtonText = "Guardar"
              CloseButtonText="Cancelar"
-             DialogMaxWidth="650"   
-             DialogWidth="650"
+             DialogMaxWidth="500"   
+                  Title="Crear nuevo empleado"
+             DialogWidth="500"
              d:DesignHeight="450" d:DesignWidth="650">
     
     <ui:ContentDialog.Resources>
@@ -19,13 +20,12 @@
     </ui:ContentDialog.Resources>
    
     
-    <Grid>
+    <Grid Width="500">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBlock Text="Nuevo empleado" FontSize="20"/>
             <Label Content="Nombre:" />
             <ui:TextBox 
                 PlaceholderText="Ej. Carlos" 
