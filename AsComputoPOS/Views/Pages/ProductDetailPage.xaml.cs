@@ -7,9 +7,6 @@ using Wpf.Ui.Controls;
 
 namespace TamoPOS.Views.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para ProductDetailPage.xaml
-    /// </summary>
     public partial class ProductDetailPage : Page
     {
         public ProductDetailViewModel ViewModel { get; }
@@ -35,10 +32,6 @@ namespace TamoPOS.Views.Pages
                 ViewModel.SelectedCategory = selectedCategory;
                 ViewModel.UpdateProductDetails(); 
             }
-            else
-            {
-                ViewModel.SelectedCategory = null;
-            }
         }
         private void ProductNameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -47,12 +40,6 @@ namespace TamoPOS.Views.Pages
                 ViewModel.UpdateProductDetails();
             }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.OnOpenPicture();
-        }
-
     }
 }
  

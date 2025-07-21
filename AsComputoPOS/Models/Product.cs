@@ -21,9 +21,8 @@ namespace TamoPOS.Models
         }
         public bool? IsActive { get; set; }
         public string? Barcode { get; set; }
-        private Category _category;
-        private int _categoryId;
-        public int CategoryId 
+        private int? _categoryId;
+        public int? CategoryId 
         {
             get => _categoryId;
             set
@@ -36,7 +35,9 @@ namespace TamoPOS.Models
                 }
             }
         }
-        public Category Category
+        
+        private Category? _category;
+        public Category? Category
         {
             get => _category;
             set
@@ -48,19 +49,11 @@ namespace TamoPOS.Models
                 }
             }
         }
+        
         public string? SKU { get; set; }    
         public byte[]? ImageData { get; set; }
         public ICollection<ProductPurchase> ProductPurchase { get; set; }
         public Product() { }
-        public Product(string productName, bool isActive, string barcode, string SKU, byte[]? imageData, Category category)
-        {
-            Name = productName;
-            IsActive = isActive;
-            Barcode = barcode;
-            ImageData = imageData;
-            Category = category;
-            this.SKU = SKU;
-        }
 
         public override string ToString()
         {
