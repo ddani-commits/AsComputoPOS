@@ -151,25 +151,22 @@ namespace TamoPOS.ViewModels.Pages
             }
         }
 
-        public void LoadSalesHistoryAsync(int productId)
+        public void LoadHistorySales(int productId, ApplicationDbContext appDbContext)
         {
+            _applicationDbContext = appDbContext;
             Sales.Clear();
-
-            // Filtrar los tickets que contengan al menos un producto con el productId especificado
             var sales = _applicationDbContext.Tickets
                 .Include(t => t.Products)
-                    .ThenInclude(ci => ci.Product)
+                .ThenInclude(ci => ci.Product)
                 .Include(t => t.Employee)
-                .Where(t => t.Products.Any(p => p.ProductId == productId))  // Filtro por ProductId
+                .Where(t => t.Products.Any(p => p.ProductId == productId))
                 .ToList();
-
             foreach (var sale in sales)
             {
                 sale.ProductsCount = sale.Products?.Count ?? 0;
                 Sales.Add(sale);
             }
         }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
