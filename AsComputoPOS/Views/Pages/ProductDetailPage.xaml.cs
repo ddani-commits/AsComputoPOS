@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Diagnostics;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using TamoPOS.Models;
 using TamoPOS.ViewModels.Pages;
-using Wpf.Ui.Abstractions.Controls;
+using Wpf.Ui.Controls;
 
 namespace TamoPOS.Views.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para ProductDetailPage.xaml
-    /// </summary>
     public partial class ProductDetailPage : Page
     {
         public ProductDetailViewModel ViewModel { get; }
@@ -29,5 +16,32 @@ namespace TamoPOS.Views.Pages
             DataContext = ViewModel;
             InitializeComponent();
         }
+        private void CategoryBox_TextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
+        {
+            if (e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var autoSuggestBox = (AutoSuggestBox)sender;
+                    autoSuggestBox.Text = string.Empty;
+                    autoSuggestBox.OriginalItemsSource = ViewModel.CategoryList;     
+            }
+        }
+        private void CategoryBox_SuggestionChosen(object sender, AutoSuggestBoxSuggestionChosenEventArgs e)
+        {
+            if(e.SelectedItem is Category selectedCategory)
+            {
+                ViewModel.SelectedCategory = selectedCategory;
+                ViewModel.UpdateProductDetails(); 
+            }
+        }
+        private void ProductNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ViewModel.UpdateProductDetails();
+            }
+        }
     }
 }
+ 
+    
+

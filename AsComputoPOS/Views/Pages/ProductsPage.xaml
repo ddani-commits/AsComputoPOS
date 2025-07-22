@@ -8,7 +8,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       d:DesignHeight="450" d:DesignWidth="800"
       xmlns:controls="clr-namespace:TamoPOS.Controls"
-      Title="ProductsPage" Loaded="Page_Loaded">
+      Title="ProductsPage">
 
     <Grid Width="auto" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -39,9 +39,9 @@
             AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name}" MaxWidth="300" />
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300"/>
                 <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice, StringFormat={}{0:C2}}"/>
-                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category.CategoryName}" MaxWidth="150"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category, UpdateSourceTrigger=PropertyChanged}" MaxWidth="150"/>
                 <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>
@@ -53,17 +53,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!-- Command does not work
-                <DataGridTemplateColumn Header="Acción">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button HorizontalAlignment="Center" Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}">
-                                <ui:SymbolIcon Symbol="Delete20" Foreground="Red"/>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                -->
             </ui:DataGrid.Columns>
         </ui:DataGrid>
     </Grid>
