@@ -12,7 +12,7 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" Width="350" Grid.Column="1"   >
             <TextBlock 
-                    Text="Tamos" 
+                    Text="AS Ventas" 
                     FontSize="36"
                     FontWeight="Bold"
                     Foreground="Black"

@@ -44,6 +44,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <!--
                 <DataGridTemplateColumn Header="Eliminar">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -53,6 +54,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                    -->
 
             </ui:DataGrid.Columns>
         </ui:DataGrid>
