@@ -195,9 +195,6 @@ namespace TamoPOS.Controls
 
                 _saveProductPurchase?.Invoke(productPurchase);
 
-                // just update the whole list, might hurt performance on long product lists
-                if (productPurchase.QuantityRemaining > 0) _posPanelService.LoadProductsInStock();
-
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");
             }

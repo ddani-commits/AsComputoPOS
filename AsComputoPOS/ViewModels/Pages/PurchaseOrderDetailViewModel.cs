@@ -78,6 +78,9 @@ namespace TamoPOS.ViewModels.Pages
             _applicationDbContext.SaveChanges();
             
             ProductPurchases.Add(productPurchase);
+
+            // just update the whole list, might hurt performance on long product lists
+            if (productPurchase.QuantityRemaining > 0) _posPanelService.LoadProductsInStock();
             LoadDetails(CurrentPurchaseOrder.Id);
         }
 
