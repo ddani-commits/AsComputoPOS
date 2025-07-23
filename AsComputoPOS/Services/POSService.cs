@@ -10,21 +10,24 @@ namespace TamoPOS.Services
 {
     public class POSService : IPOSService
     {
+        private IServiceProvider _serviceProvider;
+        private SalesHistoryViewModel _salesHistoryViewModel;
+        private IAuthenticationService _authenticationService;
+        private ProductsViewModel _productsViewModel;
+
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
         private readonly ApplicationDbContext _appDbContext = new();
         public ObservableCollection<CartItem> Cart { get; set; } = new();
         public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
         public bool IsSidePanelExpanded { get; set; } = false;
         public decimal Total => Cart.Sum(item => item.Total);
-        private IServiceProvider _serviceProvider;
-        private SalesHistoryViewModel _salesHistoryViewModel;
-        private IAuthenticationService _authenticationService;
 
         public POSService(IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
             _authenticationService = _serviceProvider.GetRequiredService<IAuthenticationService>();
             _salesHistoryViewModel = _serviceProvider.GetRequiredService<SalesHistoryViewModel>();
+            _productsViewModel = _serviceProvider.GetRequiredService<ProductsViewModel>();
         }
 
         // Todo: Create a class specific for POS Product Display
@@ -90,6 +93,7 @@ namespace TamoPOS.Services
             Cart.Clear();
             LoadProductsInStock(); // Not ideal but working
             _salesHistoryViewModel.LoadSalesHistoryAsync();
+            _productsViewModel.LoadAllProducts();
         }
         public string PrintTicket() { return "Ticket generated successfully!"; }
         public void AddToCart(CartItem product) {Cart.Add(product);}

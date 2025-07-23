@@ -40,7 +40,9 @@
                     <DataGridTextColumn Header="Dirección" Binding="{Binding Address}" Width="auto"/>
                     <DataGridTextColumn Header="Correo" Binding="{Binding Email}" Width="auto"/>
                     <DataGridTextColumn Header="Teléfono" Binding="{Binding Phone}" Width="auto"/>
-                    <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridCheckBoxColumn Header="Activo" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Width="auto   "/>
+                    
+                    <!--
                     <DataGridTemplateColumn Header="Acción">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -53,6 +55,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    -->
                 </ui:DataGrid.Columns>
             </ui:DataGrid>
         </Grid>

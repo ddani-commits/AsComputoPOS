@@ -8,6 +8,8 @@ using System.IO;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using TamoPOS.Services;
+using TamoPOS.Views.Pages;
+using Wpf.Ui;
 
 namespace TamoPOS.ViewModels.Pages
 {
@@ -97,9 +99,14 @@ namespace TamoPOS.ViewModels.Pages
                 CurrentProduct.Category = SelectedCategory;
             }
 
-            if (!string.IsNullOrWhiteSpace(Name) && CurrentProduct != null)
+            if (!string.IsNullOrWhiteSpace(Name) && CurrentProduct != null && CurrentProduct.Name != Name)
             {
                 CurrentProduct.Name = Name;
+
+                // Hack to make it update, idk if im convinced
+                var navigationService = _serviceProvider.GetRequiredService<INavigationService>();
+                navigationService.GoBack();
+                navigationService.NavigateWithHierarchy(typeof(ProductDetailPage));
             }
             if (CurrentProduct != null)
             {

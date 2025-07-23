@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text.Json;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Services;
 using TamoPOS.Views.Pages;
 using Wpf.Ui;
 
@@ -12,75 +16,62 @@ namespace TamoPOS.ViewModels.Pages
     {
         private readonly IContentDialogService _contentDialogService;
         private readonly INavigationService _navigationService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ProductDetailViewModel _productDetailViewModel; 
+
         public ObservableCollection<Product> ProductsList { get; } = new();
         private ApplicationDbContext _appDbContext = new();
-        private readonly ProductDetailViewModel _productDetailViewModel; 
-        public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
+        public ObservableCollection<ProductStockDTO> ProductsInStock { get; set; } = new();
 
-        public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
+        public ProductsViewModel(IServiceProvider serviceProvider)
         {
-            _productDetailViewModel = productDetailViewModel;
-            _navigationService = navigationService;
-            _contentDialogService = contentDialogService;
+            _serviceProvider = serviceProvider;
+            _productDetailViewModel = _serviceProvider.GetRequiredService<ProductDetailViewModel>();
+            _navigationService = _serviceProvider.GetRequiredService<INavigationService>();
+            _contentDialogService = _serviceProvider.GetRequiredService<IContentDialogService>();
             LoadAllProducts();
         }
 
         public void LoadAllProducts()
         {
-            var productPurchases = _appDbContext.ProductPurchases
-                .Include(pp => pp.Product)
-                .Include(p => p.Product.Category)
-                .Where(pp => pp.QuantityRemaining >= 0)
-                .AsEnumerable()
-                .GroupBy(pp => pp.ProductId)
-                .Select(g =>
-                {
-                    var oldest = g.OrderBy(pp => pp.PurchaseOrderId).LastOrDefault();
-                    var totalRemaining = g.Sum(pp => pp.QuantityRemaining ?? 0);
-                    var salePrice = oldest?.SalePrice ?? 0;
-                    return new ProductPurchase
-                    {
-                        ProductId = oldest.ProductId,
-                        Product = oldest.Product,
-                        SalePrice = salePrice,
-                        QuantityRemaining = totalRemaining
-                    };
-                }).ToList();
-            var allProductsIds = productPurchases.Select(pp => pp.ProductId).ToList();
-            var allProducts = _appDbContext.Products
-                .Include(p => p.Category)
-                .Where(p => !allProductsIds.Contains(p.ProductId)).ToList();
             ProductsInStock.Clear();
-            foreach (var product in allProducts)
+            var products = _appDbContext.Products
+                .Include(p => p.ProductPurchase)
+                .Include(p => p.Category)
+                .ToList();
+
+            var productsInStock = products.Select( p =>
             {
-                var productInStock = new ProductPurchase
+                // Ok this is not actually correct because is not considering if there is still products in 
+                // stock in that price but for now is good enough
+                var salePrice = p.ProductPurchase.OrderBy(pp => pp.ProductId).FirstOrDefault()?.SalePrice;
+
+                decimal quantityRemaining = p.ProductPurchase
+                .Where(pp => pp.GetType().GetProperty("QuantityRemaining") != null)
+                .Sum(pp => pp.QuantityRemaining ?? 0);
+
+                return new ProductStockDTO
                 {
-                    ProductId = product.ProductId,
-                    Product = product,
-                    SalePrice = 0,
-                    QuantityRemaining = 0
+                    ProductId = p.ProductId,
+                    Name = p.Name,
+                    SalePrice = salePrice ?? 0,
+                    Category = p.Category,
+                    CategoryId = p.CategoryId,
+                    QuantityRemaining = quantityRemaining,
                 };
-                if (product.Category != null)
-                {
-                    productInStock.Product.Name = product.Name;
-                    productInStock.Product.Category = product.Category;
-                }
-                ProductsInStock.Add(productInStock);
-            }
-            foreach (var productPurchase in productPurchases)
+            } ).ToList();
+
+            foreach( ProductStockDTO p in productsInStock)
             {
-                var existingProduct = ProductsInStock.FirstOrDefault(pp => pp.ProductId == productPurchase.ProductId);
-                if (existingProduct != null)
-                {
-                    existingProduct.QuantityRemaining = productPurchase.QuantityRemaining;
-                    existingProduct.SalePrice = productPurchase.SalePrice;
-                }
-                else
-                {
-                    ProductsInStock.Add(productPurchase);
-                }
+                ProductsInStock.Add(p);
             }
         }
+
+        public JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true, // makes output readable
+            ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles // avoids circular references
+        };
 
         [RelayCommand]
         private async Task OnShowDialog()
@@ -97,7 +88,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
-            LoadAllProducts();
+            LoadAllProducts(); 
         }
 
         [RelayCommand]

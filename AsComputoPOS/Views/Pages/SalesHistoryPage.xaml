@@ -19,6 +19,8 @@
                 <DataGridTextColumn Header="Cobrado" Binding="{Binding Paid, StringFormat=C}" Width="auto"/>
                 <DataGridTextColumn Header="Cambio" Binding="{Binding ChangeDue, StringFormat=C}" Width="auto"/>
                 <DataGridTextColumn Header="Productos" Binding="{Binding ProductsCount}" Width="auto"/>
+                
+                <!--
                 <DataGridTemplateColumn Header="Detalles" Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -29,6 +31,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                -->
             </ui:DataGrid.Columns>
         </ui:DataGrid>
 

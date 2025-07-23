@@ -74,7 +74,7 @@
             </StackPanel>
         </ui:Card>
 
-
+        <!--
         <ui:CardControl Icon="{ui:SymbolIcon DataTrending24}" Grid.Row="2" Margin="0, 4">
             <ui:CardControl.Header>
                 <StackPanel>
@@ -93,6 +93,7 @@
             </ui:CardControl.Header>
             <ui:NumberBox Icon="{ui:SymbolIcon DocumentPercent20}" Width="150"/>
         </ui:CardControl>
+        -->
 
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

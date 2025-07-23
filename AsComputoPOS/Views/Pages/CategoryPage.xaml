@@ -15,30 +15,34 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+
+            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
                 <Button Command="{Binding ShowSignInContentDialogCommand}" HorizontalAlignment="Left"  Margin="0,0,5,0">
                     <ui:SymbolIcon  Symbol="Add28" />
                 </Button>
 
+                <!--
                 <Button Command="{Binding SaveCategoryCommand}" HorizontalAlignment="Left"  Margin="0,0,5,0">
                     <ui:SymbolIcon Symbol="Save28" />
                 </Button>
+                -->
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,5,0">
-                
-            <Button  Command="{Binding SelectFolderCommand}" HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Exportar" Margin="0,0,5,0"/>
-                    <ui:SymbolIcon Symbol="ArrowDownload16" Margin="0,0,5,0"/>
-                </StackPanel>
-            </Button>
-            <Button  Command="{Binding ImportFormExcelCommand}" HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Importar" />
-                    <ui:SymbolIcon Symbol="Attach24" Margin="0,0,5,0"  />
-                </StackPanel>
-            </Button>
+
+                <Button  Command="{Binding SelectFolderCommand}" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Exportar" Margin="0,0,5,0"/>
+                        <ui:SymbolIcon Symbol="ArrowDownload16" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Button>
+                <!--
+                <Button  Command="{Binding ImportFormExcelCommand}" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Importar" />
+                        <ui:SymbolIcon Symbol="Attach24" Margin="0,0,5,0"  />
+                    </StackPanel>
+                </Button>
+                -->
             </StackPanel>
         </Grid>
         <Grid>
@@ -47,6 +51,7 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding CategoryId}" Width="Auto" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding CategoryName}" Width="auto"/>
                     <DataGridTextColumn Header="Categoria Padre" Binding="{Binding ParentCategoryName, Mode=OneWay}" Width="auto"/>
+                    <!--
                     <DataGridTemplateColumn Header="Acción">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -59,6 +64,7 @@
                         </DataGridTemplateColumn.CellTemplate>
 
                     </DataGridTemplateColumn>
+                    -->
                 </ui:DataGrid.Columns>
             </ui:DataGrid>
         </Grid>

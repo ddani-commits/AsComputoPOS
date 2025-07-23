@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TamoPOS.Controls;
@@ -15,6 +16,8 @@ namespace TamoPOS.ViewModels.Pages
         private IContentDialogService _contentDialogService;
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
         private readonly IPOSService _posPanelService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ProductsViewModel _productsViewModel;
 
         [ObservableProperty]
         private string? _idText;
@@ -28,13 +31,12 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string? _subtotal;
 
-        public PurchaseOrderDetailViewModel(
-            IContentDialogService contentDialogService,
-            IPOSService poSPanelService
-        )
+        public PurchaseOrderDetailViewModel(IServiceProvider serviceProvider)
         {
-            _posPanelService = poSPanelService;
-            _contentDialogService = contentDialogService;
+            _serviceProvider = serviceProvider;
+            _posPanelService = _serviceProvider.GetRequiredService<IPOSService>();
+            _contentDialogService = _serviceProvider.GetRequiredService<IContentDialogService>();
+            _productsViewModel = _serviceProvider.GetRequiredService<ProductsViewModel>();
         }
 
         [RelayCommand]
@@ -45,9 +47,8 @@ namespace TamoPOS.ViewModels.Pages
                 var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(
                     _applicationDbContext,
                     _contentDialogService.GetDialogHost(),
-                    AddProductPurchase,
-                    _posPanelService
-                 );
+                    AddProductPurchase                 
+                );
                 _ = await newProductPurchaseContentDialog.ShowAsync();
             }
         }
@@ -78,7 +79,11 @@ namespace TamoPOS.ViewModels.Pages
             _applicationDbContext.SaveChanges();
             
             ProductPurchases.Add(productPurchase);
+
+            // just update the whole list, might hurt performance on long product lists
+            if (productPurchase.QuantityRemaining > 0) _posPanelService.LoadProductsInStock();
             LoadDetails(CurrentPurchaseOrder.Id);
+            _productsViewModel.LoadAllProducts();
         }
 
         public void LoadDetails(int Id)

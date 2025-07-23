@@ -1,10 +1,6 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using TamoPOS.Services;
@@ -16,7 +12,6 @@ namespace TamoPOS.Controls
     {
         private readonly Action<ProductPurchase>? _saveProductPurchase;
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IPOSService _posPanelService;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -162,13 +157,11 @@ namespace TamoPOS.Controls
         public NewProductPurchaseContentDialog(
             ApplicationDbContext dbContext,
             ContentPresenter? contentPresenter, 
-            Action<ProductPurchase> saveProductPurchase,
-            IPOSService posPanelService
+            Action<ProductPurchase> saveProductPurchase
         ) : base(contentPresenter)
         {
             _applicationDbContext = dbContext;
             _saveProductPurchase = saveProductPurchase;
-            _posPanelService = posPanelService;
             InitializeComponent();
             DataContext = this;
         }
@@ -194,9 +187,6 @@ namespace TamoPOS.Controls
                 };
 
                 _saveProductPurchase?.Invoke(productPurchase);
-
-                // just update the whole list, might hurt performance on long product lists
-                if (productPurchase.QuantityRemaining > 0) _posPanelService.LoadProductsInStock();
 
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");

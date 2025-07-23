@@ -15,19 +15,20 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
- 
-                <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-            <Button 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button 
                 Grid.Row="0"
                 x:Name="OpenDialogButton"
                 Content="Nuevo producto" 
                 Command="{Binding ShowDialogCommand}"/>
-                
+        <!--
         <ui:TextBox PlaceholderText="Buscar" Grid.Row="0" MinWidth="300" HorizontalAlignment="Right" Grid.Column="1" Margin="0, 0, 10, 0" />
+        -->
 
         <ui:DataGrid 
             Grid.Row="1" 
@@ -37,9 +38,9 @@
             AutoGenerateColumns="False">
             <ui:DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ProductId}"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Product.Name, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxWidth="300"/>
                 <DataGridTextColumn Header="Precio" Binding="{Binding SalePrice, StringFormat={}{0:C2}}"/>
-                <DataGridTextColumn Header="Categoría" Binding="{Binding Product.Category, UpdateSourceTrigger=PropertyChanged}" MaxWidth="150"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Category.CategoryName, UpdateSourceTrigger=PropertyChanged}" MaxWidth="150"/>
                 <DataGridTextColumn Header="Existencias" Binding="{Binding QuantityRemaining}"/>
                 <DataGridTemplateColumn Header="Detalles">
                     <DataGridTemplateColumn.CellTemplate>

@@ -14,60 +14,82 @@
     <Page.Resources>
         <helpers:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="7*"/>
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="0" Grid.Row="0">
-
-            <Image 
-            x:Name="ProductImageB"
-            Stretch="UniformToFill"
-            Source="{Binding CurrentProduct.ImageData, Converter={StaticResource ByteArrayToImageConverter}, UpdateSourceTrigger=PropertyChanged}" />
-
-            <ui:Button Content="Cambiar imagen" Command="{Binding OpenPictureCommand}" />
-        </StackPanel>
 
         <ui:Card Grid.Column="1" Grid.Row="0" Margin="10,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="6.222"/>
                     <ColumnDefinition Width="4.2"/>
                     <ColumnDefinition Width="5.578"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="8*"/>
                     <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="0, 0, 8,0">
+                    <Image 
+                        x:Name="ProductImageB"
+                        Stretch="UniformToFill"
+                        Source="{Binding CurrentProduct.ImageData, Converter={StaticResource ByteArrayToImageConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:Button Margin="0, 8 ,0, 0" Content="Cambiar imagen" Command="{Binding OpenPictureCommand}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
                 <!--Title-->
-                <ui:SymbolIcon Symbol="Box16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.ColumnSpan="3"/>
-                <ui:TextBlock Text="Nombre:" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontTypography="BodyStrong"/>
-                <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5" Grid.Row="0" KeyDown="ProductNameTextBox_KeyDown" Margin="0,0,0,40" Grid.RowSpan="2"></ui:TextBox>
-                <ui:Button Grid.Column="6">
-                    <ui:SymbolIcon Symbol="Save20" VerticalAlignment="Center"/>
-                </ui:Button>
+                <ui:SymbolIcon 
+                    Symbol="Box16" 
+                    VerticalAlignment="Center" 
+                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3"/>
+                <ui:TextBlock 
+                    Text="Nombre:" 
+                    Grid.Column="4" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    FontTypography="BodyStrong"/>
+                <ui:TextBox 
+                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" 
+                    Grid.Column="6" Grid.Row="0" 
+                    KeyDown="ProductNameTextBox_KeyDown" 
+                    Margin="0,0,0,40" 
+                    Grid.RowSpan="1" />
+
                 <!--Categoria-->
-                <ui:SymbolIcon Symbol="Tag16" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="1" Grid.ColumnSpan="3"/>
-                <ui:TextBlock Grid.Column="3" Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" Margin="10,10,10,10"/>
-                <ui:AutoSuggestBox x:Name="CategoryBox" PlaceholderText="{Binding CurrentProduct.Category}" TextChanged="CategoryBox_TextChanged" SuggestionChosen="CategoryBox_SuggestionChosen" Grid.Column="5" Grid.Row="1"/>
+                <ui:SymbolIcon 
+                    Symbol="Tag16" 
+                    VerticalAlignment="Center" 
+                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"/>
+                <ui:TextBlock 
+                    VerticalAlignment="Center"
+                    Grid.Column="4" 
+                    Grid.Row="1" Text="Categoría:" FontTypography="BodyStrong" />
+                <ui:AutoSuggestBox 
+                    Grid.Column="6" Grid.Row="1"
+                    x:Name="CategoryBox" 
+                    PlaceholderText="{Binding CurrentProduct.Category}" 
+                    TextChanged="CategoryBox_TextChanged" 
+                    SuggestionChosen="CategoryBox_SuggestionChosen" 
+                    />
                 <!--Activo-->
-                <ui:SymbolIcon Symbol="PlugDisconnected20" VerticalAlignment="Center" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Row="2" Grid.ColumnSpan="3"/>
-                <ui:TextBlock Text="Activar:" Grid.Row="2" Grid.Column="3" FontTypography="BodyStrong" Margin="10,10,10,10"/>
-                <ui:ToggleSwitch OnContent="Activado" OffContent="Desactivado" Grid.Column="5" Grid.Row="2" Margin="0,15,0,0" HorizontalAlignment="Right" IsChecked="{Binding CurrentProduct.IsActive, Mode=TwoWay}" VerticalAlignment="Top"/>
+                <ui:SymbolIcon 
+                    Symbol="PlugDisconnected20" 
+                    VerticalAlignment="Center" 
+                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"/>
+                <ui:TextBlock VerticalAlignment="Center"     Text="Activar:" Grid.Row="2" Grid.Column="4" FontTypography="BodyStrong" />
+                <ui:ToggleSwitch OnContent="Activado" OffContent="Desactivado" Grid.Column="6" Grid.Row="2" Margin="0,15,0,0" HorizontalAlignment="Right" IsChecked="{Binding CurrentProduct.IsActive, Mode=TwoWay}" VerticalAlignment="Top"/>
             </Grid>
         </ui:Card>
+
         <ui:Card Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">
             <StackPanel Orientation="Horizontal">
                 <!--Stock-->
