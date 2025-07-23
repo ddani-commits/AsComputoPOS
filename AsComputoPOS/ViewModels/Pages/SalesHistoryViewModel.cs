@@ -36,20 +36,13 @@ namespace TamoPOS.ViewModels.Pages
             Sales.Clear();
             var sales = _applicationDbContext.Tickets
                     .Include(t => t.Products)
-                    //.ThenInclude(ci => ci.Product)
                     .Include(t => t.Employee)
                     .ToList();
             foreach (var sale in sales)
             {
-                Debug.WriteLine(sale.Products.Count);
-                Debug.WriteLine(sale.Employee.FirstName);
                 sale.ProductsCount = sale.Products?.Count ?? 0;
                 Sales.Add(sale);
             }
-
-
-            //var json = JsonSerializer.Serialize(Sales, options);
-            //Debug.WriteLine(json);
         }
     }
 }

@@ -47,9 +47,8 @@ namespace TamoPOS.ViewModels.Pages
                 var newProductPurchaseContentDialog = new NewProductPurchaseContentDialog(
                     _applicationDbContext,
                     _contentDialogService.GetDialogHost(),
-                    AddProductPurchase,
-                    _posPanelService
-                 );
+                    AddProductPurchase                 
+                );
                 _ = await newProductPurchaseContentDialog.ShowAsync();
             }
         }
