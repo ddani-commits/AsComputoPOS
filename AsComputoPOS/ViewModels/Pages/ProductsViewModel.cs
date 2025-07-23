@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using TamoPOS.Controls;
 using TamoPOS.Data;
 using TamoPOS.Models;
+using TamoPOS.Services;
 using TamoPOS.Views.Pages;
 using Wpf.Ui;
 
@@ -12,16 +14,19 @@ namespace TamoPOS.ViewModels.Pages
     {
         private readonly IContentDialogService _contentDialogService;
         private readonly INavigationService _navigationService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ProductDetailViewModel _productDetailViewModel; 
+
         public ObservableCollection<Product> ProductsList { get; } = new();
         private ApplicationDbContext _appDbContext = new();
-        private readonly ProductDetailViewModel _productDetailViewModel; 
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
 
-        public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
+        public ProductsViewModel(IServiceProvider serviceProvider)
         {
-            _productDetailViewModel = productDetailViewModel;
-            _navigationService = navigationService;
-            _contentDialogService = contentDialogService;
+            _serviceProvider = serviceProvider;
+            _productDetailViewModel = _serviceProvider.GetRequiredService<ProductDetailViewModel>();
+            _navigationService = _serviceProvider.GetRequiredService<INavigationService>();
+            _contentDialogService = _serviceProvider.GetRequiredService<IContentDialogService>();
             LoadAllProducts();
         }
 
@@ -97,7 +102,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
-            LoadAllProducts();
+            LoadAllProducts(); 
         }
 
         [RelayCommand]
