@@ -21,7 +21,6 @@ namespace TamoPOS.Views.Pages
             if (e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var autoSuggestBox = (AutoSuggestBox)sender;
-                    autoSuggestBox.Text = string.Empty;
                     autoSuggestBox.OriginalItemsSource = ViewModel.CategoryList;     
             }
         }
