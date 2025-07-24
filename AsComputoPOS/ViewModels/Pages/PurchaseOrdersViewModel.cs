@@ -23,6 +23,7 @@ namespace TamoPOS.ViewModels.Pages
             )
         {
             _purchaseOrderDetailViewModel = purchaseOrderDetailViewModel;
+            _purchaseOrderDetailViewModel.SetApplicationDbContext(_dbContext);
             _navigationService = navigationService;
             _contentDialogService = contentDialogService;
             LoadPurchaseOrders();

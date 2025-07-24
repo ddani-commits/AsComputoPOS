@@ -12,7 +12,7 @@ namespace TamoPOS.ViewModels.Pages
 {
     public partial class PurchaseOrderDetailViewModel : ViewModel
     {
-        private ApplicationDbContext _applicationDbContext = new ApplicationDbContext();
+        private ApplicationDbContext? _applicationDbContext;
         private IContentDialogService _contentDialogService;
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
         private readonly IPOSService _posPanelService;
@@ -22,7 +22,7 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string? _idText;
 
-        [ObservableProperty]
+        [ObservableProperty]    
         private PurchaseOrder? _currentPurchaseOrder;
 
         [ObservableProperty]
@@ -37,6 +37,11 @@ namespace TamoPOS.ViewModels.Pages
             _posPanelService = _serviceProvider.GetRequiredService<IPOSService>();
             _contentDialogService = _serviceProvider.GetRequiredService<IContentDialogService>();
             _productsViewModel = _serviceProvider.GetRequiredService<ProductsViewModel>();
+        }
+
+        public void SetApplicationDbContext(ApplicationDbContext appDbContext)
+        {
+            _applicationDbContext = appDbContext;
         }
 
         [RelayCommand]
