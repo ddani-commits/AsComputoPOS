@@ -17,11 +17,12 @@ namespace TamoPOS.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
         private readonly INavigationService _navigationService;
         private readonly IServiceProvider _serviceProvider;
-        private readonly ProductDetailViewModel _productDetailViewModel; 
+        private readonly ProductDetailViewModel _productDetailViewModel;
+        private readonly CategoryViewModel _categoryViewModel;
+        private readonly IPOSService _posService;
 
-        public ObservableCollection<Product> ProductsList { get; } = new();
+        public ObservableCollection<ProductStockDTO> AllProducts { get; set; } = new();
         private ApplicationDbContext _appDbContext = new();
-        public ObservableCollection<ProductStockDTO> ProductsInStock { get; set; } = new();
 
         public ProductsViewModel(IServiceProvider serviceProvider)
         {
@@ -29,41 +30,18 @@ namespace TamoPOS.ViewModels.Pages
             _productDetailViewModel = _serviceProvider.GetRequiredService<ProductDetailViewModel>();
             _navigationService = _serviceProvider.GetRequiredService<INavigationService>();
             _contentDialogService = _serviceProvider.GetRequiredService<IContentDialogService>();
+            _categoryViewModel = serviceProvider.GetRequiredService<CategoryViewModel>();
+            _posService = serviceProvider.GetRequiredService<IPOSService>();
             LoadAllProducts();
         }
 
         public void LoadAllProducts()
         {
-            ProductsInStock.Clear();
-            var products = _appDbContext.Products
-                .Include(p => p.ProductPurchase)
-                .Include(p => p.Category)
-                .ToList();
-
-            var productsInStock = products.Select( p =>
+            AllProducts.Clear();
+            var products = _posService.GetAllProducts();
+            foreach (var product in products)
             {
-                // Ok this is not actually correct because is not considering if there is still products in 
-                // stock in that price but for now is good enough
-                var salePrice = p.ProductPurchase.OrderBy(pp => pp.ProductId).FirstOrDefault()?.SalePrice;
-
-                decimal quantityRemaining = p.ProductPurchase
-                .Where(pp => pp.GetType().GetProperty("QuantityRemaining") != null)
-                .Sum(pp => pp.QuantityRemaining ?? 0);
-
-                return new ProductStockDTO
-                {
-                    ProductId = p.ProductId,
-                    Name = p.Name,
-                    SalePrice = salePrice ?? 0,
-                    Category = p.Category,
-                    CategoryId = p.CategoryId,
-                    QuantityRemaining = quantityRemaining,
-                };
-            } ).ToList();
-
-            foreach( ProductStockDTO p in productsInStock)
-            {
-                ProductsInStock.Add(p);
+                AllProducts.Add(product);
             }
         }
 
@@ -78,7 +56,11 @@ namespace TamoPOS.ViewModels.Pages
         {
             if (_contentDialogService.GetDialogHost() is not null)
             {
-                var newProductDialog = new NewProductContentDialog(_appDbContext, _contentDialogService.GetDialogHost(), AddProduct);
+                var newProductDialog = new NewProductContentDialog(
+                    _categoryViewModel.CategoriesList, 
+                    _contentDialogService.GetDialogHost(), 
+                    AddProduct
+                );
                 _ = await newProductDialog.ShowAsync();
             }
         }
@@ -88,17 +70,7 @@ namespace TamoPOS.ViewModels.Pages
         {
             _appDbContext.Products.Add(product);
             _appDbContext.SaveChanges();
-            LoadAllProducts(); 
-        }
-
-        [RelayCommand]
-        public void SaveProducts()
-        {
-            foreach (var product in ProductsList)
-            {
-                _appDbContext.Products.Update(product);
-            }
-            _appDbContext.SaveChanges();
+            LoadAllProducts();
         }
 
         [RelayCommand]

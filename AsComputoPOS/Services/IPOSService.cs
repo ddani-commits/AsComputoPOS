@@ -16,6 +16,7 @@ namespace TamoPOS.Services
         void ClearCart();
         ObservableCollection<CartItem> Cart { get; set; }
         string PrintTicket();
+        List<ProductStockDTO> GetAllProducts();
         decimal Total { get; }
     }
 }
