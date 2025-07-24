@@ -26,7 +26,7 @@ namespace TamoPOS.Services
             {
                 CurrentEmployee = context.Employees.FirstOrDefault(employee => employee.Email == email);
 
-                if (CurrentEmployee != null && CurrentEmployee.VerifyPassword(password)) // Verificar el hash de la contraseña
+                if (CurrentEmployee != null && CurrentEmployee.VerifyPassword(password))
                 {
                     IsAuthenticated = true;
                     OnAuthenticationStateChanged();

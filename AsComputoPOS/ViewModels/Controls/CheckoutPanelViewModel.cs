@@ -27,6 +27,7 @@ namespace TamoPOS.ViewModels.Controls
             set
             {
                 _isEditing = value;
+                RemoveEmptyCartItems();
                 OnPropertyChanged(nameof(IsEditing));
             }
         }
@@ -84,6 +85,13 @@ namespace TamoPOS.ViewModels.Controls
                 OnPropertyChanged(nameof(Total));
                 OnPropertyChanged(nameof(CheckoutButtonText));
             }
+        }
+
+        private void RemoveEmptyCartItems()
+        {
+            var itemsToRemove = Cart.Where(item => item.Quantity == 0).ToList();
+            foreach (var item in itemsToRemove)
+                Cart.Remove(item);
         }
 
         [RelayCommand]

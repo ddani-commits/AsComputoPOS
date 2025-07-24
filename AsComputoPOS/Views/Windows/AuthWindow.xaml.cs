@@ -12,6 +12,7 @@ namespace TamoPOS.Views.Windows
         private readonly IAuthenticationService _authenticationService;
         public AuthWindowViewModel ViewModel;
         private bool _loginAttempted = false;
+
         public AuthWindow(AuthWindowViewModel viewModel, IAuthenticationService authenticationService)
         {
             ViewModel = viewModel;
@@ -21,8 +22,6 @@ namespace TamoPOS.Views.Windows
 
             _authenticationService.AuthenticationStateChanged += OnAuthenticationStateChanged;
             var users = _authenticationService.HasUsers();
-
-            Debug.WriteLine("app has users: ", users);
 
             if (users == true)
             {
@@ -36,10 +35,6 @@ namespace TamoPOS.Views.Windows
                 LoginControl.Visibility = Visibility.Collapsed;
                 RegisterControl.Visibility = Visibility.Visible;
             }
-
-            Debug.WriteLine(LoginControl.Visibility);
-            Debug.WriteLine(RegisterControl.Visibility);
-
         }
 
         // Either login or register must return true to the DialogResult variable to be able
