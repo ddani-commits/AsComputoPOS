@@ -49,9 +49,23 @@ namespace TamoPOS.Models
                 }
             }
         }
-        
-        public string? SKU { get; set; }    
-        public byte[]? ImageData { get; set; }
+
+        public string? SKU { get; set; }
+
+        private byte[]? _imageData;
+        public byte[]? ImageData
+        {
+            get => _imageData;
+            set
+            {
+                if (_imageData != value)
+                {
+                    _imageData = value;
+                    OnPropertyChanged(nameof(ImageData));
+                }
+            }
+        }
+
         public ICollection<ProductPurchase> ProductPurchase { get; set; }
         public Product() { }
 

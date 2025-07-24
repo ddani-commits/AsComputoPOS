@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using TamoPOS.Data;
 using TamoPOS.Models;
@@ -16,12 +15,14 @@ namespace TamoPOS.ViewModels.Pages
     public partial class ProductDetailViewModel : ViewModel
     {
         private ApplicationDbContext? _applicationDbContext;
-        public ObservableCollection<Product> Products { get; } = new();
-        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
-        public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
         private readonly CategoryViewModel _categoryViewModel;
+        private IServiceProvider _serviceProvider;
+        private IPOSService _posService;
+
+        public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
         public ObservableCollection<Ticket> Sales { get; } = new();
         public ObservableCollection<Category> CategoriesList => _categoryViewModel.CategoriesList;
+
         [ObservableProperty]
         private Category? _selectedCategory;
         public byte[]? ImageBytes;
@@ -40,10 +41,10 @@ namespace TamoPOS.ViewModels.Pages
         [ObservableProperty]
         private string? _currentPurchaseOrder;
 
-        private IServiceProvider _serviceProvider;
         public ProductDetailViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _posService = _serviceProvider.GetRequiredService<IPOSService>();
             _categoryViewModel = serviceProvider.GetRequiredService<CategoryViewModel>();
         }
 
@@ -63,9 +64,7 @@ namespace TamoPOS.ViewModels.Pages
                 SelectedCategory = CurrentProduct.Category;
                 SalePrice = CurrentProduct.ProductPurchase?.FirstOrDefault()?.SalePrice.ToString("C") ?? "0.00";
                 QuantityRemaining = totalRemaining.ToString();
-                IsActive = CurrentProduct.IsActive;
-            Debug.WriteLine(CurrentProduct.Name + CurrentProduct.Category);
-            
+                IsActive = CurrentProduct.IsActive;            
         }
         [RelayCommand]
         public void LoadProductPurchases()
@@ -82,7 +81,6 @@ namespace TamoPOS.ViewModels.Pages
         }
         public void UpdateProductDetails()
         {
-
             if (SelectedCategory != null && CurrentProduct != null)
             {
                 CurrentProduct.CategoryId = SelectedCategory.CategoryId;
@@ -103,13 +101,10 @@ namespace TamoPOS.ViewModels.Pages
                 _applicationDbContext.Products.Update(CurrentProduct);
                 _applicationDbContext.SaveChanges();
                 OnPropertyChanged(nameof(CurrentProduct));
-                Debug.WriteLine("Producto actualizado correctamente.");
             }
-
             ProductsViewModel productsViewModel = _serviceProvider.GetRequiredService<ProductsViewModel>();
             productsViewModel.LoadAllProducts();
-            IPOSService posService = _serviceProvider.GetRequiredService<IPOSService>();
-            posService.LoadProductsInStock();
+            _posService.LoadProductsInStock();
         }
 
         [RelayCommand]
@@ -125,10 +120,8 @@ namespace TamoPOS.ViewModels.Pages
             {
                 try
                 {
-
                     byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
                     ImageBytes = imageBytes;
-
 
                     if (CurrentProduct != null)
                     {
@@ -136,19 +129,16 @@ namespace TamoPOS.ViewModels.Pages
                         _applicationDbContext.Products.Update(CurrentProduct);
                         _applicationDbContext.SaveChanges();
                         OnPropertyChanged(nameof(CurrentProduct));
+                        _posService.LoadProductsInStock();
                     }
-
-                    Debug.WriteLine("Image read and updated successfully.");
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Error reading image file: {ex.Message}");
                     ImageBytes = null;
                 }
             }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
