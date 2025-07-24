@@ -101,12 +101,15 @@ namespace TamoPOS.Services
                 EmployeeId = _authenticationService.CurrentEmployee.EmployeeId
             };
 
-            foreach (ProductPurchase pp in _appDbContext.ProductPurchases.ToList())
+            foreach(CartItem cartItem in Cart)
             {
-                var cartItem = Cart.FirstOrDefault(p => p.Product.ProductId == pp.ProductId);
+                var oldestProductPurchase = _appDbContext.ProductPurchases
+                    .Where(p => p.ProductId == cartItem.ProductId && p.QuantityRemaining > 0)
+                    .OrderBy(p => p.Id)
+                    .FirstOrDefault();
 
-                if (cartItem is not null)
-                    pp.QuantityRemaining = pp.QuantityRemaining - cartItem.Quantity;
+                if (cartItem is not null && oldestProductPurchase is not null)
+                    oldestProductPurchase.QuantityRemaining = oldestProductPurchase.QuantityRemaining - cartItem.Quantity;
             }
 
             _appDbContext.Add(ticket);
