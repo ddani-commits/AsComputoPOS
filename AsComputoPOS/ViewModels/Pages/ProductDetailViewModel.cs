@@ -41,10 +41,10 @@ namespace TamoPOS.ViewModels.Pages
         private string? _currentPurchaseOrder;
 
         private IServiceProvider _serviceProvider;
-        public ProductDetailViewModel(IServiceProvider serviceProvider, CategoryViewModel categoryViewModel)
+        public ProductDetailViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _categoryViewModel = categoryViewModel;
+            _categoryViewModel = serviceProvider.GetRequiredService<CategoryViewModel>();
         }
 
         public void LoadProductDetails(int productId, ApplicationDbContext appDbContext)
@@ -147,24 +147,6 @@ namespace TamoPOS.ViewModels.Pages
                 }
             }
         }
-
-        public void LoadHistorySales(int productId, ApplicationDbContext appDbContext)
-        {
-            _applicationDbContext = appDbContext;
-            Sales.Clear();
-            var sales = _applicationDbContext.Tickets
-                .Include(t => t.Products)
-                .ThenInclude(ci => ci.Product)
-                .Include(t => t.Employee)
-                .Where(t => t.Products.Any(p => p.ProductId == productId))
-                .ToList();
-            foreach (var sale in sales)
-            {
-                sale.ProductsCount = sale.Products?.Count ?? 0;
-                Sales.Add(sale);
-            }
-        }
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
