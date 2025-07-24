@@ -19,20 +19,9 @@ namespace TamoPOS.ViewModels.Pages
         public ObservableCollection<Product> Products { get; } = new();
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
+        private readonly CategoryViewModel _categoryViewModel;
         public ObservableCollection<Ticket> Sales { get; } = new();
-        public ObservableCollection<Category>? _categoryList;
-        public ObservableCollection<Category>? CategoryList
-        {
-            get => _categoryList ??= new ObservableCollection<Category>(_applicationDbContext.Categories.ToList());
-            set
-            {
-                if (_categoryList != value)
-                {
-                    _categoryList = value;
-                    OnPropertyChanged(nameof(CategoryList));
-                }
-            }
-        }
+        public ObservableCollection<Category> CategoriesList => _categoryViewModel.CategoriesList;
         [ObservableProperty]
         private Category? _selectedCategory;
         public byte[]? ImageBytes;
@@ -52,9 +41,10 @@ namespace TamoPOS.ViewModels.Pages
         private string? _currentPurchaseOrder;
 
         private IServiceProvider _serviceProvider;
-        public ProductDetailViewModel(IServiceProvider serviceProvider)
+        public ProductDetailViewModel(IServiceProvider serviceProvider, CategoryViewModel categoryViewModel)
         {
             _serviceProvider = serviceProvider;
+            _categoryViewModel = categoryViewModel;
         }
 
         public void LoadProductDetails(int productId, ApplicationDbContext appDbContext)

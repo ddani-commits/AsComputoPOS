@@ -24,6 +24,7 @@ namespace TamoPOS.ViewModels.Pages
         public ObservableCollection<ProductStockDTO> ProductsInStock { get; set; } = new();
 
         public ProductsViewModel(IServiceProvider serviceProvider)
+        public ProductsViewModel(IContentDialogService contentDialogService, INavigationService navigationService, ProductDetailViewModel productDetailViewModel)
         {
             _serviceProvider = serviceProvider;
             _productDetailViewModel = _serviceProvider.GetRequiredService<ProductDetailViewModel>();

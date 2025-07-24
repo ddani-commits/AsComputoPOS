@@ -33,13 +33,15 @@ namespace TamoPOS.ViewModels.Pages
         } 
         private void LoadCategories()
         {
+            var categories = _dbContext.Categories
+                .Include(c => c.ParentCategory)
+                .ToList();
             CategoriesList.Clear();
-            foreach(var category in _dbContext.Categories)
+            foreach(var category in categories)
             {
                 CategoriesList.Add(category);
             }
-        }
-        
+        }            
         [RelayCommand]
         private async Task ShowSignInContentDialog()
         {
