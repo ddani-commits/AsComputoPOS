@@ -1,22 +1,12 @@
-﻿using System.Diagnostics;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using TamoPOS.Services;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace TamoPOS.Controls
 {
     public partial class LoginControl : UserControl
     {
-        private IAuthenticationService _authenticationService;
-        private string _email = string.Empty;
-        private string _password = string.Empty;
-
-        public string Password
-        {
-            get => _password;
-            set { _password = value; OnPropertyChanged(); }
-        }
+        private IAuthenticationService? _authenticationService;
 
         public LoginControl()
         {
@@ -30,17 +20,20 @@ namespace TamoPOS.Controls
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var email = Email.Text;
-            var password = PasswordBox.Password; 
-            _authenticationService.Login(email, password);
-            Debug.WriteLine($"Login attempt with Email: {email} and Password: {password}");
+            _authenticationService!.Login(Email.Text, PasswordBox.Password);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void Input_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                _authenticationService?.Login(Email.Text, PasswordBox.Password);
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Email.Focus();
         }
     }
 }
