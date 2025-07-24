@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using TamoPOS.Data;
 using TamoPOS.Models;
 using TamoPOS.ViewModels.Pages;
@@ -11,23 +10,51 @@ namespace TamoPOS.Services
     public class POSService : IPOSService
     {
         private IServiceProvider _serviceProvider;
-        private SalesHistoryViewModel _salesHistoryViewModel;
         private IAuthenticationService _authenticationService;
-        private ProductsViewModel _productsViewModel;
+        private SalesHistoryViewModel _salesHistoryViewModel;
+        private Lazy<ProductsViewModel> _productsViewModel;
+        private readonly ApplicationDbContext _appDbContext = new();
 
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
-        private readonly ApplicationDbContext _appDbContext = new();
         public ObservableCollection<CartItem> Cart { get; set; } = new();
-        public ObservableCollection<string> PaymentMethods { get; set; } = new () { "Efectivo", "Debito/Credito" };
+        public ObservableCollection<string> PaymentMethods { get; set; } = new() { "Efectivo", "Debito/Credito" };
         public bool IsSidePanelExpanded { get; set; } = false;
         public decimal Total => Cart.Sum(item => item.Total);
 
-        public POSService(IServiceProvider serviceProvider) 
+        public POSService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _authenticationService = _serviceProvider.GetRequiredService<IAuthenticationService>();
             _salesHistoryViewModel = _serviceProvider.GetRequiredService<SalesHistoryViewModel>();
-            _productsViewModel = _serviceProvider.GetRequiredService<ProductsViewModel>();
+            _productsViewModel = new Lazy<ProductsViewModel>(() => _serviceProvider.GetRequiredService<ProductsViewModel>()) ;
+        }
+
+        public List<ProductStockDTO> GetAllProducts()
+        {
+            var products = _appDbContext.Products
+                .Include(p => p.ProductPurchase)
+                .Include(p => p.Category)
+                .ToList();
+
+            return products.Select(p =>
+            {
+                // This is not correct, it may show prices no longer available. TODO
+                var salePrice = p.ProductPurchase.OrderBy(pp => pp.ProductId).FirstOrDefault()?.SalePrice;
+
+                decimal quantityRemaining = p.ProductPurchase
+                .Where(pp => pp.GetType().GetProperty("QuantityRemaining") != null)
+                .Sum(pp => pp.QuantityRemaining ?? 0);
+
+                return new ProductStockDTO
+                {
+                    ProductId = p.ProductId,
+                    Name = p.Name,
+                    SalePrice = salePrice ?? 0,
+                    Category = p.Category,
+                    CategoryId = p.CategoryId,
+                    QuantityRemaining = quantityRemaining,
+                };
+            }).ToList();
         }
 
         // Todo: Create a class specific for POS Product Display
@@ -74,12 +101,15 @@ namespace TamoPOS.Services
                 EmployeeId = _authenticationService.CurrentEmployee.EmployeeId
             };
 
-            foreach(ProductPurchase pp in _appDbContext.ProductPurchases.ToList())
+            foreach(CartItem cartItem in Cart)
             {
-                var cartItem = Cart.FirstOrDefault(p => p.Product.ProductId == pp.ProductId);
+                var oldestProductPurchase = _appDbContext.ProductPurchases
+                    .Where(p => p.ProductId == cartItem.ProductId && p.QuantityRemaining > 0)
+                    .OrderBy(p => p.Id)
+                    .FirstOrDefault();
 
-                if(cartItem is not null)
-                    pp.QuantityRemaining = pp.QuantityRemaining - cartItem.Quantity;
+                if (cartItem is not null && oldestProductPurchase is not null)
+                    oldestProductPurchase.QuantityRemaining = oldestProductPurchase.QuantityRemaining - cartItem.Quantity;
             }
 
             _appDbContext.Add(ticket);
@@ -93,10 +123,10 @@ namespace TamoPOS.Services
             Cart.Clear();
             LoadProductsInStock(); // Not ideal but working
             _salesHistoryViewModel.LoadSalesHistoryAsync();
-            _productsViewModel.LoadAllProducts();
+            _productsViewModel.Value.LoadAllProducts();
         }
         public string PrintTicket() { return "Ticket generated successfully!"; }
-        public void AddToCart(CartItem product) {Cart.Add(product);}
-        public void ClearCart() {Cart.Clear();}
+        public void AddToCart(CartItem product) { Cart.Add(product); }
+        public void ClearCart() { Cart.Clear(); }
     }
 }

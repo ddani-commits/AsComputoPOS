@@ -33,7 +33,7 @@
         <ui:DataGrid 
             Grid.Row="1" 
             Grid.ColumnSpan="2" 
-            ItemsSource="{Binding ProductsInStock}"
+            ItemsSource="{Binding AllProducts}"
             CanUserAddRows="False"
             AutoGenerateColumns="False">
             <ui:DataGrid.Columns>

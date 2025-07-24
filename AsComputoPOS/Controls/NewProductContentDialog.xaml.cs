@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -55,21 +56,19 @@ namespace TamoPOS.Controls
         }
         public byte[]? ImageBytes;
         private readonly Action<Product>? _createProduct;
-        public List<Category> CategoryList = new();
-        private readonly ApplicationDbContext _appDbContext;
+        public ObservableCollection<Category> CategoryList;
 
         public NewProductContentDialog(
-            ApplicationDbContext appDbContext,
+            ObservableCollection<Category> categories,
             ContentPresenter? contentPresenter,
             Action<Product>? createProduct = null
         ) : base(contentPresenter)
         {
             InitializeComponent();
             _createProduct = createProduct;
-            _appDbContext = appDbContext;
             DataContext = this;
             Title = "Crear un producto";
-            CategoryList = _appDbContext.Categories.ToList();
+            CategoryList = categories;
         }
 
         public void OnOpenPicture()
@@ -105,13 +104,12 @@ namespace TamoPOS.Controls
                     Name = ProductName,
                     IsActive = IsActive,
                     Barcode = Barcode,
-                    Category = SelectedCategory ?? null,
+                    CategoryId = SelectedCategory?.CategoryId ?? null,
                     SKU = SKU,
                     ImageData = ImageBytes,
                 };
                 _createProduct?.Invoke(product);
                 base.OnButtonClick(button);
-                Debug.WriteLine("primary button clicked");
             }
             else if (button == ContentDialogButton.Secondary)
             {
@@ -121,7 +119,6 @@ namespace TamoPOS.Controls
             {
                 // Close dialog without saving
                 base.OnButtonClick(button);
-                Debug.WriteLine("Cancel button clicked");
             }
         }
         private void CategoryBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
