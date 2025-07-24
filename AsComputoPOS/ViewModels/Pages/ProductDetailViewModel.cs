@@ -19,20 +19,9 @@ namespace TamoPOS.ViewModels.Pages
         public ObservableCollection<Product> Products { get; } = new();
         public ObservableCollection<ProductPurchase> ProductPurchases { get; } = new();
         public ObservableCollection<ProductPurchase> ProductsInStock { get; set; } = new();
+        private readonly CategoryViewModel _categoryViewModel;
         public ObservableCollection<Ticket> Sales { get; } = new();
-        public ObservableCollection<Category>? _categoryList;
-        public ObservableCollection<Category>? CategoryList
-        {
-            get => _categoryList ??= new ObservableCollection<Category>(_applicationDbContext.Categories.ToList());
-            set
-            {
-                if (_categoryList != value)
-                {
-                    _categoryList = value;
-                    OnPropertyChanged(nameof(CategoryList));
-                }
-            }
-        }
+        public ObservableCollection<Category> CategoriesList => _categoryViewModel.CategoriesList;
         [ObservableProperty]
         private Category? _selectedCategory;
         public byte[]? ImageBytes;
@@ -55,6 +44,7 @@ namespace TamoPOS.ViewModels.Pages
         public ProductDetailViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _categoryViewModel = serviceProvider.GetRequiredService<CategoryViewModel>();
         }
 
         public void LoadProductDetails(int productId, ApplicationDbContext appDbContext)
@@ -157,27 +147,6 @@ namespace TamoPOS.ViewModels.Pages
                 }
             }
         }
-
-        public void LoadSalesHistoryAsync(int productId)
-        {
-            Sales.Clear();
-
-            // Filtrar los tickets que contengan al menos un producto con el productId especificado
-            var sales = _applicationDbContext.Tickets
-                .Include(t => t.Products)
-                    .ThenInclude(ci => ci.Product)
-                .Include(t => t.Employee)
-                .Where(t => t.Products.Any(p => p.ProductId == productId))  // Filtro por ProductId
-                .ToList();
-
-            foreach (var sale in sales)
-            {
-                sale.ProductsCount = sale.Products?.Count ?? 0;
-                Sales.Add(sale);
-            }
-        }
-
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

@@ -13,7 +13,7 @@ namespace TamoPOS.Views.Pages
         public ProductDetailPage(ProductDetailViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = ViewModel;
+            DataContext = ViewModel;     
             InitializeComponent();
         }
         private void CategoryBox_TextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
@@ -21,8 +21,7 @@ namespace TamoPOS.Views.Pages
             if (e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 var autoSuggestBox = (AutoSuggestBox)sender;
-                    autoSuggestBox.Text = string.Empty;
-                    autoSuggestBox.OriginalItemsSource = ViewModel.CategoryList;     
+                    autoSuggestBox.OriginalItemsSource = ViewModel.CategoriesList;     
             }
         }
         private void CategoryBox_SuggestionChosen(object sender, AutoSuggestBoxSuggestionChosenEventArgs e)
