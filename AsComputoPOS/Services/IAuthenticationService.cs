@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsComputoPOS.Models;
+﻿using TamoPOS.Models;
 
-namespace AsComputoPOS.Services
+namespace TamoPOS.Services
 {
     public interface IAuthenticationService
     {
@@ -13,8 +8,9 @@ namespace AsComputoPOS.Services
         bool? IsAuthenticated { get; }
         Employee? CurrentEmployee { get; }
         bool Login(string email, string password);
-        void Register(string firstName, string lastName, string email);
+        void Register(string firstName, string lastName, string email, string password);
         bool HasUsers();
         void Logout();
+        event EventHandler? AuthenticationStateChanged;
     }
 }

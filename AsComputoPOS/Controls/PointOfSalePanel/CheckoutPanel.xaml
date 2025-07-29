@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="TamoPOS.Controls.PointOfSalePanel.CheckoutPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TamoPOS.Controls.PointOfSalePanel"
+             mc:Ignorable="d" 
+             xmlns:helpers="clr-namespace:TamoPOS.Helpers"
+             d:DesignHeight="650" d:DesignWidth="400"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <UserControl.Resources>
+        <helpers:BooleanToVisibilityConverterInv x:Key="BooleanToVisibilityConverterInv" />
+    </UserControl.Resources>
+
+    <Border 
+        Background="{StaticResource LayerOnMicaBaseAltFillColorDefaultBrush}"  
+        Padding="10" 
+        BorderBrush="{StaticResource CardStrokeColorDefaultSolidBrush}" 
+        CornerRadius="0"
+        BorderThickness="1, 1, 0, 0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" LastChildFill="False">
+                    <TextBlock Text="Ticket" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" DockPanel.Dock="Left" />
+
+                    <ToggleButton 
+                        Name="Edit" 
+                        Content="Editar"    
+                        Width="75"
+                        Checked="Edit_Checked"
+                        Unchecked="Edit_Unchecked"
+                        IsVisibleChanged="Edit_IsVisibleChanged"
+                        Visibility="{Binding CartHasItems, Converter={StaticResource BooleanToVisibilityConverter}}"                        
+                        DockPanel.Dock="Right" />
+
+                    <ui:Button 
+                        x:Name="ClearCartButton"
+                        Appearance="Danger"
+                        Foreground="White"
+                        Content="Borrar"
+                        Command="{Binding ClearCartCommand}"
+                        Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        DockPanel.Dock="Right" />
+
+                </DockPanel>
+
+                <StackPanel 
+                    Grid.Row="1" 
+                    VerticalAlignment="Center" 
+                    Visibility="{Binding CartHasItems, 
+                        Converter={StaticResource BooleanToVisibilityConverterInv}, ConverterParameter=Inverse}" >
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Agrega un producto</TextBlock>
+                </StackPanel>
+                
+                
+                <ui:ListView 
+                    Visibility="{Binding CartHasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Grid.Row="1" 
+                    ItemsSource="{Binding Cart}" 
+                    x:Name="CartTicket">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock 
+                                    
+                                    Grid.Column="0" 
+                                    Text="{Binding Product.Name}" 
+                                    FontWeight="Bold"
+                                    MaxWidth="200"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Center"/>
+                                
+                                
+                                <TextBlock 
+                                    Visibility="{Binding DataContext.IsEditing, 
+                                        RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                        Converter={StaticResource BooleanToVisibilityConverterInv}, 
+                                        ConverterParameter=Inverse}"
+                                    HorizontalAlignment="Center"
+                                    Grid.Column="1" 
+                                    Text="{Binding Quantity}" 
+                                    VerticalAlignment="Center"/>
+
+                               
+                                <ui:NumberBox 
+                                    Visibility="{Binding DataContext.IsEditing, 
+                                        RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                        Converter={StaticResource BooleanToVisibilityConverterInv}}"
+                                    Grid.Column="1"
+                                    Minimum="0"
+                                    Maximum="{Binding MaxQuantity}"
+                                    Grid.ColumnSpan="2"
+                                    Value="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+
+                                <StackPanel 
+                                    Visibility="{Binding DataContext.IsEditing, 
+                                        RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                        Converter={StaticResource BooleanToVisibilityConverterInv}, 
+                                        ConverterParameter=Inverse}"
+                                    Grid.Column="2" 
+                                    Orientation="Vertical" 
+                                    x:Name="Price" 
+                                    VerticalAlignment="Center">
+                                        <ui:TextBlock FontTypography="BodyStrong" Text="{Binding Total, StringFormat={}{0:C2}}" />
+                                        <ui:TextBlock FontTypography="Caption" Text="{Binding UnitPrice, StringFormat={}{0:C2}}" />
+                                </StackPanel>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ui:ListView>  
+            
+            <StackPanel Grid.Row="2" >
+                    <ui:TextBlock FontTypography="Subtitle" >Método de pago</ui:TextBlock>
+                    <ComboBox Margin="0, 8" ItemsSource="{Binding PaymentMethods}" MinWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <ui:SymbolIcon Symbol="Accessibility16" />
+                                    <TextBlock Text="{Binding}" Margin="4, 0"/>
+                                </DockPanel >
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <ui:Button 
+                x:Name="CheckoutButton"
+                Command="{Binding ShowCheckoutContentDialogCommand}"
+                Appearance="Primary"
+                Height="100" 
+                HorizontalAlignment="Stretch" 
+                Grid.Row="1">
+                    <ui:TextBlock 
+                        x:Name="CheckoutButtonText"
+                        FontTypography="Subtitle" 
+                        Text="{Binding CheckoutButtonText}" />
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Total}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="Foreground" Value="Gray" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Total}" Value="{x:Null}">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Total}" Value="0.00">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+            </ui:Button>
+        </Grid>
+    </Border>
+</UserControl>

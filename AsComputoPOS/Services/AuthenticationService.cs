@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsComputoPOS.Data;
-using AsComputoPOS.Models;
+﻿using TamoPOS.Data;
+using TamoPOS.Models;
 
-namespace AsComputoPOS.Services
+namespace TamoPOS.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        public event EventHandler? AuthenticationStateChanged;
         public bool? IsAuthenticated { get; set; }
         public Employee? CurrentEmployee { get; set; }
+        private void OnAuthenticationStateChanged()
+        {
+            AuthenticationStateChanged?.Invoke(this, EventArgs.Empty);
+        }
         public bool HasUsers()
         {
             using (var context = new ApplicationDbContext())
@@ -22,27 +21,41 @@ namespace AsComputoPOS.Services
         }
         public bool Login(string email, string password)
         {
-            IsAuthenticated = true;
+            IsAuthenticated = false;
             using (var context = new ApplicationDbContext())
             {
                 CurrentEmployee = context.Employees.FirstOrDefault(employee => employee.Email == email);
-                return CurrentEmployee != null;
+
+                if (CurrentEmployee != null && CurrentEmployee.VerifyPassword(password))
+                {
+                    IsAuthenticated = true;
+                    OnAuthenticationStateChanged();
+                    return true;
+                }
             }
+
+            OnAuthenticationStateChanged();
+            return false;
         }
-        public void Register(string firstName, string lastName, string email)
+
+        public void Register(string firstName, string lastName, string email, string password)
         {
             using (var context = new ApplicationDbContext())
             {
                 CurrentEmployee = new Employee(firstName, lastName, email);
+                CurrentEmployee.SetPassword(password);
+                CurrentEmployee.IsAdmin = true; // Default to admin for the first user
                 context.Employees.Add(CurrentEmployee);
                 context.SaveChanges();
             }
             IsAuthenticated = true;
+            OnAuthenticationStateChanged();
         }
         public void Logout()
         {
             IsAuthenticated = false;
             CurrentEmployee = null;
+            OnAuthenticationStateChanged();
         }
     }
 }

@@ -1,0 +1,91 @@
+﻿using System.Windows.Input;
+using TamoPOS.Services;
+using TamoPOS.ViewModels.Windows;
+
+namespace TamoPOS.Views.Windows
+{
+    public partial class AuthWindow : Window
+    {
+        private readonly IAuthenticationService _authenticationService;
+        public AuthWindowViewModel ViewModel;
+        private bool _loginAttempted = false;
+
+        public AuthWindow(AuthWindowViewModel viewModel, IAuthenticationService authenticationService)
+        {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
+            InitializeComponent();
+            _authenticationService = authenticationService;
+
+            _authenticationService.AuthenticationStateChanged += OnAuthenticationStateChanged;
+            var users = _authenticationService.HasUsers();
+
+            if (users == true)
+            {
+                LoginControl.SetAuthenticationService(_authenticationService);
+                LoginControl.Visibility = Visibility.Visible;
+                RegisterControl.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                RegisterControl.SetAuthenticationService(_authenticationService);
+                LoginControl.Visibility = Visibility.Collapsed;
+                RegisterControl.Visibility = Visibility.Visible;
+            }
+        }
+
+        // Either login or register must return true to the DialogResult variable to be able
+        // to continue to MainWindow
+        public void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            _loginAttempted = true;
+        }
+
+        private void OnAuthenticationStateChanged(object? sender, EventArgs e)
+        {
+            if (_authenticationService.IsAuthenticated == true)
+            {
+                if(this.IsLoaded && this.IsVisible)
+                {
+                    this.DialogResult = true;
+                }
+                this.Close();
+            }
+            else
+            {
+                var uiMessageBox = new Wpf.Ui.Controls.MessageBox
+                {
+                    Title = "Inicio de sesión fallido.",
+                    Content = "Correo y/o contraseña incorrectos. Por favor, intente de nuevo.",
+                };
+                _ = uiMessageBox.ShowDialogAsync();
+                _loginAttempted = false;
+            }
+        }
+
+        //Funciones para el botón de cerrar y minimizar
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized? WindowState.Normal : WindowState.Maximized;
+        }
+        private void CustomWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            }
+            else
+            {
+                DragMove();
+            }
+        }
+    }
+}

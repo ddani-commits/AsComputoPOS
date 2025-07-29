@@ -1,0 +1,82 @@
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TamoPOS.Models
+{
+    public class Product : INotifyPropertyChanged
+    {
+        public int ProductId { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
+        }
+        public bool? IsActive { get; set; }
+        public string? Barcode { get; set; }
+        private int? _categoryId;
+        public int? CategoryId 
+        {
+            get => _categoryId;
+            set
+            {
+                if (_categoryId != value)
+                {
+                    _categoryId = value;
+                    OnPropertyChanged(nameof(CategoryId));
+                    OnPropertyChanged(nameof(Category));
+                }
+            }
+        }
+        
+        private Category? _category;
+        public Category? Category
+        {
+            get => _category;
+            set
+            {
+                if (_category != value)
+                {
+                    _category = value;
+                    OnPropertyChanged(nameof(Category));
+                }
+            }
+        }
+
+        public string? SKU { get; set; }
+
+        private byte[]? _imageData;
+        public byte[]? ImageData
+        {
+            get => _imageData;
+            set
+            {
+                if (_imageData != value)
+                {
+                    _imageData = value;
+                    OnPropertyChanged(nameof(ImageData));
+                }
+            }
+        }
+
+        public ICollection<ProductPurchase> ProductPurchase { get; set; }
+        public Product() { }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

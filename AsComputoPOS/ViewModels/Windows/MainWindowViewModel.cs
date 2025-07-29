@@ -1,0 +1,141 @@
+﻿using System.Collections.ObjectModel;
+using TamoPOS.Services;
+using Wpf.Ui.Controls;
+
+namespace TamoPOS.ViewModels.Windows
+{
+    public partial class MainWindowViewModel : ViewModel
+    {
+        [ObservableProperty]
+        private string _applicationTitle = "As Computo PoS";
+
+        [ObservableProperty]
+        private ObservableCollection<object> _menuItems =
+        [
+            new NavigationViewItem()
+            {
+                Content = "Punto de venta",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.BarcodeScanner20 },
+                TargetPageType = typeof(Views.Pages.POSPage)
+            },
+
+            new NavigationViewItemSeparator(),
+
+            //new NavigationViewItem()
+            //{
+            //    Content = "Empleados",
+            //    Icon = new SymbolIcon { Symbol = SymbolRegular.People24 },
+            //    TargetPageType = typeof(Views.Pages.EmployeesPage)
+            //},
+            //new NavigationViewItem()
+            //{
+            //    Content = "Inventario",
+            //    Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
+            //    MenuItemsSource = new object[]
+            //    {
+            //        new NavigationViewItem()
+            //        {
+            //            Content = "Compras",
+            //            Icon = new SymbolIcon { Symbol = SymbolRegular.Clipboard20},
+            //            TargetPageType = typeof(Views.Pages.PurchaseOrdersPage),
+            //        },
+            //        new NavigationViewItem()
+            //        {
+            //            Content = "Productos",
+            //            Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
+            //            TargetPageType = typeof(Views.Pages.ProductsPage),
+            //        },
+            //        new NavigationViewItem(){
+            //            Content = "Categorías",
+            //            Icon = new SymbolIcon { Symbol = SymbolRegular.Grid20   },
+            //            TargetPageType = typeof(Views.Pages.CategoryPage),
+            //        }
+            //    }
+            //},
+
+            new NavigationViewItem()
+            {
+                Content = "Ventas",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Receipt20},
+                TargetPageType = typeof(Views.Pages.SalesHistoryPage)
+            },
+            //new NavigationViewItem()
+            //{
+            //    Content = "Proveedores",
+            //    Icon = new SymbolIcon { Symbol = SymbolRegular.VehicleTruckProfile20},
+            //    TargetPageType = typeof(Views.Pages.SuppliersPage)
+            //}
+        ];
+
+        public MainWindowViewModel(IAuthenticationService authenticationService)
+        {
+            if (authenticationService.CurrentEmployee.IsAdmin)
+            {
+                _menuItems.Add(
+                            new NavigationViewItem()
+                            {
+                                Content = "Empleados",
+                                Icon = new SymbolIcon { Symbol = SymbolRegular.People24 },
+                                TargetPageType = typeof(Views.Pages.EmployeesPage)
+                            }
+                );
+
+                _menuItems.Add(
+                            new NavigationViewItem()
+                            {
+                                Content = "Inventario",
+                                Icon = new SymbolIcon { Symbol = SymbolRegular.ClipboardBulletListLtr20 },
+                                MenuItemsSource = new object[]
+                                {
+                                    new NavigationViewItem()
+                                    {
+                                        Content = "Compras",
+                                        Icon = new SymbolIcon { Symbol = SymbolRegular.Clipboard20},
+                                        TargetPageType = typeof(Views.Pages.PurchaseOrdersPage),
+                                    },
+                                    new NavigationViewItem()
+                                    {
+                                        Content = "Productos",
+                                        Icon = new SymbolIcon { Symbol = SymbolRegular.Cube20},
+                                        TargetPageType = typeof(Views.Pages.ProductsPage),
+                                    },
+                                    new NavigationViewItem(){
+                                        Content = "Categorías",
+                                        Icon = new SymbolIcon { Symbol = SymbolRegular.Grid20   },
+                                        TargetPageType = typeof(Views.Pages.CategoryPage),
+                                    }
+                                }
+                            }
+                );
+
+                _menuItems.Add(
+                    new NavigationViewItem()
+                    {
+                        Content = "Proveedores",
+                        Icon = new SymbolIcon { Symbol = SymbolRegular.VehicleTruckProfile20 },
+                        TargetPageType = typeof(Views.Pages.SuppliersPage)
+                    }
+                    );
+            }
+            // Initialize the menu items or any other properties if needed
+        }
+
+
+        [ObservableProperty]
+        private ObservableCollection<object> _footerMenuItems = new()
+        {
+            new NavigationViewItem()
+            {
+                Content = "Ajustes",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
+                TargetPageType = typeof(Views.Pages.SettingsPage)
+            }
+        };
+
+        [ObservableProperty]
+        private ObservableCollection<MenuItem> _trayMenuItems = new()
+        {
+            new MenuItem { Header = "Home", Tag = "tray_home" }
+        };
+    }
+}
