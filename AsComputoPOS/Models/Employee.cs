@@ -14,10 +14,8 @@ namespace TamoPOS.Models
 
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
-
-        //public Role Role {get; set;}  
-        
         public string PasswordHash { get; set; } = string.Empty;
+        public bool IsAdmin { get; set; } = false;
 
         public Employee (string firstName, string lastName, string email)
         {

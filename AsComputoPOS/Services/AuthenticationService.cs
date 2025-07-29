@@ -44,6 +44,7 @@ namespace TamoPOS.Services
             {
                 CurrentEmployee = new Employee(firstName, lastName, email);
                 CurrentEmployee.SetPassword(password);
+                CurrentEmployee.IsAdmin = true; // Default to admin for the first user
                 context.Employees.Add(CurrentEmployee);
                 context.SaveChanges();
             }

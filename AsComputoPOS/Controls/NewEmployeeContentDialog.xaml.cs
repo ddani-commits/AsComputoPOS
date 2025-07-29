@@ -76,7 +76,8 @@ namespace TamoPOS.Controls
                     return;
                 }
                     // Perform save operation
-                    var employee = new Employee(NameText, LastNameText, EmailText);
+                var employee = new Employee(NameText, LastNameText, EmailText);
+                employee.SetPassword(ConfirmPasswordBox.Password);
                 _saveEmployees?.Invoke(employee);
                 base.OnButtonClick(button);
                 Debug.WriteLine("primary button clicked");

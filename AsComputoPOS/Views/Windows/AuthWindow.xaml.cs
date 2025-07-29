@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TamoPOS.Services;
 using TamoPOS.ViewModels.Windows;
 
